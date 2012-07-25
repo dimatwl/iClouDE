@@ -7,14 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import storage.Database;
-import storage.TestData;
 
 import com.google.gson.Gson;
 
 @SuppressWarnings("serial")
 public class CloudServlet extends HttpServlet {
 	
-	private final Database db = new Database();
+	private final Database db = Database.getInstance();
 	
 	private class SimpleMessage {
 		private String text;
