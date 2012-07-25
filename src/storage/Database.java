@@ -23,16 +23,6 @@ public class Database {
 		handlers.put(StoringType.EXECUTABLE_FILE, new ExecutableFileHandler());
 		handlers.put(StoringType.USER, new UserHandler());
 	}
-	
-	
-	private static final Database database = new Database();
-	
-	private Database() {}
-	
-	public static Database getInstance() {
-		return database;
-	}
-	
 
 
 	public boolean contains(String name) {
@@ -53,11 +43,11 @@ public class Database {
 		pm.close();
 	}
 	
-	public Object get(StoringType type, Object... params) {
-		return handlers.get(type).create(params);
+	public static Object get(StoringType type, Object... params) throws DatabaseException {
+		return handlers.get(type).get(params);
 	}
 	
-	public void save(StoringType type, Object toSave) {
+	public static void save(StoringType type, Object toSave) {
 		handlers.get(type).save(toSave);
 	}
 }

@@ -13,8 +13,6 @@ import com.google.gson.Gson;
 @SuppressWarnings("serial")
 public class CloudServlet extends HttpServlet {
 	
-	private final Database db = Database.getInstance();
-	
 	private class SimpleMessage {
 		private String text;
 		

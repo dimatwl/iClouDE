@@ -1,30 +1,52 @@
 package storage.sourcefile;
 
+import storage.DatabaseException;
 import storage.Handler;
 
+/**
+ * Handles common operations with source files (creating,
+ * opening)
+ * @author Sergey
+ *
+ */
 public class SourceFileHandler implements Handler {
 
 	@Override
-	public Object create(Object... params) {
-		if (params.length != 2) {
-			throw new RuntimeException("Incorrect parameters number");
-		}
-		
-		String name = (String) params[0];
-		String mode = (String) params[1];
-		
-		if ("w".equals(mode)) {
-			
-		} else if ("r".equals(mode)) {
-			
+	/**
+	 * Creates or opens source file.
+	 * @param params - parameters defining what should be done:
+	 * (String, FileOpeningMode) - create or open file with specified name
+	 */
+	public SourceFile get(Object... params) throws DatabaseException {
+		if (params.length == 2) {
+			if (params[0] instanceof String && params[1] instanceof FileOpeningMode) {
+				String name = (String) params[0];
+				FileOpeningMode mode = (FileOpeningMode) params[1];
+				return get(name, mode);
+			} else {
+				throw new DatabaseException("Incorrect parameters types");
+			}
 		} else {
-			throw new RuntimeException("Incorrect file opening mode: " + mode);
+			throw new DatabaseException("Incorrect parameters number");
 		}
-		
-		return null;
 	}
+	
+	private SourceFile get(String filename, FileOpeningMode mode) throws DatabaseException {
+		if (FileOpeningMode.WRITE.equals(mode)) {
+			return null;
+		} else if (FileOpeningMode.READ.equals(mode)) {
+			return null;
+		} else {
+			throw new DatabaseException("Incorrect file opening mode: " + mode);
+		}
+	}
+	
 
 	@Override
+	/**
+	 * Saves specified file to database.
+	 * @param toSave - source file to be saved
+	 */
 	public void save(Object toSave) {
 		// TODO Auto-generated method stub
 		
