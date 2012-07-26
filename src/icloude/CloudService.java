@@ -23,14 +23,14 @@ public class CloudService {
 	}
 	
 	@GET
-	@Produces()
+	@Produces(MediaType.APPLICATION_JSON)
 	public String getInfo() {
 		SimpleMessage msg = new SimpleMessage("Hello from GET.");
 		return gson.toJson(msg);
 	}
 	
 	@POST
-	@Produces("text/JSON")
+	@Produces(MediaType.APPLICATION_JSON)
 	public String postInfo() {
 		SimpleMessage msg = new SimpleMessage("Hello from POST.");
 		return gson.toJson(msg);
