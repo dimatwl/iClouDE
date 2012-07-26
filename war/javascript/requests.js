@@ -14,12 +14,13 @@ function get(message) {
 }
 
 function post(message) {
-    $.ajax({
+    //alert(message);
+	$.ajax({
         //url: "http://spbau-icloude.appspot.com/rest/api/info",
         url: "http://localhost:8888/rest/api/info",
         type: "POST",
         dataType: "json",
-        data: "ep! i'm back!",
+        data: message,
         success: function(data) {alert("good post!" + "\n" + data.text);},
         error: function(a) {alert("bad post!");},
     });
@@ -36,4 +37,8 @@ $(document).ready(function() {
     $('#getBtn').click(get);
     $('#postBtn').click(post);
     $('#repeatBtn').click(repeat);
-})
+    $('#sendBtn').click(function() {
+    	alert($('#codeArea').val());
+    	post($('#codeArea').val()); 
+    });
+});
