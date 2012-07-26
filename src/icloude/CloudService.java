@@ -24,16 +24,40 @@ public class CloudService {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getInfo() {
-		SimpleMessage msg = new SimpleMessage("Hello from GET.");
+	public String getInfoJSON() {
+		SimpleMessage msg = new SimpleMessage("Hello from GET in JSON.");
 		return gson.toJson(msg);
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getInfoTextPlain() {
+		return "Hello from GET in plain text.";
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	public String getInfoTextHTML() {
+		return "Hello from GET in html text.";
 	}
 	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public String postInfo() {
+	public String postInfoJSON() {
 		SimpleMessage msg = new SimpleMessage("Hello from POST.");
 		return gson.toJson(msg);
+	}
+	
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	public String postInfoTextPlain() {
+		return "Hello from POST in plain text.";
+	}
+	
+	@POST
+	@Produces(MediaType.TEXT_HTML)
+	public String postInfoTextHTML() {
+		return "Hello from POST in html text.";
 	}
 }
 
