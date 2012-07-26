@@ -20,7 +20,7 @@ function post(message) {
         url: "http://localhost:8888/rest/api/info",
         type: "POST",
         dataType: "json",
-        data: message,
+        data: {data: message},
         success: function(data) {alert("good post!" + "\n" + data.text);},
         error: function(a) {alert("bad post!");},
     });
@@ -35,7 +35,9 @@ function repeat() {
 
 $(document).ready(function() {
     $('#getBtn').click(get);
-    $('#postBtn').click(post);
+    $('#postBtn').click(function() {
+    	post('hey yo');
+    });
     $('#repeatBtn').click(repeat);
     $('#sendBtn').click(function() {
     	alert($('#codeArea').val());
