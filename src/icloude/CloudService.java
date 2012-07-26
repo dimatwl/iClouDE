@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 @Path("/api/info")
 public class CloudService {
@@ -17,7 +18,7 @@ public class CloudService {
 	Gson gson = new Gson();
 	
 	private class SimpleMessage {
-		private String text;
+		public String text;
 		
 		public SimpleMessage (String inpWord) {
 			text = inpWord;
@@ -33,14 +34,19 @@ public class CloudService {
 
 	
 	@POST
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	//@Consumes(MediaType.TEXT_PLAIN)
-	public String postInfoJSON(@FormParam("data") String inpData) {
+	public String postInfoJSON(@FormParam("JSON") String inpJSON) {
 		SimpleMessage msg;
-		if (inpData == null){
-			msg = new SimpleMessage("No 'data' parameter.");
+		if (inpJSON == null){
+			msg = new SimpleMessage("No 'JSON' parameter.");
 		} else {
-			msg = new SimpleMessage("Recieved 'data' parameter containing:'" + inpData + "'");
+			try {
+				SimpleMessage fromJSON = gson.fromJson(inpJSON, SimpleMessage.class);
+				msg = new SimpleMessage("Recieved 'JSON' parameter containing:'" + inpJSON + "'. After encoding JSON got: '" + fromJSON.text + "'");
+			} catch (JsonSyntaxException e) {
+				msg = new SimpleMessage("Recieved 'JSON' parameter containing:'" + inpJSON + "'. But can't decode JSON.");
+			}
 		}
 		return gson.toJson(msg);
 	}
