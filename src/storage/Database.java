@@ -4,13 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-
 import storage.executablefile.ExecutableFileHandler;
 import storage.sourcefile.SourceFileHandler;
+import storage.user.User;
 import storage.user.UserHandler;
-import storage.StoringType;
 
 
 public class Database {
@@ -25,29 +22,39 @@ public class Database {
 	}
 
 
-	public boolean contains(String name) {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Query q = pm.newQuery(TestData.class);
-		q.setFilter("name == nameParam");
-	    q.declareParameters("String nameParam");
-
-	    @SuppressWarnings("unchecked")
-		List<TestData> results = (List<TestData>) q.execute(name);
-//	    pm.close();
-    	return !results.isEmpty();
-	}
 	
-	public void add(Object td) {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		pm.makePersistent(td);
-		pm.close();
-	}
-	
-	public static Object get(StoringType type, Object... params) throws DatabaseException {
+	/**
+	 * Returns object of required type according to specified parameters
+	 * @param user - current user
+	 * @param type - type of the object required
+	 * @param params - parameters to determine object which should be returned
+	 * @return object of required type according to specified parameters
+	 * @throws DatabaseException if parameters are incorrect
+	 */
+	public static Object get(User user, StoringType type, Object... params) throws DatabaseException {
 		return handlers.get(type).get(params);
 	}
 	
-	public static void save(StoringType type, Object toSave) {
+	/**
+	 * Saves changes in given object
+	 * @param user - current user
+	 * @param type - type of the object to save
+	 * @param toSave - object which should be saved
+	 */
+	public static void save(User user, StoringType type, Object toSave) {
 		handlers.get(type).save(toSave);
+	}
+	
+	/**
+	 * Finds all objects of specified type according to specified parameters
+	 * @param user - current user
+	 * @param type - type of the objects to find
+	 * @param params - parameters to determine objects which should be returned
+	 * @return list of object of required type according to specified parameters
+	 * @throws DatabaseException if parameters are incorrect
+	 */
+	public static List<Object> find(User user, StoringType type,
+			Object... params) throws DatabaseException {
+		return null;
 	}
 }
