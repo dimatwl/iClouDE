@@ -2,15 +2,37 @@ package icloude;
 
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import com.google.gson.Gson;
+
 @Path("/api/info")
 public class CloudService {
+	
+	Gson gson = new Gson();
+	
+	private class SimpleMessage {
+		private String text;
+		
+		public SimpleMessage (String inpWord) {
+			text = inpWord;
+		}
+	}
+	
 	@GET
-	@Produces("text/plain")
-	public String info() {
-		return "Hello Jersey on Google App Engine";
+	@Produces("text/JSON")
+	public String getInfo() {
+		SimpleMessage msg = new SimpleMessage("Hello from GET.");
+		return gson.toJson(msg);
+	}
+	
+	@POST
+	@Produces("text/JSON")
+	public String postInfo() {
+		SimpleMessage msg = new SimpleMessage("Hello from POST.");
+		return gson.toJson(msg);
 	}
 }
 
