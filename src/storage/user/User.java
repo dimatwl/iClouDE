@@ -1,5 +1,10 @@
 package storage.user;
 
-public class User {
+import javax.jdo.annotations.PersistenceCapable;
+
+import storage.DatabaseObject;
+
+@PersistenceCapable
+public class User extends DatabaseObject {
 
 }

@@ -10,6 +10,7 @@ import storage.user.User;
 import storage.user.UserHandler;
 
 
+
 public class Database {
 	
 	private static final Map<StoringType, Handler> handlers = 
@@ -53,7 +54,7 @@ public class Database {
 	 * @return list of object of required type according to specified parameters
 	 * @throws DatabaseException if parameters are incorrect
 	 */
-	public static List<Object> find(User user, StoringType type,
+	public static <T> List<T> find(User user, StoringType type,
 			Object... params) throws DatabaseException {
 		return null;
 	}

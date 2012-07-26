@@ -1,11 +1,12 @@
 package storage.user;
 
+import storage.DatabaseException;
 import storage.Handler;
 
 public class UserHandler implements Handler {
 
 	@Override
-	public User get(Object... params) {
+	public Object get(Object... params) throws DatabaseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -15,4 +16,5 @@ public class UserHandler implements Handler {
 		// TODO Auto-generated method stub
 		
 	}
+
 }
