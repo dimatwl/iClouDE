@@ -1,6 +1,8 @@
 package icloude;
 
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -28,37 +30,21 @@ public class CloudService {
 		SimpleMessage msg = new SimpleMessage("Hello from GET in JSON.");
 		return gson.toJson(msg);
 	}
-	
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public String getInfoTextPlain() {
-		return "Hello from GET in plain text.";
-	}
-	
-	@GET
-	@Produces(MediaType.TEXT_HTML)
-	public String getInfoTextHTML() {
-		return "Hello from GET in html text.";
-	}
+
 	
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	public String postInfoJSON() {
-		SimpleMessage msg = new SimpleMessage("Hello from POST.");
+	@Produces(MediaType.TEXT_PLAIN)
+	//@Consumes(MediaType.TEXT_PLAIN)
+	public String postInfoJSON(@FormParam("data") String inpData) {
+		SimpleMessage msg;
+		if (inpData == null){
+			msg = new SimpleMessage("No 'data' parameter.");
+		} else {
+			msg = new SimpleMessage("Recieved 'data' parameter containing:'" + inpData + "'");
+		}
 		return gson.toJson(msg);
 	}
 	
-	@POST
-	@Produces(MediaType.TEXT_PLAIN)
-	public String postInfoTextPlain() {
-		return "Hello from POST in plain text.";
-	}
-	
-	@POST
-	@Produces(MediaType.TEXT_HTML)
-	public String postInfoTextHTML() {
-		return "Hello from POST in html text.";
-	}
 }
 
 
