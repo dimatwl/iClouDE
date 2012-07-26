@@ -5,6 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 
@@ -22,7 +23,7 @@ public class CloudService {
 	}
 	
 	@GET
-	@Produces("text/JSON")
+	@Produces()
 	public String getInfo() {
 		SimpleMessage msg = new SimpleMessage("Hello from GET.");
 		return gson.toJson(msg);
