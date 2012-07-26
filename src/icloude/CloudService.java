@@ -1,6 +1,8 @@
 package icloude;
 
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -8,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 @Path("/api/info")
 public class CloudService {
@@ -15,7 +18,7 @@ public class CloudService {
 	Gson gson = new Gson();
 	
 	private class SimpleMessage {
-		private String text;
+		public String text;
 		
 		public SimpleMessage (String inpWord) {
 			text = inpWord;
@@ -28,37 +31,26 @@ public class CloudService {
 		SimpleMessage msg = new SimpleMessage("Hello from GET in JSON.");
 		return gson.toJson(msg);
 	}
-	
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public String getInfoTextPlain() {
-		return "Hello from GET in plain text.";
-	}
-	
-	@GET
-	@Produces(MediaType.TEXT_HTML)
-	public String getInfoTextHTML() {
-		return "Hello from GET in html text.";
-	}
+
 	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public String postInfoJSON() {
-		SimpleMessage msg = new SimpleMessage("Hello from POST.");
+	//@Consumes(MediaType.TEXT_PLAIN)
+	public String postInfoJSON(@FormParam("JSON") String inpJSON) {
+		SimpleMessage msg;
+		if (inpJSON == null){
+			msg = new SimpleMessage("No 'JSON' parameter.");
+		} else {
+			try {
+				SimpleMessage fromJSON = gson.fromJson(inpJSON, SimpleMessage.class);
+				msg = new SimpleMessage("Recieved 'JSON' parameter containing:'" + inpJSON + "'. After encoding JSON got: '" + fromJSON.text + "'");
+			} catch (JsonSyntaxException e) {
+				msg = new SimpleMessage("Recieved 'JSON' parameter containing:'" + inpJSON + "'. But can't decode JSON.");
+			}
+		}
 		return gson.toJson(msg);
 	}
 	
-	@POST
-	@Produces(MediaType.TEXT_PLAIN)
-	public String postInfoTextPlain() {
-		return "Hello from POST in plain text.";
-	}
-	
-	@POST
-	@Produces(MediaType.TEXT_HTML)
-	public String postInfoTextHTML() {
-		return "Hello from POST in html text.";
-	}
 }
 
 
