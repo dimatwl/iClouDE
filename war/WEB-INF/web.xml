@@ -15,7 +15,7 @@
           <param-name>com.sun.jersey.config.property.packages</param-name>
           <!-- Enter your Jersey resources to speed up initial Jersey loading -->
           <!-- You can separate the java packages using , -->
-          <param-value>icloude</param-value>
+          <param-value>icloude, icloude.request_handlers</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
