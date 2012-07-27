@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.channels.Channels;
-import java.util.Date;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.NotPersistent;
@@ -14,8 +13,6 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import storage.DatabaseException;
-import storage.project.Project;
-import storage.project.ProjectItem;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Key;
@@ -28,22 +25,8 @@ import com.google.appengine.api.files.FinalizationException;
 import com.google.appengine.api.files.LockException;
 
 @PersistenceCapable
-public class SourceFile extends ProjectItem {
+public class SourceFile {
 	
-	
-	public SourceFile() throws DatabaseException {
-		FileService fileService = FileServiceFactory.getFileService();
-		AppEngineFile file = null;
-		try {
-			file = fileService.createNewBlobFile("text/plain");
-		} catch (IOException e) {
-			throw new DatabaseException(e.getMessage());
-		}
-		
-		content = fileService.getBlobKey(file);
-	}
-	
-
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
@@ -52,90 +35,90 @@ public class SourceFile extends ProjectItem {
 		return key;
 	}
 	
-	@Persistent
-	private Date creationTime;
-	
-	@Persistent
-	private Date modificationTime;
-	
+//	@Persistent
+//	private Date creationTime;
+//	
+//	@Persistent
+//	private Date modificationTime;
+//	
 	@Persistent
 	private BlobKey content;
-	
-	@Persistent
-	private int revision;
-	
-	@Persistent
-	private String language;
-	
-	@Persistent
-	private Project project;
-	
-	@Persistent
-	private ProjectItem parent;
-	
-	
-	public Date getCreationTime() {
-		return creationTime;
-	}
-	
-	public void setCreationTime(Date creationTime) {
-		this.creationTime = creationTime;
-	}
-	
-	public Date getModificationTime() {
-		return modificationTime;
-	}
-	
-	public void setModificationTime(Date modificationTime) {
-		this.modificationTime = modificationTime;
-	}
-	
-	public BlobKey getContent() {
-		return content;
-	}
-	
-	public void setContent(BlobKey content) {
-		this.content = content;
-	}
-	
-	public int getRevision() {
-		return revision;
-	}
-	
-	public void setRevision(int revision) {
-		this.revision = revision;
-	}
-	
-	public String getLanguage() {
-		return language;
-	}
-	
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-	
-	public Project getProject() {
-		return project;
-	}
-	
-	public void setProject(Project project) {
-		this.project = project;
-	}
-	
-	public ProjectItem getParent() {
-		return parent;
-	}
-	
-	public void setParent(ProjectItem parent) {
-		this.parent = parent;
-	}
-	
-	public void setKey(Key key) {
-		this.key = key;
-	}
-	
-	
-	
+//	
+//	@Persistent
+//	private int revision;
+//	
+//	@Persistent
+//	private String language;
+//	
+//	@Persistent
+//	private Project project;
+//	
+//	@Persistent
+//	private ProjectItem parent;
+//	
+//	
+//	public Date getCreationTime() {
+//		return creationTime;
+//	}
+//	
+//	public void setCreationTime(Date creationTime) {
+//		this.creationTime = creationTime;
+//	}
+//	
+//	public Date getModificationTime() {
+//		return modificationTime;
+//	}
+//	
+//	public void setModificationTime(Date modificationTime) {
+//		this.modificationTime = modificationTime;
+//	}
+//	
+//	public BlobKey getContent() {
+//		return content;
+//	}
+//	
+//	public void setContent(BlobKey content) {
+//		this.content = content;
+//	}
+//	
+//	public int getRevision() {
+//		return revision;
+//	}
+//	
+//	public void setRevision(int revision) {
+//		this.revision = revision;
+//	}
+//	
+//	public String getLanguage() {
+//		return language;
+//	}
+//	
+//	public void setLanguage(String language) {
+//		this.language = language;
+//	}
+//	
+//	public Project getProject() {
+//		return project;
+//	}
+//	
+//	public void setProject(Project project) {
+//		this.project = project;
+//	}
+//	
+//	public ProjectItem getParent() {
+//		return parent;
+//	}
+//	
+//	public void setParent(ProjectItem parent) {
+//		this.parent = parent;
+//	}
+//	
+//	public void setKey(Key key) {
+//		this.key = key;
+//	}
+//	
+//	
+//	
 	@NotPersistent
 	private FileWriteChannel writeChannel;
 	
@@ -148,6 +131,9 @@ public class SourceFile extends ProjectItem {
 	@NotPersistent
 	private BufferedReader reader;
 	
+	@NotPersistent
+	private AppEngineFile file;
+	
 	public PrintWriter getWriter() throws DatabaseException {
 		if (writer != null) {
 			return writer;
@@ -158,7 +144,11 @@ public class SourceFile extends ProjectItem {
 		}
 		
 		FileService fileService = FileServiceFactory.getFileService();
-		AppEngineFile file = fileService.getBlobFile(content);
+		try {
+			file = fileService.createNewBlobFile("text/plain");
+		} catch (IOException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 		
 		try {
 			writeChannel = fileService.openWriteChannel(file, true);
@@ -211,6 +201,8 @@ public class SourceFile extends ProjectItem {
 			if (writer != null) {
 				writer.close();
 				writeChannel.closeFinally();
+				FileService fileService = FileServiceFactory.getFileService();
+				content = fileService.getBlobKey(file); 
 			} else if (reader != null) {
 				reader.close();
 				readChannel.close();
@@ -224,6 +216,7 @@ public class SourceFile extends ProjectItem {
 			reader = null;
 			writeChannel = null;
 			readChannel = null;
+			
 		}
 	}
 }

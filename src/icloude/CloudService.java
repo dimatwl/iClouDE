@@ -26,6 +26,7 @@ public class CloudService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getInfoJSON() {
+		System.err.println("get");
 		SimpleMessage msg = new SimpleMessage("Hello from GET in JSON.");
 		return gson.toJson(msg);
 	}
@@ -34,6 +35,7 @@ public class CloudService {
 	@Produces(MediaType.APPLICATION_JSON)
 	// @Consumes(MediaType.TEXT_PLAIN)
 	public String postInfoJSON(@FormParam("json") String inpJSON) {
+		System.err.println("post");
 		SimpleMessage msg;
 		if (inpJSON == null) {
 			msg = new SimpleMessage("No 'json' parameter.");

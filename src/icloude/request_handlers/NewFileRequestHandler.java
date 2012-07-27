@@ -1,5 +1,9 @@
 package icloude.request_handlers;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import icloude.requests.NewFileRequest;
 import icloude.responses.StandartResponse;
 
@@ -9,6 +13,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import storage.Database;
+import storage.DatabaseException;
+import storage.StoringType;
+import storage.sourcefile.SourceFile;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -51,10 +60,22 @@ public class NewFileRequestHandler {
 	 * This method used to handle all POST request on "rest/newfile"
 	 * 
 	 * @return error message
+	 * @throws DatabaseException 
+	 * @throws IOException 
 	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public String get() {
+	public String get() throws DatabaseException, IOException {
+		String key = Database.create(StoringType.SOURCE_FILE);
+		System.err.println(key);
+		
+		SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
+		PrintWriter writer = file.getWriter();
+		writer.println("hello");
+		Database.save(StoringType.SOURCE_FILE, file);
+		
+		BufferedReader reader = file.getReader();
+		System.err.println(reader.readLine());
 		return new String("GET method is not allowed here.");
 	}
 }
