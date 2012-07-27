@@ -19,6 +19,8 @@ public interface Handler {
 	/**
 	 * Saves object to database
 	 * @param toSave - object which should be saved to database
+	 * @throws DatabaseException if an error occurs while saving object to
+	 * database 
 	 */
-	public void save(Object toSave);
+	public void save(Object toSave) throws DatabaseException;
 }

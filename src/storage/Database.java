@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import storage.executablefile.ExecutableFileHandler;
-import storage.sourcefile.SourceFileHandler;
+import storage.sourcefile.SourceFileReadingHandler;
 import storage.user.User;
 import storage.user.UserHandler;
 
@@ -17,7 +17,7 @@ public class Database {
 			new HashMap<StoringType, Handler>();
 	
 	static {
-		handlers.put(StoringType.SOURCE_FILE, new SourceFileHandler());
+		handlers.put(StoringType.SOURCE_FILE_READER, new SourceFileReadingHandler());
 		handlers.put(StoringType.EXECUTABLE_FILE, new ExecutableFileHandler());
 		handlers.put(StoringType.USER, new UserHandler());
 	}
@@ -41,8 +41,9 @@ public class Database {
 	 * @param user - current user
 	 * @param type - type of the object to save
 	 * @param toSave - object which should be saved
+	 * @throws DatabaseException if and error occurs while saving object to database
 	 */
-	public static void save(User user, StoringType type, Object toSave) {
+	public static void save(User user, StoringType type, Object toSave) throws DatabaseException {
 		handlers.get(type).save(toSave);
 	}
 	
