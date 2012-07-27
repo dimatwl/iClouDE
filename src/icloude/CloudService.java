@@ -36,16 +36,16 @@ public class CloudService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	//@Consumes(MediaType.TEXT_PLAIN)
-	public String postInfoJSON(@FormParam("JSON") String inpJSON) {
+	public String postInfoJSON(@FormParam("json") String inpJSON) {
 		SimpleMessage msg;
 		if (inpJSON == null){
-			msg = new SimpleMessage("No 'JSON' parameter.");
+			msg = new SimpleMessage("No 'json' parameter.");
 		} else {
 			try {
 				SimpleMessage fromJSON = gson.fromJson(inpJSON, SimpleMessage.class);
-				msg = new SimpleMessage("Recieved 'JSON' parameter containing:'" + inpJSON + "'. After encoding JSON got: '" + fromJSON.text + "'");
+				msg = new SimpleMessage("Recieved 'json' parameter containing:'" + inpJSON + "'. After encoding JSON got: '" + fromJSON.text + "'");
 			} catch (JsonSyntaxException e) {
-				msg = new SimpleMessage("Recieved 'JSON' parameter containing:'" + inpJSON + "'. But can't decode JSON.");
+				msg = new SimpleMessage("Recieved 'json' parameter containing:'" + inpJSON + "'. But can't decode JSON.");
 			}
 		}
 		return gson.toJson(msg);
