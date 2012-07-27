@@ -1,6 +1,9 @@
+/**
+ * 
+ */
 package icloude.request_handlers;
 
-import icloude.requests.NewFileRequest;
+import icloude.requests.UploadFileRequest;
 import icloude.responses.StandartResponse;
 
 import javax.ws.rs.FormParam;
@@ -14,15 +17,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/newfile" URL: rest/newfile
- *         Method: POST Required response: Standart
+ * @author DimaTWL Handling all requests on "rest/uploadfile" URL:
+ *         rest/uploadfile Method: POST Required response: Standart
  */
-@Path("/newfile")
-public class NewFileRequestHandler {
+@Path("/uploadfile")
+public class UploadFileRequestHandler {
 	private final static Gson gson = new Gson();
 
 	/**
-	 * This method used to handle all POST request on "rest/newfile"
+	 * This method used to handle all POST request on "rest/uploadfile"
 	 * 
 	 * @return the StandartResponse witch will be sent to client
 	 */
@@ -35,10 +38,10 @@ public class NewFileRequestHandler {
 					"No 'json' parameter in http request.");
 		} else {
 			try {
-				NewFileRequest fromJSON = gson.fromJson(inpJSON,
-						NewFileRequest.class);
+				UploadFileRequest fromJSON = gson.fromJson(inpJSON,
+						UploadFileRequest.class);
 				responce = new StandartResponse(fromJSON.getRequestID(), true,
-						"Request for new file creation recieved.");
+						"Request for upload file creation recieved.");
 			} catch (JsonSyntaxException e) {
 				responce = new StandartResponse("Error", false,
 						"Bad JSON syntax.");

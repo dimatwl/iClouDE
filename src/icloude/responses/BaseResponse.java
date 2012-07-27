@@ -10,11 +10,17 @@ public class BaseResponse {
 	private String requestID;
 	private Boolean result;
 	private String description;
-	
-	public BaseResponse(String inpRequestID, Boolean inpResult,
-			String inpDescription) {
-		requestID = inpRequestID;
-		result = inpResult;
-		description = inpDescription;
+
+	/**
+	 * @param requestID
+	 * @param result
+	 * @param description
+	 */
+	public BaseResponse(String requestID, Boolean result, String description) {
+		super();
+		this.requestID = requestID;
+		this.result = result;
+		this.description = description;
 	}
+
 }
