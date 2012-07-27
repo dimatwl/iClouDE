@@ -1,14 +1,21 @@
+/**
+ * 
+ */
 package icloude.requests;
+
+import icloude.contents.FileContent;
 
 /**
  * @author DimaTWL This class describes 'New file' request from protocol.
+ * 
  */
-public class NewFileRequest extends BaseRequest {
+public class UploadFileRequest extends BaseRequest {
 	private String projectID;
 	private String filePath;
 	private String fileType;
+	private FileContent content;
 
-	private NewFileRequest() {
+	private UploadFileRequest() {
 	}
 
 	/**
@@ -30,5 +37,12 @@ public class NewFileRequest extends BaseRequest {
 	 */
 	public String getFileType() {
 		return fileType;
+	}
+
+	/**
+	 * @return the content
+	 */
+	public FileContent getContent() {
+		return content;
 	};
 }
