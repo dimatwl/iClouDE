@@ -4,36 +4,12 @@ package icloude.requests;
  * @author DimaTWL
  * This class describes 'New file' request from protocol.
  */
-public class NewFileRequest {
-	private String requestID;
-	private String requestType;
-	private String userID;
+public class NewFileRequest extends BaseRequest {
 	private String projectID;
 	private String filePath;
 	private String fileType;
 	
 	private NewFileRequest(){}
-
-	/**
-	 * @return the requestID
-	 */
-	public String getRequestID() {
-		return requestID;
-	}
-
-	/**
-	 * @return the requestType
-	 */
-	public String getRequestType() {
-		return requestType;
-	}
-
-	/**
-	 * @return the userID
-	 */
-	public String getUserID() {
-		return userID;
-	}
 
 	/**
 	 * @return the projectID
