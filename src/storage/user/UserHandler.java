@@ -17,4 +17,10 @@ public class UserHandler implements Handler {
 		
 	}
 
+	@Override
+	public String create(Object... params) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -7,9 +7,17 @@ package storage;
  *
  */
 public interface Handler {
+	
+	/**
+	 * Creates new object in database
+	 * @param params - parameters defining properties of new object
+	 * @return String key of created object
+	 * @throws DatabaseException 
+	 */
+	public String create(Object... params) throws DatabaseException;
 
 	/**
-	 * Creates new object or gets it from database
+	 * Gets object from database
 	 * @param params - parameters defining how to get object
 	 * @return - new object or object from database
 	 * @throws DatabaseException if it's impossible to get required object
