@@ -14,7 +14,7 @@ function get(message) {
 }
 
 function post(message) {
-    var jsonMsg = $.toJSON({data: message});
+    var jsonMsg = $.toJSON({text: message});
     
 	$.ajax({
         //url: "http://spbau-icloude.appspot.com/rest/api/info",
