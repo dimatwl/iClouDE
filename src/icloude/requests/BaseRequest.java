@@ -1,14 +1,13 @@
 package icloude.requests;
 
 /**
- * @author DimaTWL
- * This class describes general part of request from protocol.
+ * @author DimaTWL This class describes general part of request from protocol.
  */
 public abstract class BaseRequest {
 	private String requestID;
 	private String requestType;
 	private String userID;
-	
+
 	/**
 	 * @return the requestID
 	 */
