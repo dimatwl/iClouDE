@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * @author DimaTWL
- * 
+ * This class represents "FileContent" entity from protocol
  */
 public class FileContent {
 	private String type;
