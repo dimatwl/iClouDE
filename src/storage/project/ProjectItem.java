@@ -26,4 +26,16 @@ public class ProjectItem extends DatabaseObject {
 //	public void set(List<ProjectItem> childern) {
 //		this.children = childern;
 //	}
+	
+	@Persistent
+	private ProjectItem parent;
+	
+	public ProjectItem getParent() {
+		return parent;
+	}
+	
+	public void setParent(ProjectItem parent) {
+		this.parent = parent;
+	}
+	
 }

@@ -44,11 +44,7 @@ public class SourceFile extends ProjectItem {
 	@Persistent
 	private String language;
 	
-	@Persistent
-	private Project project;
 	
-	@Persistent
-	private ProjectItem parent;
 	
 	
 	public Date getCreationTime() {
@@ -91,21 +87,6 @@ public class SourceFile extends ProjectItem {
 		this.language = language;
 	}
 	
-	public Project getProject() {
-		return project;
-	}
-	
-	public void setProject(Project project) {
-		this.project = project;
-	}
-	
-	public ProjectItem getParent() {
-		return parent;
-	}
-	
-	public void setParent(ProjectItem parent) {
-		this.parent = parent;
-	}
 	
 
 	
@@ -135,7 +116,7 @@ public class SourceFile extends ProjectItem {
 
 		if (fileExists()) {
 			clearFile();
-		}			
+		}
 
 		FileService fileService = FileServiceFactory.getFileService();
 		createNewFile(fileService);
@@ -238,7 +219,6 @@ public class SourceFile extends ProjectItem {
 			reader = null;
 			writeChannel = null;
 			readChannel = null;
-			
 		}
 	}
 }
