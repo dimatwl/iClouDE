@@ -6,9 +6,11 @@ package icloude.request_handlers;
 import icloude.requests.UploadFileRequest;
 import icloude.responses.StandartResponse;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -41,7 +43,7 @@ public class UploadFileRequestHandler {
 				UploadFileRequest fromJSON = gson.fromJson(inpJSON,
 						UploadFileRequest.class);
 				responce = new StandartResponse(fromJSON.getRequestID(), true,
-						"Request for upload file creation recieved.");
+						"Request 'Upload file' recieved.");
 			} catch (JsonSyntaxException e) {
 				responce = new StandartResponse("Error", false,
 						"Bad JSON syntax.");
@@ -51,7 +53,7 @@ public class UploadFileRequestHandler {
 	}
 
 	/**
-	 * This method used to handle all POST request on "rest/newfile"
+	 * This method used to handle all GET request on "rest/uploadfile"
 	 * 
 	 * @return error message
 	 */
@@ -59,5 +61,27 @@ public class UploadFileRequestHandler {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String get() {
 		return new String("GET method is not allowed here.");
+	}
+	
+	/**
+	 * This method used to handle all PUT request on "rest/uploadfile"
+	 * 
+	 * @return error message
+	 */
+	@PUT
+	@Produces(MediaType.TEXT_PLAIN)
+	public String put() {
+		return new String("PUT method is not allowed here.");
+	}
+	
+	/**
+	 * This method used to handle all DELETE request on "rest/uploadfile"
+	 * 
+	 * @return error message
+	 */
+	@DELETE
+	@Produces(MediaType.TEXT_PLAIN)
+	public String delete() {
+		return new String("DELETE method is not allowed here.");
 	}
 }
