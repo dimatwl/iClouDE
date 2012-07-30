@@ -17,17 +17,17 @@ import com.google.gson.JsonSyntaxException;
 
 /**
  * @author DimaTWL 
- * Handling all requests on "rest/newfile" 
- * URL: rest/newfile
+ * Handling all requests on "rest/changefiletype" 
+ * URL: rest/changefiletype
  * Method: POST 
  * Required response: Standart
  */
-@Path("/newfile")
-public class NewFileRequestHandler {
+@Path("/changefiletype")
+public class ChangeFileTypeRequestHandler {
 	private final static Gson gson = new Gson();
 
 	/**
-	 * This method used to handle all POST request on "rest/newfile"
+	 * This method used to handle all POST request on "rest/changefiletype"
 	 * 
 	 * @return the StandartResponse witch will be sent to client
 	 */
@@ -42,16 +42,16 @@ public class NewFileRequestHandler {
 			try {
 				NewFileRequest fromJSON = gson.fromJson(inpJSON,
 						NewFileRequest.class);
-				if (fromJSON.getRequestType().equals("newfile")) {
+				if (fromJSON.getRequestType().equals("deletefile")) {
 					responce = new StandartResponse(fromJSON.getRequestID(),
-							true, "Request 'New file' recieved.");
+							true, "Request 'Change file type' recieved.");
 				} else {
 					responce = new StandartResponse(
 							fromJSON.getRequestID(),
 							true,
 							"Request type '"
 									+ fromJSON.getRequestType()
-									+ "' not allowed on rest/newfile. Use 'newfile' request type.");
+									+ "' not allowed on rest/changefiletype. Use 'changefiletype' request type.");
 				}
 			} catch (JsonSyntaxException e) {
 				responce = new StandartResponse("Error", false,
@@ -60,9 +60,9 @@ public class NewFileRequestHandler {
 		}
 		return gson.toJson(responce);
 	}
-	
+
 	/**
-	 * This method used to handle all GET request on "rest/newfile"
+	 * This method used to handle all GET request on "rest/changefiletype"
 	 * 
 	 * @return error message
 	 */
@@ -73,7 +73,7 @@ public class NewFileRequestHandler {
 	}
 	
 	/**
-	 * This method used to handle all PUT request on "rest/newfile"
+	 * This method used to handle all PUT request on "rest/changefiletype"
 	 * 
 	 * @return error message
 	 */
@@ -84,7 +84,7 @@ public class NewFileRequestHandler {
 	}
 	
 	/**
-	 * This method used to handle all DELETE request on "rest/newfile"
+	 * This method used to handle all DELETE request on "rest/changefiletype"
 	 * 
 	 * @return error message
 	 */
@@ -93,29 +93,4 @@ public class NewFileRequestHandler {
 	public String delete() {
 		return new String("DELETE method is not allowed here.");
 	}
-
-
-//	/**
-//	 * This method used to handle all GET request on "rest/newfile"
-//	 * 
-//	 * @return error message
-//	 * @throws DatabaseException 
-//	 * @throws IOException 
-//	 */
-//	@GET
-//	@Produces(MediaType.TEXT_PLAIN)
-//	public String get() throws DatabaseException, IOException {
-//		//OMG I didn't write that code... It look like example for working with database. So I use it in another place. 
-//		//String key = Database.create(StoringType.SOURCE_FILE);
-//		//System.err.println(key);
-//		//
-//		//SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
-//		//PrintWriter writer = file.getWriter();
-//		//writer.println("hello");
-//		//Database.save(StoringType.SOURCE_FILE, file);
-//		//
-//		//BufferedReader reader = file.getReader();
-//		//System.err.println(reader.readLine());
-//		return new String("GET method is not allowed here.");
-//	}
 }
