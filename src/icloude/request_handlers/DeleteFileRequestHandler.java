@@ -1,6 +1,6 @@
 package icloude.request_handlers;
 
-import icloude.requests.NewFileRequest;
+import icloude.requests.DeleteFileRequest;
 import icloude.responses.StandartResponse;
 
 import javax.ws.rs.DELETE;
@@ -40,8 +40,8 @@ public class DeleteFileRequestHandler {
 					"No 'json' parameter in http request.");
 		} else {
 			try {
-				NewFileRequest fromJSON = gson.fromJson(inpJSON,
-						NewFileRequest.class);
+				DeleteFileRequest fromJSON = gson.fromJson(inpJSON,
+						DeleteFileRequest.class);
 				if (fromJSON.getRequestType().equals("deletefile")) {
 					responce = new StandartResponse(fromJSON.getRequestID(),
 							true, "Request 'Delete file' recieved.");

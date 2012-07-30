@@ -3,19 +3,16 @@
  */
 package icloude.requests;
 
-import icloude.contents.FileContent;
-
 /**
- * @author DimaTWL 
+ * @author DimaTWL
  * This class describes 'Upload file' request from protocol.
- * 
+ *
  */
-public class UploadFileRequest extends BaseRequest {
+public class DeleteFileRequest extends BaseRequest {
 	private String projectID;
 	private String filePath;
-	private FileContent content;
 
-	private UploadFileRequest() {
+	private DeleteFileRequest() {
 	}
 
 	/**
@@ -32,10 +29,4 @@ public class UploadFileRequest extends BaseRequest {
 		return filePath;
 	}
 
-	/**
-	 * @return the content
-	 */
-	public FileContent getContent() {
-		return content;
-	};
 }
