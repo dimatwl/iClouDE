@@ -42,8 +42,17 @@ public class UploadFileRequestHandler {
 			try {
 				UploadFileRequest fromJSON = gson.fromJson(inpJSON,
 						UploadFileRequest.class);
-				responce = new StandartResponse(fromJSON.getRequestID(), true,
-						"Request 'Upload file' recieved.");
+				if (fromJSON.getRequestType().equals("uploadfile")) {
+					responce = new StandartResponse(fromJSON.getRequestID(),
+							true, "Request 'Upload file' recieved.");
+				} else {
+					responce = new StandartResponse(
+							fromJSON.getRequestID(),
+							true,
+							"Request type '"
+									+ fromJSON.getRequestType()
+									+ "' not allowed on rest/uplaodfile. Use 'uploadfile' request type.");
+				}
 			} catch (JsonSyntaxException e) {
 				responce = new StandartResponse("Error", false,
 						"Bad JSON syntax.");

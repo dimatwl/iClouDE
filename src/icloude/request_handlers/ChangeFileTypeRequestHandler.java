@@ -42,8 +42,17 @@ public class ChangeFileTypeRequestHandler {
 			try {
 				NewFileRequest fromJSON = gson.fromJson(inpJSON,
 						NewFileRequest.class);
-				responce = new StandartResponse(fromJSON.getRequestID(), true,
-						"Request 'Change file type' recieved.");
+				if (fromJSON.getRequestType().equals("deletefile")) {
+					responce = new StandartResponse(fromJSON.getRequestID(),
+							true, "Request 'Change file type' recieved.");
+				} else {
+					responce = new StandartResponse(
+							fromJSON.getRequestID(),
+							true,
+							"Request type '"
+									+ fromJSON.getRequestType()
+									+ "' not allowed on rest/changefiletype. Use 'changefiletype' request type.");
+				}
 			} catch (JsonSyntaxException e) {
 				responce = new StandartResponse("Error", false,
 						"Bad JSON syntax.");

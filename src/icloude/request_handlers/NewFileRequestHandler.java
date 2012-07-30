@@ -42,8 +42,17 @@ public class NewFileRequestHandler {
 			try {
 				NewFileRequest fromJSON = gson.fromJson(inpJSON,
 						NewFileRequest.class);
-				responce = new StandartResponse(fromJSON.getRequestID(), true,
-						"Request 'New file' recieved.");
+				if (fromJSON.getRequestType().equals("newfile")) {
+					responce = new StandartResponse(fromJSON.getRequestID(),
+							true, "Request 'New file' recieved.");
+				} else {
+					responce = new StandartResponse(
+							fromJSON.getRequestID(),
+							true,
+							"Request type '"
+									+ fromJSON.getRequestType()
+									+ "' not allowed on rest/newfile. Use 'newfile' request type.");
+				}
 			} catch (JsonSyntaxException e) {
 				responce = new StandartResponse("Error", false,
 						"Bad JSON syntax.");
