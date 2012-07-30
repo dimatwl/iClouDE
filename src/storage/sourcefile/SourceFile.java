@@ -1,18 +1,13 @@
 package storage.sourcefile;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.channels.Channels;
 import java.util.Date;
 
-import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import storage.DatabaseException;
-import storage.project.Project;
 import storage.project.ProjectItem;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -88,52 +83,22 @@ public class SourceFile extends ProjectItem {
 	}
 	
 	
-
-	
-	@NotPersistent
-	private FileWriteChannel writeChannel;
-	
-	@NotPersistent
-	private FileReadChannel readChannel;
-	
-	@NotPersistent
-	private PrintWriter writer;
-	
-	@NotPersistent
-	private BufferedReader reader;
-	
-	@NotPersistent
-	private AppEngineFile file;
-	
-	public PrintWriter getWriter() throws DatabaseException {
-		if (writer != null) {
-			return writer;
-		}
-		
-		if (reader != null) {
-			throw new DatabaseException("Can't read and write to the same file");
-		}
-
+	public SourceFileWriter openForWriting() throws DatabaseException {
 		if (fileExists()) {
 			clearFile();
 		}
 
 		FileService fileService = FileServiceFactory.getFileService();
-		createNewFile(fileService);
-		openWriteChannel(fileService);
-		createWriter();
-
-		return writer;
+		AppEngineFile file = createNewFile(fileService);
+		FileWriteChannel writeChannel = openWriteChannel(fileService, file);
+		return new SourceFileWriter(writeChannel, file, this);
 	}
 
-	private void createWriter() {
-		writer = new PrintWriter(Channels.newWriter(writeChannel, "UTF8"));
-	}
-
-	private void openWriteChannel(FileService fileService)
+	private FileWriteChannel openWriteChannel(FileService fileService, AppEngineFile file)
 			throws DatabaseException {
 		try {
-			writeChannel = fileService.openWriteChannel(file, true);
+			FileWriteChannel writeChannel = fileService.openWriteChannel(file, true);
+			return writeChannel;
 		} catch (FileNotFoundException e) {
 			throw new DatabaseException(e.getMessage());
 		} catch (FinalizationException e) {
@@ -145,10 +110,11 @@ public class SourceFile extends ProjectItem {
 		}
 	}
 
-	private void createNewFile(FileService fileService)
+	private AppEngineFile createNewFile(FileService fileService)
 			throws DatabaseException {
 		try {
-			file = fileService.createNewBlobFile("text/plain");
+			AppEngineFile file = fileService.createNewBlobFile("text/plain");
+			return file;
 		} catch (IOException e) {
 			throw new DatabaseException(e.getMessage());
 		}
@@ -163,31 +129,19 @@ public class SourceFile extends ProjectItem {
 		return content != null;
 	}
 
-	public BufferedReader getReader() throws DatabaseException {
-		if (reader != null) {
-			return reader;
-		}
-		
-		if (writer != null) {
-			throw new DatabaseException("Can't read and write to the same file");
-		}
-		
+	public SourceFileReader openForReading() throws DatabaseException {
 		FileService fileService = FileServiceFactory.getFileService();
-		file = fileService.getBlobFile(content);
-		openReadChannel(fileService, file);
-		createReader();
-
-		return reader;
+		AppEngineFile file = fileService.getBlobFile(content);
+		FileReadChannel readChannel = openReadChannel(fileService, file);
+		return new SourceFileReader(readChannel);
 	}
 
-	private void createReader() {
-		reader = new BufferedReader(Channels.newReader(readChannel, "UTF8"));
-	}
 
-	private void openReadChannel(FileService fileService, AppEngineFile file)
+	private FileReadChannel openReadChannel(FileService fileService, AppEngineFile file)
 			throws DatabaseException {
 		try {
-			readChannel = fileService.openReadChannel(file, true);
+			FileReadChannel readChannel = fileService.openReadChannel(file, true);
+			return readChannel;
 		} catch (FileNotFoundException e) {
 			throw new DatabaseException(e.getMessage());
 		} catch (FinalizationException e) {
@@ -199,26 +153,4 @@ public class SourceFile extends ProjectItem {
 		}
 	}
 	
-	public void close() throws DatabaseException {
-		try {
-			if (writer != null) {
-				writer.close();
-				writeChannel.closeFinally();
-				FileService fileService = FileServiceFactory.getFileService();
-				content = fileService.getBlobKey(file);
-			} else if (reader != null) {
-				reader.close();
-				readChannel.close();
-			}
-		} catch (IllegalStateException e) {
-			throw new DatabaseException(e.getMessage());
-		} catch (IOException e) {
-			throw new DatabaseException(e.getMessage());
-		} finally {
-			writer = null;
-			reader = null;
-			writeChannel = null;
-			readChannel = null;
-		}
-	}
 }

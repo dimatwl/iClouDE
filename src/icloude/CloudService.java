@@ -7,6 +7,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import storage.Database;
+import storage.DatabaseException;
+import storage.StoringType;
+import storage.sourcefile.SourceFile;
+import storage.sourcefile.SourceFileReader;
+import storage.sourcefile.SourceFileWriter;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -25,7 +32,20 @@ public class CloudService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getInfoJSON() {
+	public String getInfoJSON() throws DatabaseException {
+		
+		String key = Database.create(StoringType.SOURCE_FILE);
+		System.err.println(key);
+		
+		SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
+		SourceFileWriter writer = file.openForWriting();
+		writer.println("hello");
+		writer.close();
+		
+		SourceFileReader reader = file.openForReading();
+		System.err.println(reader.readLine());
+		reader.close();
+		
 		System.err.println("get");
 		SimpleMessage msg = new SimpleMessage("Hello from GET in JSON.");
 		return gson.toJson(msg);

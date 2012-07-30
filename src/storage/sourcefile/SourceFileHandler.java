@@ -24,7 +24,9 @@ public class SourceFileHandler implements Handler {
 
 	@Override
 	public void save(Object toSave) throws DatabaseException {
-		((SourceFile)toSave).close();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		pm.refresh(toSave);
+		pm.close();
 	}
 
 	@Override
@@ -33,6 +35,8 @@ public class SourceFileHandler implements Handler {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		pm.makePersistent(sourceFile);
 		pm.close();
+		SourceFileWriter writer = sourceFile.openForWriting();
+		writer.close();
 		
 		return KeyFactory.keyToString(sourceFile.getKey());
 	}
