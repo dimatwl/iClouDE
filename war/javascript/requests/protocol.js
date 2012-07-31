@@ -1,60 +1,51 @@
-/**
- * Requests
- */
-const postRequest = "POST";
-const getRequest = "GET";
-
+var Protocol = {};
 
 /**
- * Protocols URL and request types
+ * Responses
  */
-function basicInfo(requestID, userID, pojectID, requestTypeID) {
+Protocol.STANDART_RESPONSE = ['requestID', 'result', 'description'];
+
+Protocol.makeBasicRequestInfo = function (requestID, requestTypeID, userID, pojectID) {
     return {
     	requestID: requestID,
-        userID: userID,
-    	projectID: projectID,
-    	requestType: requestTypeID
+    	requestType: requestTypeID,
+    	userID: userID,
+    	projectID: projectID    	
     };	
 }
 
-
-const standartResponse = ['requestID', 'result', 'description'];
-
+Protocol.requestID = function() {
+	return (new Date()).toString();
+}
 
 
 /**
- * New file request
+ * create new file request
  */
-const newFileURL = "rest/newfile";
-const newFileRequestType = postRequest;
-const newFileRequestID = "newfile";
+Protocol.createNewFile = {
+    URL: "rest/newfile",
+    method: POST,
+    requestType: "newfile",
+    responseFields: Protocol.STANDART_RESPONSE
+};
 
-function newFileRequest(requestID, filePath, fileType) {
-	var newFileInfo = basicInfo(requestID, userID, projectID, newFileRequestID);
+
+var current = Protocol.createNewFile;
+
+current.request = new Request(current.method, current.URL, current.requestID);
+
+current.request.setResponseHandler(function(resp) {
+	Protocol.checkResponse.call(current, resp);
+});
+
+current.request.send = function (filePath, fileType) {
+	var info = Protocol.makeBasicRequestInfo(Protocol.requestID(), current.requestType, userID, projectID);
 	
-	newFileInfo['filePath'] = filePath;
-    newFileInfo['fileType'] = fileType;
-	
-    return newFileInfo;	
+	info['filePath'] = filePath;
+    info['fileType'] = fileType;
+    
+    current.request.sendMap(info);    	
 }
-
-
-
-
-
-const newFileResponseFields = standartResponse;
-
-/*
-
-
-function newFileResponseChecker(response) {
-	var correctInfo = correctInfo(response, newFileResponseFields);
-	if (correctInfo[0])
-		return true;
-	alert("New file response not correct!\n" + correctInfo[1]);
-	return false;	
-}
-*/
 
 
 
@@ -63,20 +54,36 @@ function newFileResponseChecker(response) {
 /**
  * Upload file request
  */
-const uploadFileURL = "rest/uploadfile";
-const uploadFileRequestType = postRequest;
-const uploadFileRequestTypeID = "uploadfile";
+Protocol.uploadFile = {
+	URL: "rest/uploadfile",
+    method: POST,
+    requestType: "uploadfile",
+    responseFields: Protocol.STANDART_RESPONSE
+};
 
-function uploadFileRequest(requestID, filePath, content) {
-	var uploadFileInfo = basicInfo(requestID, userID, projectID, uploadFileRequestTypeID);
+
+var current = Protocol.uploadFile;
+
+current.request = new Request(current.method, current.URL, current.requestID);
+
+current.request.setResponseHandler(function(resp) {
+	Protocol.checkResponse.call(current, resp);
+});
+
+current.request.send = function (content) {
+	var info = Protocol.makeBasicRequestInfo(Protocol.requestID(), current.requestType, userID, projectID);
 	
-	uploadFileInfo['filePath'] = filePath;
-    uploadFileInfo['content'] = content;
-	
-    return uploadFileInfo;	
+	info['content'] = content;
+    
+    current.request.sendMap(info);    	
 }
 
-const uploadFileResponseFields = standartResponse;
+
+
+
+
+
+
 
 
 
@@ -96,7 +103,7 @@ const uploadFileResponseFields = standartResponse;
  * @param responseFields
  * @returns {Array} tuple with boolean result and field name which was not found
  */
-function correctInfo(response, responseFields) {
+Protocol.correctnessInfo = function (response, responseFields) {
 	for (i = 0; i < responseFields.length; ++i) {
 		if (response[responseFields[i]] == null)
 			return [false, responseField[i]];
@@ -105,6 +112,12 @@ function correctInfo(response, responseFields) {
 }
 
 
-
-
+Protocol.checkResponse = function (response) {
+    var info = Protocol.correctnessInfo(response, this.responseFields);
+    
+    if (info)
+        alert("response ok!");
+    else
+    	alert("error!" + "\n" + "field not found: " + info[1]);
+}
 
