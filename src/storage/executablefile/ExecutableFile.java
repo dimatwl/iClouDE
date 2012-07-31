@@ -2,10 +2,8 @@ package storage.executablefile;
 
 import java.util.Date;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 import storage.project.ProjectItem;
 
@@ -16,11 +14,11 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable
 public class ExecutableFile extends ProjectItem {
 
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
+	public ExecutableFile(String name, Key projectKey, Key parentKey) {
+		super(name, projectKey, parentKey);
+		// TODO Auto-generated constructor stub
+	}
 
-	@Persistent
 	private Date creationTime;
 	
 	@Persistent
@@ -41,14 +39,6 @@ public class ExecutableFile extends ProjectItem {
 	
 	public void setFile(BlobKey file) {
 		this.file = file;
-	}
-	
-	public void setKey(Key key) {
-		this.key = key;
-	}
-
-	public Key getKey() {
-		return key;
 	}
 }
 

@@ -2,44 +2,34 @@ package storage.sourcefile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.channels.Channels;
-
-import storage.DatabaseException;
 
 import com.google.appengine.api.files.FileReadChannel;
 
-public class SourceFileReader {
+/**
+ * Class for reading source files which are located in database
+ * @author Sergey
+ *
+ */
+public class SourceFileReader extends Reader {
 	
-	private final BufferedReader reader;
+	private final Reader reader;
 	private final FileReadChannel readChannel;
 
-	public SourceFileReader(FileReadChannel readChannel) {
+	protected SourceFileReader(FileReadChannel readChannel) {
 		reader = new BufferedReader(Channels.newReader(readChannel, "UTF8"));
 		this.readChannel = readChannel;
 	}
 
-	public String readLine() throws DatabaseException {
-		try {
-			return reader.readLine();
-		} catch (IOException e) {
-			throw new DatabaseException(e.getMessage());
-		}
+	@Override
+	public int read(char[] cbuf, int off, int len) throws IOException {
+		return reader.read(cbuf, off, len);
 	}
 	
-	public int read() throws DatabaseException {
-		try {
-			return reader.read();
-		} catch (IOException e) {
-			throw new DatabaseException(e.getMessage());
-		}
-	}
-	
-	public void close() throws DatabaseException {
-		try {
-			reader.close();
-			readChannel.close();
-		} catch (IOException e) {
-			throw new DatabaseException(e.getMessage());
-		}
+	@Override
+	public void close() throws IOException {
+		reader.close();
+		readChannel.close();
 	}
 }

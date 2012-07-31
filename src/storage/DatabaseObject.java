@@ -8,13 +8,15 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import storage.user.User;
-
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public class DatabaseObject {
+	
+	public DatabaseObject(String name) {
+		this.name = name;
+	}
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -27,15 +29,8 @@ public class DatabaseObject {
 	@Persistent
 	private String name;
 	
-	@Persistent
-	private User user;
-	
 	
 	public String getName() {
 		return name;
-	}
-	
-	public User getUser() {
-		return user;
 	}
 }
