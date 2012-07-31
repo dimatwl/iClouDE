@@ -1,10 +1,9 @@
 package icloude.requests;
 
-
 /**
- * @author DimaTWL
- * This class describes 'Change file type' request from protocol.
- *
+ * @author DimaTWL This class describes 'Change file type' request from
+ *         protocol.
+ * 
  */
 public class ChangeFileTypeRequest extends BaseRequest {
 	private String projectID;
@@ -34,7 +33,5 @@ public class ChangeFileTypeRequest extends BaseRequest {
 	public String getNewFileType() {
 		return newFileType;
 	}
-	
-	
 
 }

@@ -3,8 +3,7 @@ package icloude.contents;
 import java.util.Date;
 
 /**
- * @author DimaTWL
- * This class represents "FileContent" entity from protocol
+ * @author DimaTWL This class represents "FileContent" entity from protocol
  */
 public class FileContent {
 	private String type;
@@ -14,7 +13,7 @@ public class FileContent {
 	private String revisionID;
 	private Date creationDate;
 	private Date modificationDate;
-	
+
 	/**
 	 * @param type
 	 * @param filePath
@@ -25,8 +24,8 @@ public class FileContent {
 	 * @param modificationDate
 	 */
 	public FileContent(String type, String filePath, String text,
-			String fileType, String revisionID,
-			Date creationDate, Date modificationDate) {
+			String fileType, String revisionID, Date creationDate,
+			Date modificationDate) {
 		this.type = type;
 		this.filePath = filePath;
 		this.text = text;
@@ -35,8 +34,8 @@ public class FileContent {
 		this.creationDate = creationDate;
 		this.modificationDate = modificationDate;
 	}
-	
-	private FileContent(){
+
+	private FileContent() {
 	}
 
 	/**
@@ -67,7 +66,6 @@ public class FileContent {
 		return fileType;
 	}
 
-
 	/**
 	 * @return the revisionID
 	 */
@@ -88,6 +86,5 @@ public class FileContent {
 	public Date getModificationDate() {
 		return modificationDate;
 	}
-
 
 }

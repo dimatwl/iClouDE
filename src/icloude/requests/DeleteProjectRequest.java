@@ -1,9 +1,8 @@
 package icloude.requests;
 
 /**
- * @author DimaTWL
- * This class describes 'Delete file' request from protocol.
- *
+ * @author DimaTWL This class describes 'Delete file' request from protocol.
+ * 
  */
 public class DeleteProjectRequest extends BaseRequest {
 	private String projectID;

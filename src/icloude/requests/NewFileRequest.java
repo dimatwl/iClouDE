@@ -1,8 +1,7 @@
 package icloude.requests;
 
 /**
- * @author DimaTWL 
- * This class describes 'New file' request from protocol.
+ * @author DimaTWL This class describes 'New file' request from protocol.
  */
 public class NewFileRequest extends BaseRequest {
 	private String projectID;

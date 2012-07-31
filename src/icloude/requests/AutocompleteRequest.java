@@ -1,20 +1,18 @@
-/**
- * 
- */
 package icloude.requests;
 
 import icloude.contents.FileContent;
 
 /**
- * @author DimaTWL This class describes 'Upload file' request from protocol.
+ * @author DimaTWL This class describes 'Autocomplete' request from protocol.
  * 
  */
-public class UploadFileRequest extends BaseRequest {
+public class AutocompleteRequest extends BaseRequest {
 	private String projectID;
 	private String filePath;
 	private FileContent content;
+	private Long caretPosition;
 
-	private UploadFileRequest() {
+	private AutocompleteRequest() {
 	}
 
 	/**
@@ -36,5 +34,13 @@ public class UploadFileRequest extends BaseRequest {
 	 */
 	public FileContent getContent() {
 		return content;
-	};
+	}
+
+	/**
+	 * @return the caretPosition
+	 */
+	public Long getCaretPosition() {
+		return caretPosition;
+	}
+
 }

@@ -1,7 +1,7 @@
 package icloude.request_handlers;
 
+import icloude.requests.AutocompleteRequest;
 import icloude.requests.BaseRequest;
-import icloude.requests.DownloadProjectListRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
 
@@ -14,14 +14,14 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/downloadprojectlist" URL:
- *         rest/downloadprojectlist Method: GET Required response: Project list
+ * @author DimaTWL Handling all requests on "rest/autocomplete" URL:
+ *         rest/autocomplete Method: GET Required response: Autocomplete
  */
-@Path("/downloadprojectlist")
-public class DownloadProjectListRequestHandler extends BaseRequestHandler {
+@Path("/autocomplete")
+public class AutocompleteRequestHandler extends BaseRequestHandler {
 
 	/**
-	 * This method used to handle all GET request on "rest/downloadprojectlist"
+	 * This method used to handle all GET request on "rest/autocomplete"
 	 * 
 	 * @return the StandartResponse witch will be sent to client
 	 */
@@ -41,7 +41,7 @@ public class DownloadProjectListRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, DownloadProjectListRequest.class);
+		return gson.fromJson(json, AutocompleteRequest.class);
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class DownloadProjectListRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected Boolean requestTypeCheck(String requestType) {
-		return "downloadprojectlist".equals(requestType);
+		return "autocomplete".equals(requestType);
 	}
 
 	/**
@@ -68,6 +68,6 @@ public class DownloadProjectListRequestHandler extends BaseRequestHandler {
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
 		return new StandartResponse(request.getRequestID(), true,
-				"Request 'Download project list' recieved.");
+				"Request 'Autocomplete' recieved.");
 	}
 }

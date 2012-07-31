@@ -3,15 +3,14 @@ package icloude.contents;
 import java.util.Date;
 
 /**
- * @author DimaTWL
- * This class represents "ProjectListEntry" entity from protocol
+ * @author DimaTWL This class represents "ProjectListEntry" entity from protocol
  */
 public class ProjectListEntry {
 	private String ownerID;
 	private String projectID;
 	private Date creationDate;
 	private String projectType;
-	
+
 	/**
 	 * @param ownerID
 	 * @param projectID
@@ -26,5 +25,5 @@ public class ProjectListEntry {
 		this.creationDate = creationDate;
 		this.projectType = projectType;
 	}
-	
+
 }

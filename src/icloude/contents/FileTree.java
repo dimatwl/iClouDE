@@ -7,8 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author DimaTWL
- * This class represents "FileTree" entity from protocol
+ * @author DimaTWL This class represents "FileTree" entity from protocol
  */
 public class FileTree {
 	private String rootName;
@@ -17,7 +16,7 @@ public class FileTree {
 	private Date creationDate;
 	private Date modificationDate;
 	private List<FileTree> children;
-	
+
 	/**
 	 * @param rootName
 	 * @param rootType
@@ -26,9 +25,8 @@ public class FileTree {
 	 * @param modificationDate
 	 * @param children
 	 */
-	public FileTree(String rootName, String rootType,
-			String revisionID, Date creationDate, Date modificationDate, 
-			List<FileTree> children) {
+	public FileTree(String rootName, String rootType, String revisionID,
+			Date creationDate, Date modificationDate, List<FileTree> children) {
 		this.rootName = rootName;
 		this.rootType = rootType;
 		this.revisionID = revisionID;
@@ -50,7 +48,6 @@ public class FileTree {
 	public String getRootType() {
 		return rootType;
 	}
-
 
 	/**
 	 * @return the revisionID

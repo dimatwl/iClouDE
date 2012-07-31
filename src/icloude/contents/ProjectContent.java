@@ -6,8 +6,7 @@ package icloude.contents;
 import java.util.Date;
 
 /**
- * @author DimaTWL
- * This class represents "FileContent" entity from protocol
+ * @author DimaTWL This class represents "FileContent" entity from protocol
  */
 public class ProjectContent {
 	private String ownerID;
@@ -15,7 +14,7 @@ public class ProjectContent {
 	private Date creationDate;
 	private String projectType;
 	private FileTree files;
-	
+
 	/**
 	 * @param ownerID
 	 * @param projectID

@@ -9,13 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author DimaTWL
- *  This class describes 'Project list' response from protocol.
+ * @author DimaTWL This class describes 'Project list' response from protocol.
  */
 public class ProjectListResponse extends BaseResponse {
-	
-	
-	private List<ProjectListEntry> content= new ArrayList<ProjectListEntry>();
+
+	private List<ProjectListEntry> content = new ArrayList<ProjectListEntry>();
 
 	/**
 	 * @param requestID
@@ -27,6 +25,5 @@ public class ProjectListResponse extends BaseResponse {
 		super(requestID, result, description);
 		this.content = content;
 	}
-	
 
 }

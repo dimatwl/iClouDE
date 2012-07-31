@@ -1,33 +1,33 @@
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
-import icloude.requests.DownloadProjectListRequest;
+import icloude.requests.RunProjectRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
 
-import javax.ws.rs.GET;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/downloadprojectlist" URL:
- *         rest/downloadprojectlist Method: GET Required response: Project list
+ * @author DimaTWL Handling all requests on "rest/runproject" URL:
+ *         rest/runproject Method: POST Required response: Standart
  */
-@Path("/downloadprojectlist")
-public class DownloadProjectListRequestHandler extends BaseRequestHandler {
+@Path("/runproject")
+public class RunProjectRequestHandler extends BaseRequestHandler {
 
 	/**
-	 * This method used to handle all GET request on "rest/downloadprojectlist"
+	 * This method used to handle all POST request on "rest/runproject"
 	 * 
 	 * @return the StandartResponse witch will be sent to client
 	 */
-	@GET
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public String post(@QueryParam("json") String json) {
+	public String post(@FormParam("json") String json) {
 		return getResponce(json);
 	}
 
@@ -41,7 +41,7 @@ public class DownloadProjectListRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, DownloadProjectListRequest.class);
+		return gson.fromJson(json, RunProjectRequest.class);
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class DownloadProjectListRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected Boolean requestTypeCheck(String requestType) {
-		return "downloadprojectlist".equals(requestType);
+		return "runproject".equals(requestType);
 	}
 
 	/**
@@ -68,6 +68,7 @@ public class DownloadProjectListRequestHandler extends BaseRequestHandler {
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
 		return new StandartResponse(request.getRequestID(), true,
-				"Request 'Download project list' recieved.");
+				"Request 'Run project' recieved.");
 	}
+
 }
