@@ -7,8 +7,6 @@ package storage;
  */
 public enum StoringType {
 
-	SOURCE_FILE_READER,
-	SOURCE_FILE_WRITER,
 	SOURCE_FILE,
 	EXECUTABLE_FILE,
 	USER

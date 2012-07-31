@@ -2,26 +2,23 @@ package storage.project;
 
 import java.util.Date;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
-import storage.DatabaseObject;
 
 import com.google.appengine.api.datastore.Key;
+
+import storage.DatabaseObject;
 
 @PersistenceCapable
 public class Project extends DatabaseObject {
 
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
-	
-	public Key getKey() {
-		return key;
+	public Project(String name, Date creationTime, Key rootKey) {
+		super(name);
+		this.creationTime = creationTime;
+		this.rootKey = rootKey;
+		this.modificationTime = creationTime;
 	}
-	
+
 	@Persistent
 	private Date creationTime;
 	
@@ -29,27 +26,31 @@ public class Project extends DatabaseObject {
 	private Date modificationTime;
 	
 	@Persistent
-	private ProjectItem root;
-	
-	
-	public ProjectItem getProjectRoot() {
-		return root;
-	}
-	
-	
+	private Key rootKey;
+
 	public Date getCreationTime() {
 		return creationTime;
 	}
-	
+
 	public void setCreationTime(Date creationTime) {
 		this.creationTime = creationTime;
 	}
-	
+
 	public Date getModificationTime() {
 		return modificationTime;
 	}
-	
+
 	public void setModificationTime(Date modificationTime) {
 		this.modificationTime = modificationTime;
 	}
+
+	public Key getRootKey() {
+		return rootKey;
+	}
+
+	public void setRootKey(Key rootKey) {
+		this.rootKey = rootKey;
+	}
+
+	
 }

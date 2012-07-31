@@ -2,50 +2,32 @@ package storage.sourcefile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
+import java.nio.channels.Channels;
 
 import com.google.appengine.api.files.FileReadChannel;
 
-public class SourceFileReader {
-
-	private final BufferedReader reader;
-	private final FileReadChannel readChannel;
+/**
+ * Class for reading source files which are located in database
+ * @author Sergey
+ *
+ */
+public class SourceFileReader extends Reader {
 	
-	SourceFileReader(BufferedReader reader, FileReadChannel readChannel) {
-		this.reader = reader;
+	private final Reader reader;
+	private final FileReadChannel readChannel;
+
+	protected SourceFileReader(FileReadChannel readChannel) {
+		reader = new BufferedReader(Channels.newReader(readChannel, "UTF8"));
 		this.readChannel = readChannel;
 	}
-	
-	/**
-     * Reads a line of text.  A line is considered to be terminated by any one
-     * of a line feed ('\n'), a carriage return ('\r'), or a carriage return
-     * followed immediately by a linefeed.
-     *
-     * @return     A String containing the contents of the line, not including
-     *             any line-termination characters, or null if the end of the
-     *             stream has been reached
-     *
-     * @exception  IOException  If an I/O error occurs
-     */
-	public String getLine() throws IOException {
-		return reader.readLine();
+
+	@Override
+	public int read(char[] cbuf, int off, int len) throws IOException {
+		return reader.read(cbuf, off, len);
 	}
 	
-	/**
-     * Reads a single character.
-     *
-     * @return The character read, as an integer in the range
-     *         0 to 65535 (<tt>0x00-0xffff</tt>), or -1 if the
-     *         end of the stream has been reached
-     * @exception  IOException  If an I/O error occurs
-     */
-	public int read() throws IOException {
-		return reader.read();
-	}
-	
-	/**
-	 * Closes input stream
-	 * @throws IOException If an I/O error occurs
-	 */
+	@Override
 	public void close() throws IOException {
 		reader.close();
 		readChannel.close();

@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import storage.executablefile.ExecutableFileHandler;
-import storage.sourcefile.SourceFileReadingHandler;
-import storage.user.User;
-import storage.user.UserHandler;
+import storage.sourcefile.SourceFileHandler;
 
 
 
@@ -17,11 +15,14 @@ public class Database {
 			new HashMap<StoringType, Handler>();
 	
 	static {
-		handlers.put(StoringType.SOURCE_FILE_READER, new SourceFileReadingHandler());
+		handlers.put(StoringType.SOURCE_FILE, new SourceFileHandler());
 		handlers.put(StoringType.EXECUTABLE_FILE, new ExecutableFileHandler());
-		handlers.put(StoringType.USER, new UserHandler());
 	}
 
+	
+	public static String create(StoringType type, Object... params) throws DatabaseException {
+		return handlers.get(type).create(params);
+	}
 
 	
 	/**
@@ -32,7 +33,7 @@ public class Database {
 	 * @return object of required type according to specified parameters
 	 * @throws DatabaseException if parameters are incorrect
 	 */
-	public static Object get(User user, StoringType type, Object... params) throws DatabaseException {
+	public static Object get(StoringType type, Object... params) throws DatabaseException {
 		return handlers.get(type).get(params);
 	}
 	
@@ -43,7 +44,7 @@ public class Database {
 	 * @param toSave - object which should be saved
 	 * @throws DatabaseException if and error occurs while saving object to database
 	 */
-	public static void save(User user, StoringType type, Object toSave) throws DatabaseException {
+	public static void save(StoringType type, Object toSave) throws DatabaseException {
 		handlers.get(type).save(toSave);
 	}
 	
@@ -55,7 +56,7 @@ public class Database {
 	 * @return list of object of required type according to specified parameters
 	 * @throws DatabaseException if parameters are incorrect
 	 */
-	public static <T> List<T> find(User user, StoringType type,
+	public static <T> List<T> find(StoringType type,
 			Object... params) throws DatabaseException {
 		return null;
 	}

@@ -1,30 +1,39 @@
 package storage.sourcefile;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
-import storage.project.Project;
+import storage.DatabaseException;
 import storage.project.ProjectItem;
 
 import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.files.AppEngineFile;
+import com.google.appengine.api.files.FileReadChannel;
+import com.google.appengine.api.files.FileService;
+import com.google.appengine.api.files.FileServiceFactory;
+import com.google.appengine.api.files.FileWriteChannel;
+import com.google.appengine.api.files.FinalizationException;
+import com.google.appengine.api.files.LockException;
 
 @PersistenceCapable
 public class SourceFile extends ProjectItem {
-	
 
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
-	
-	public Key getKey() {
-		return key;
+	public SourceFile(String name, Key projectKey, Key parentKey,
+			Date creationTime, String language) {
+		super(name, projectKey, parentKey);
+		this.creationTime = creationTime;
+		this.language = language;
+		this.modificationTime = creationTime;
 	}
-	
+
+
 	@Persistent
 	private Date creationTime;
 	
@@ -35,16 +44,9 @@ public class SourceFile extends ProjectItem {
 	private BlobKey content;
 	
 	@Persistent
-	private int revision;
-	
-	@Persistent
 	private String language;
 	
-	@Persistent
-	private Project project;
 	
-	@Persistent
-	private ProjectItem parent;
 	
 	
 	public Date getCreationTime() {
@@ -71,14 +73,6 @@ public class SourceFile extends ProjectItem {
 		this.content = content;
 	}
 	
-	public int getRevision() {
-		return revision;
-	}
-	
-	public void setRevision(int revision) {
-		this.revision = revision;
-	}
-	
 	public String getLanguage() {
 		return language;
 	}
@@ -87,23 +81,75 @@ public class SourceFile extends ProjectItem {
 		this.language = language;
 	}
 	
-	public Project getProject() {
-		return project;
+	
+	public SourceFileWriter openForWriting() throws DatabaseException {
+		if (fileExists()) {
+			clearFile();
+		}
+
+		FileService fileService = FileServiceFactory.getFileService();
+		AppEngineFile file = createNewFile(fileService);
+		FileWriteChannel writeChannel = openWriteChannel(fileService, file);
+		return new SourceFileWriter(writeChannel, file, this);
+	}
+
+	private FileWriteChannel openWriteChannel(FileService fileService, AppEngineFile file)
+			throws DatabaseException {
+		try {
+			FileWriteChannel writeChannel = fileService.openWriteChannel(file, true);
+			return writeChannel;
+		} catch (FileNotFoundException e) {
+			throw new DatabaseException(e.getMessage());
+		} catch (FinalizationException e) {
+			throw new DatabaseException(e.getMessage());
+		} catch (LockException e) {
+			throw new DatabaseException(e.getMessage());
+		} catch (IOException e) {
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	private AppEngineFile createNewFile(FileService fileService)
+			throws DatabaseException {
+		try {
+			AppEngineFile file = fileService.createNewBlobFile("text/plain");
+			return file;
+		} catch (IOException e) {
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	private void clearFile() {
+		BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+		blobstoreService.delete(content);
 	}
 	
-	public void setProject(Project project) {
-		this.project = project;
+	private boolean fileExists() {
+		return content != null;
+	}
+
+	public SourceFileReader openForReading() throws DatabaseException {
+		FileService fileService = FileServiceFactory.getFileService();
+		AppEngineFile file = fileService.getBlobFile(content);
+		FileReadChannel readChannel = openReadChannel(fileService, file);
+		return new SourceFileReader(readChannel);
+	}
+
+
+	private FileReadChannel openReadChannel(FileService fileService, AppEngineFile file)
+			throws DatabaseException {
+		try {
+			FileReadChannel readChannel = fileService.openReadChannel(file, true);
+			return readChannel;
+		} catch (FileNotFoundException e) {
+			throw new DatabaseException(e.getMessage());
+		} catch (FinalizationException e) {
+			throw new DatabaseException(e.getMessage());
+		} catch (LockException e) {
+			throw new DatabaseException(e.getMessage());
+		} catch (IOException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 	
-	public ProjectItem getParent() {
-		return parent;
-	}
-	
-	public void setParent(ProjectItem parent) {
-		this.parent = parent;
-	}
-	
-	public void setKey(Key key) {
-		this.key = key;
-	}
 }

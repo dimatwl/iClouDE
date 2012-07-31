@@ -3,18 +3,40 @@ package icloude.contents;
 import java.util.Date;
 
 /**
- * @author DimaTWL
- * 
+ * @author DimaTWL This class represents "FileContent" entity from protocol
  */
 public class FileContent {
 	private String type;
 	private String filePath;
 	private String text;
 	private String fileType;
-	private String ownerID;
 	private String revisionID;
 	private Date creationDate;
 	private Date modificationDate;
+
+	/**
+	 * @param type
+	 * @param filePath
+	 * @param text
+	 * @param fileType
+	 * @param revisionID
+	 * @param creationDate
+	 * @param modificationDate
+	 */
+	public FileContent(String type, String filePath, String text,
+			String fileType, String revisionID, Date creationDate,
+			Date modificationDate) {
+		this.type = type;
+		this.filePath = filePath;
+		this.text = text;
+		this.fileType = fileType;
+		this.revisionID = revisionID;
+		this.creationDate = creationDate;
+		this.modificationDate = modificationDate;
+	}
+
+	private FileContent() {
+	}
 
 	/**
 	 * @return the type
@@ -45,13 +67,6 @@ public class FileContent {
 	}
 
 	/**
-	 * @return the ownerID
-	 */
-	public String getOwnerID() {
-		return ownerID;
-	}
-
-	/**
 	 * @return the revisionID
 	 */
 	public String getRevisionID() {
@@ -72,27 +87,4 @@ public class FileContent {
 		return modificationDate;
 	}
 
-	/**
-	 * @param type
-	 * @param filePath
-	 * @param text
-	 * @param fileType
-	 * @param ownerID
-	 * @param revisionID
-	 * @param creationDate
-	 * @param modificationDate
-	 */
-	public FileContent(String type, String filePath, String text,
-			String fileType, String ownerID, String revisionID,
-			Date creationDate, Date modificationDate) {
-		super();
-		this.type = type;
-		this.filePath = filePath;
-		this.text = text;
-		this.fileType = fileType;
-		this.ownerID = ownerID;
-		this.revisionID = revisionID;
-		this.creationDate = creationDate;
-		this.modificationDate = modificationDate;
-	}
 }
