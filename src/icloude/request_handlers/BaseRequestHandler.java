@@ -45,19 +45,23 @@ public abstract class BaseRequestHandler {
 	/**
 	 * This method should be called when request received.
 	 * @param json is JSON string from client.
-	 * @return response witch will be sent to client.
+	 * @return response in JSON witch will be sent to client.
 	 */
-	protected final BaseResponse getResult(String json){
-		try{
+	protected final String getResponce(String json){
+		BaseResponse response;
+		if (json == null) {
+			response = new StandartResponse("Error", false, "No 'json' parameter in http request.");
+		} else try {
 			BaseRequest fromJSON = jsonToRequest(json);
 			if (requestTypeCheck(fromJSON.getRequestType())) {
-				return handleRequest(fromJSON);
+				response = handleRequest(fromJSON);
 			} else {
-				return new StandartResponse(fromJSON.getRequestID(), false, "Request type mismatch.");
+				response = new StandartResponse(fromJSON.getRequestID(), false, "Request type mismatch.");
 			}
 		} catch (JsonSyntaxException e) {
-			return new StandartResponse("error", false, "Bad JSON syntax.");
+			response = new StandartResponse("error", false, "Bad JSON syntax.");
 		}
+		return gson.toJson(response);
 	}
 
 }
