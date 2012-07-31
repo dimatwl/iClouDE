@@ -74,7 +74,7 @@ public abstract class BaseRequestHandler {
 				}
 			} catch (JsonSyntaxException e) {
 				response = new StandartResponse("error", false,
-						"Bad JSON syntax.");
+						"Bad JSON syntax." + e.getMessage());
 			}
 		return gson.toJson(response);
 	}
