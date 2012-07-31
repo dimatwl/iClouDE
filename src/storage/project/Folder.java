@@ -10,6 +10,11 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable
 public class Folder extends ProjectItem {
 
+	public Folder(String name, Key projectKey, Key parentKey) {
+		super(name, projectKey, parentKey);
+		// TODO Auto-generated constructor stub
+	}
+
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;

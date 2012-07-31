@@ -6,7 +6,6 @@ import java.util.Map;
 
 import storage.executablefile.ExecutableFileHandler;
 import storage.sourcefile.SourceFileHandler;
-import storage.user.UserHandler;
 
 
 
@@ -18,7 +17,6 @@ public class Database {
 	static {
 		handlers.put(StoringType.SOURCE_FILE, new SourceFileHandler());
 		handlers.put(StoringType.EXECUTABLE_FILE, new ExecutableFileHandler());
-		handlers.put(StoringType.USER, new UserHandler());
 	}
 
 	

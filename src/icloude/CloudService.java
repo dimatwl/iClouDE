@@ -1,6 +1,7 @@
 package icloude;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -36,7 +37,8 @@ public class CloudService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getInfoJSON() throws IOException, DatabaseException {
 		
-		String key = Database.create(StoringType.SOURCE_FILE);
+		String key = Database.create(StoringType.SOURCE_FILE, "FirstFile", "projectKey", "parentKey",
+				new Date(), "Java");
 		System.err.println(key);
 		
 		SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
@@ -51,6 +53,8 @@ public class CloudService {
 		reader.close();
 		
 		System.err.println("get");
+		System.err.println(file.getName());
+		System.err.println(file.getCreationTime());
 		SimpleMessage msg = new SimpleMessage("Hello from GET in JSON.");
 		return gson.toJson(msg);
 	}

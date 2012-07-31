@@ -13,6 +13,7 @@ import storage.project.ProjectItem;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.files.AppEngineFile;
 import com.google.appengine.api.files.FileReadChannel;
 import com.google.appengine.api.files.FileService;
@@ -23,7 +24,16 @@ import com.google.appengine.api.files.LockException;
 
 @PersistenceCapable
 public class SourceFile extends ProjectItem {
-	
+
+	public SourceFile(String name, Key projectKey, Key parentKey,
+			Date creationTime, String language) {
+		super(name, projectKey, parentKey);
+		this.creationTime = creationTime;
+		this.language = language;
+		this.modificationTime = creationTime;
+	}
+
+
 	@Persistent
 	private Date creationTime;
 	
@@ -32,9 +42,6 @@ public class SourceFile extends ProjectItem {
 	
 	@Persistent
 	private BlobKey content;
-	
-	@Persistent
-	private int revision;
 	
 	@Persistent
 	private String language;
@@ -64,14 +71,6 @@ public class SourceFile extends ProjectItem {
 	
 	public void setContent(BlobKey content) {
 		this.content = content;
-	}
-	
-	public int getRevision() {
-		return revision;
-	}
-	
-	public void setRevision(int revision) {
-		this.revision = revision;
 	}
 	
 	public String getLanguage() {

@@ -10,6 +10,10 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable
 public class Package extends ProjectItem {
 
+	public Package(String name, Key projectKey, Key parentKey) {
+		super(name, projectKey, parentKey);
+	}
+
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;

@@ -18,8 +18,18 @@ import com.google.appengine.api.datastore.Key;
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public class ProjectItem extends DatabaseObject {
 	
+	public ProjectItem(String name, Key projectKey, Key parentKey) {
+		super(name);
+		this.projectKey = projectKey;
+		this.parentKey = parentKey;
+	}
+	
+	
 	@Persistent
 	private List<Key> childrenKeys = new ArrayList<Key>();
+	
+	@Persistent
+	private Key projectKey;
 	
 	
 	public List<ProjectItem> getChildren() {
@@ -31,18 +41,27 @@ public class ProjectItem extends DatabaseObject {
 		return children;
 	}
 	
+	public Key getProject() {
+		return projectKey;
+	}
+
+	public void setProject(Key projectKey) {
+		this.projectKey = projectKey;
+	}
+
 	public void addChild(ProjectItem child) {
 		childrenKeys.add(child.getKey());
 	}
 	
 	@Persistent
-	private ProjectItem parent;
+	private Key parentKey;
 	
-	public ProjectItem getParent() {
-		return parent;
+	public Key getParent() {
+		return parentKey;
 	}
 	
-	public void setParent(ProjectItem parent) {
-		this.parent = parent;
+	public void setParent(Key parentKey) {
+		this.parentKey = parentKey;
 	}
+
 }
