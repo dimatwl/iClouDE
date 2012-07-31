@@ -33,14 +33,14 @@ public class NewFileRequestHandler {
 	 */
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public String post(@FormParam("json") String inpJSON) {
+	public String post(@FormParam("json") String json) {
 		StandartResponse responce;
-		if (inpJSON == null) {
+		if (json == null) {
 			responce = new StandartResponse("Error", false,
 					"No 'json' parameter in http request.");
 		} else {
 			try {
-				NewFileRequest fromJSON = gson.fromJson(inpJSON,
+				NewFileRequest fromJSON = gson.fromJson(json,
 						NewFileRequest.class);
 				if (fromJSON.getRequestType().equals("newfile")) {
 					responce = new StandartResponse(fromJSON.getRequestID(),

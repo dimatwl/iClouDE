@@ -33,14 +33,14 @@ public class DeleteFileRequestHandler {
 	 */
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public String post(@FormParam("json") String inpJSON) {
+	public String post(@FormParam("json") String json) {
 		StandartResponse responce;
-		if (inpJSON == null) {
+		if (json == null) {
 			responce = new StandartResponse("Error", false,
 					"No 'json' parameter in http request.");
 		} else {
 			try {
-				DeleteFileRequest fromJSON = gson.fromJson(inpJSON,
+				DeleteFileRequest fromJSON = gson.fromJson(json,
 						DeleteFileRequest.class);
 				if (fromJSON.getRequestType().equals("deletefile")) {
 					responce = new StandartResponse(fromJSON.getRequestID(),

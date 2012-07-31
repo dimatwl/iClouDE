@@ -1,18 +1,15 @@
-/**
- * 
- */
 package icloude.requests;
 
 /**
  * @author DimaTWL
- * This class describes 'Delete file' request from protocol.
+ * This class describes 'Download file' request from protocol.
  *
  */
-public class DeleteFileRequest extends BaseRequest {
+public class DownloadFileRequest extends BaseRequest {
 	private String projectID;
 	private String filePath;
 
-	private DeleteFileRequest() {
+	private DownloadFileRequest() {
 	}
 
 	/**
