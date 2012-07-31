@@ -1,23 +1,16 @@
 package icloude.request_handlers;
 
-import icloude.contents.ProjectListEntry;
+import icloude.requests.BaseRequest;
 import icloude.requests.DownloadProjectListRequest;
-import icloude.responses.ProjectListResponse;
+import icloude.responses.BaseResponse;
+import icloude.responses.StandartResponse;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 /**
@@ -28,8 +21,7 @@ import com.google.gson.JsonSyntaxException;
  * Required response: Project list
  */
 @Path("/downloadprojectlist")
-public class DownloadProjectListRequestHandler {
-	private final static Gson gson = new Gson();
+public class DownloadProjectListRequestHandler extends BaseRequestHandler {
 
 	/**
 	 * This method used to handle all GET request on "rest/downloadprojectlist"
@@ -38,69 +30,37 @@ public class DownloadProjectListRequestHandler {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String get(@QueryParam("json") String json) {
-		ProjectListResponse responce;
-		if (json == null) {
-			responce = new ProjectListResponse("Error", false,
-					"No 'json' parameter in http request.", null);
-		} else {
-			try {
-				DownloadProjectListRequest fromJSON = gson.fromJson(json,
-						DownloadProjectListRequest.class);
-				if (fromJSON.getRequestType().equals("downloadprojectlist")) {
-					List<ProjectListEntry> content = new ArrayList<ProjectListEntry>();
-					content.add(new ProjectListEntry("project1", "user1", new Date(), "java"));
-					content.add(new ProjectListEntry("project2", "user2", new Date(), "C++"));
-					content.add(new ProjectListEntry("project3", "user3", new Date(), "Python"));
-					content.add(new ProjectListEntry("project4", "user4", new Date(), "Haskell"));
-					responce = new ProjectListResponse(fromJSON.getRequestID(),
-							true, "Request 'Download project list' recieved.", content);
-				} else {
-					responce = new ProjectListResponse(
-							fromJSON.getRequestID(),
-							true,
-							"Request type '"
-									+ fromJSON.getRequestType()
-									+ "' not allowed on rest/downloadprojectlist. Use 'downloadprojectlist' request type." , null);
-				}
-			} catch (JsonSyntaxException e) {
-				responce = new ProjectListResponse("Error", false,
-						"Bad JSON syntax.", null);
-			}
-		}
-		return gson.toJson(responce);
+	public String post(@QueryParam("json") String json) {
+		return getResponce(json);
 	}
 
 	/**
-	 * This method used to handle all GET request on "rest/downloadprojectlist"
-	 * 
-	 * @return error message
+	 * Realization of this method expected to convert JSON representation to concrete request object.
+	 * @param json is JSON string from client.
+	 * @return concrete request object.
 	 */
-	@POST
-	@Produces(MediaType.TEXT_PLAIN)
-	public String post() {
-		return new String("POST method is not allowed here.");
+	@Override
+	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException{
+		return gson.fromJson(json, DownloadProjectListRequest.class);
 	}
 	
 	/**
-	 * This method used to handle all PUT request on "rest/downloadprojectlist"
-	 * 
-	 * @return error message
+	 * Realization of this method expected to check if 'requestType' in request is allowed on some address. 
+	 * @param requestType is 'requestType' field from request.
+	 * @return 'true' if request is allowed and 'false' otherwise.
 	 */
-	@PUT
-	@Produces(MediaType.TEXT_PLAIN)
-	public String put() {
-		return new String("PUT method is not allowed here.");
+	@Override
+	protected Boolean requestTypeCheck(String requestType){
+		return "downloadprojectlist".equals(requestType);
 	}
 	
 	/**
-	 * This method used to handle all DELETE request on "rest/downloadprojectlist"
-	 * 
-	 * @return error message
+	 * Realization of this method expected to do all specific staff (save/read DB) and generate some response witch will be sent to client. 
+	 * @param request is concrete request object.
+	 * @return response witch will be sent to client.
 	 */
-	@DELETE
-	@Produces(MediaType.TEXT_PLAIN)
-	public String delete() {
-		return new String("DELETE method is not allowed here.");
+	@Override
+	protected BaseResponse handleRequest(BaseRequest request){
+		return new StandartResponse(request.getRequestID(), true, "Request 'Download project list' recieved.");
 	}
 }
