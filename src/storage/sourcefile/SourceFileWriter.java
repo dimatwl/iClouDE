@@ -2,6 +2,7 @@ package storage.sourcefile;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.nio.channels.Channels;
 
 import storage.DatabaseException;
@@ -11,14 +12,19 @@ import com.google.appengine.api.files.FileService;
 import com.google.appengine.api.files.FileServiceFactory;
 import com.google.appengine.api.files.FileWriteChannel;
 
-public class SourceFileWriter {
+/**
+ * Class for writing files which are located in database
+ * @author Sergey
+ *
+ */
+public class SourceFileWriter extends Writer {
 	
-	private final PrintWriter writer;
+	private final Writer writer;
 	private final AppEngineFile file;
 	private final FileWriteChannel writeChannel;
 	private final SourceFile sourceFile;
 	
-	public SourceFileWriter(FileWriteChannel writeChannel,
+	protected SourceFileWriter(FileWriteChannel writeChannel,
 			AppEngineFile file,	SourceFile sourceFile) {
 		writer = new PrintWriter(Channels.newWriter(writeChannel, "UTF8"));
 		this.file = file;
@@ -26,28 +32,21 @@ public class SourceFileWriter {
 		this.sourceFile = sourceFile;
 	}
 
-	public void print(Object obj) {
-		writer.print(obj);
-	}
-	
-	public void println(Object obj) {
-		writer.println(obj);
-	}
-	
-	public void println() {
-		writer.println();
-	}
-	
-	public void close() throws DatabaseException {
+	@Override
+	public void close() throws IOException {
 		writer.close();
-		try {
-			writeChannel.closeFinally();
-		} catch (IllegalStateException e) {
-			throw new DatabaseException(e.getMessage());
-		} catch (IOException e) {
-			throw new DatabaseException(e.getMessage());
-		}
+		writeChannel.closeFinally();
 		FileService fileService = FileServiceFactory.getFileService();
 		sourceFile.setContent(fileService.getBlobKey(file));
+	}
+
+	@Override
+	public void write(char[] cbuf, int off, int len) throws IOException {
+		writer.write(cbuf, off, len);
+	}
+
+	@Override
+	public void flush() throws IOException {
+		writer.flush();
 	}
 }
