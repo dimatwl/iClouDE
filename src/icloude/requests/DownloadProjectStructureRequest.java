@@ -1,9 +1,20 @@
 package icloude.requests;
 
+/**
+ * @author DimaTWL
+ * This class describes 'Download project structure' request from protocol.
+ *
+ */
 public class DownloadProjectStructureRequest extends BaseRequest {
+	private String projectID;
 
-	public DownloadProjectStructureRequest() {
-		// TODO Auto-generated constructor stub
+	private DownloadProjectStructureRequest() {
 	}
 
+	/**
+	 * @return the projectID
+	 */
+	public String getProjectID() {
+		return projectID;
+	}
 }

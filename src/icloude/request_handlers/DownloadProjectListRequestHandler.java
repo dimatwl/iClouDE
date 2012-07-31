@@ -25,7 +25,7 @@ import com.google.gson.JsonSyntaxException;
  * Handling all requests on "rest/downloadprojectlist" 
  * URL: rest/downloadprojectlist
  * Method: GET
- * Required response: File
+ * Required response: Project list
  */
 @Path("/downloadprojectlist")
 public class DownloadProjectListRequestHandler {

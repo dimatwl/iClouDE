@@ -17,6 +17,7 @@ public class FileResponse extends BaseResponse {
 	 * @param requestID
 	 * @param result
 	 * @param description
+	 * @param content
 	 */
 	public FileResponse(String requestID, Boolean result, String description, FileContent content) {
 		super(requestID, result, description);
