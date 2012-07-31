@@ -18,21 +18,18 @@ $(document).ready(function() {
     $('#checkUploadFileBtn').click(function() {
     	
     	var testFileContent = {
-    	    type: "file",
-    	    filePath: "project/sample.start.java",
-    	    text: "some text ya!",
-    	    fileType: "what is filetype?",
-    	    revisionID: "revision ID",
-    	    creationDate: "currDate",
-            modificationDate: "nodificationDate",
-            size: "1000"
+    	    type: 'file',
+    	    filePath: 'project/sample.start.java',
+    	    text: 'some text ya!',
+    	    fileType: 'what is filetype?',
+    	    revisionID: 'revision ID',
+    	    creationDate: 'currDate',
+            modificationDate: 'nodificationDate',
+            size: '1000'
     	};
 		
-    	var jsonMsg = $.toJSON(testFileContent);
-    	
-    	Protocol.uploadFile.request.send(jsonMsg);
-    	
-    	
+    	    	
+    	Protocol.uploadFile.request.send(testFileContent);
     	
     });
     
