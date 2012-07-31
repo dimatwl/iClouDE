@@ -1,5 +1,7 @@
 package icloude;
 
+import java.io.IOException;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -32,18 +34,20 @@ public class CloudService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getInfoJSON() throws DatabaseException {
+	public String getInfoJSON() throws IOException, DatabaseException {
 		
 		String key = Database.create(StoringType.SOURCE_FILE);
 		System.err.println(key);
 		
 		SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
 		SourceFileWriter writer = file.openForWriting();
-		writer.println("hello");
+		writer.write("hello");
 		writer.close();
 		
 		SourceFileReader reader = file.openForReading();
-		System.err.println(reader.readLine());
+		char[] cbuf = new char[4];
+		reader.read(cbuf);
+		System.err.println(new String(cbuf));
 		reader.close();
 		
 		System.err.println("get");

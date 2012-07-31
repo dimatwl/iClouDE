@@ -1,5 +1,7 @@
 package storage.sourcefile;
 
+import java.io.IOException;
+
 import javax.jdo.PersistenceManager;
 
 import storage.DatabaseException;
@@ -36,7 +38,11 @@ public class SourceFileHandler implements Handler {
 		pm.makePersistent(sourceFile);
 		pm.close();
 		SourceFileWriter writer = sourceFile.openForWriting();
-		writer.close();
+		try {
+			writer.close();
+		} catch (IOException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 		
 		return KeyFactory.keyToString(sourceFile.getKey());
 	}
