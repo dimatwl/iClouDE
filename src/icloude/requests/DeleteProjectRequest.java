@@ -5,11 +5,10 @@ package icloude.requests;
  * This class describes 'Delete file' request from protocol.
  *
  */
-public class DeleteFileRequest extends BaseRequest {
+public class DeleteProjectRequest extends BaseRequest {
 	private String projectID;
-	private String filePath;
 
-	private DeleteFileRequest() {
+	private DeleteProjectRequest() {
 	}
 
 	/**
@@ -18,12 +17,4 @@ public class DeleteFileRequest extends BaseRequest {
 	public String getProjectID() {
 		return projectID;
 	}
-
-	/**
-	 * @return the filePath
-	 */
-	public String getFilePath() {
-		return filePath;
-	}
-
 }

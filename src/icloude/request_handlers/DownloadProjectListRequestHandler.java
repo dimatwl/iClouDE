@@ -54,7 +54,7 @@ public class DownloadProjectListRequestHandler {
 					content.add(new ProjectListEntry("project3", "user3", new Date(), "Python"));
 					content.add(new ProjectListEntry("project4", "user4", new Date(), "Haskell"));
 					responce = new ProjectListResponse(fromJSON.getRequestID(),
-							true, "Request 'Download file' recieved.", content);
+							true, "Request 'Download project list' recieved.", content);
 				} else {
 					responce = new ProjectListResponse(
 							fromJSON.getRequestID(),
