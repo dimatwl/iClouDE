@@ -11,7 +11,6 @@ import icloude.contents.FileContent;
  */
 public class UploadFileRequest extends BaseRequest {
 	private String projectID;
-	private String filePath;
 	private FileContent content;
 
 	private UploadFileRequest() {
@@ -24,12 +23,6 @@ public class UploadFileRequest extends BaseRequest {
 		return projectID;
 	}
 
-	/**
-	 * @return the filePath
-	 */
-	public String getFilePath() {
-		return filePath;
-	}
 
 	/**
 	 * @return the content
