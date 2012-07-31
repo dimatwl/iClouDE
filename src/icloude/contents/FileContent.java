@@ -11,8 +11,8 @@ public class FileContent {
 	private String text;
 	private String fileType;
 	private String revisionID;
-	private Date creationDate;
-	private Date modificationDate;
+	private String creationDate; //TODO smth
+	private String modificationDate; //TODO smth
 
 	/**
 	 * @param type
@@ -24,8 +24,8 @@ public class FileContent {
 	 * @param modificationDate
 	 */
 	public FileContent(String type, String filePath, String text,
-			String fileType, String revisionID, Date creationDate,
-			Date modificationDate) {
+			String fileType, String revisionID, String creationDate,
+			String modificationDate) {
 		this.type = type;
 		this.filePath = filePath;
 		this.text = text;
@@ -76,14 +76,14 @@ public class FileContent {
 	/**
 	 * @return the creationDate
 	 */
-	public Date getCreationDate() {
+	public String getCreationDate() {
 		return creationDate;
 	}
 
 	/**
 	 * @return the modificationDate
 	 */
-	public Date getModificationDate() {
+	public String getModificationDate() {
 		return modificationDate;
 	}
 
