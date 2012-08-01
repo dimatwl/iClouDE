@@ -60,6 +60,7 @@ public abstract class BaseRequestHandler {
 	 */
 	protected final String getResponce(String json) {
 		BaseResponse response;
+		System.err.println("From:" + json);
 		if (json == null) {
 			response = new StandartResponse("Error", false,
 					"No 'json' parameter in http request.");
@@ -76,6 +77,7 @@ public abstract class BaseRequestHandler {
 				response = new StandartResponse("error", false,
 						"Bad JSON syntax." + e.getMessage());
 			}
+		System.err.println("To:" + gson.toJson(response));
 		return gson.toJson(response);
 	}
 
