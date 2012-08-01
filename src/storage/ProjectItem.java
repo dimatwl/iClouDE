@@ -40,7 +40,7 @@ public abstract class ProjectItem extends DatabaseObject {
 		return projectKey;
 	}
 
-	public void setProject(String projectKey) {
+	public void setProjectKey(String projectKey) {
 		this.projectKey = projectKey;
 	}
 

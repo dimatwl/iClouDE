@@ -10,7 +10,7 @@ import storage.ProjectItem;
 import com.google.appengine.api.blobstore.BlobKey;
 
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 public class ExecutableFile extends ProjectItem {
 
 	public ExecutableFile(String name, String projectKey, String parentKey,

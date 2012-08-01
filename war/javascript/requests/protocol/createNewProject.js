@@ -14,7 +14,9 @@ var createNewProject = Protocol.createNewProject;
 createNewProject.request = new Request(createNewProject.method, createNewProject.URL, createNewProject.requestType);
 
 createNewProject.request.setResponseHandler(function(resp) {
-	Protocol.checkResponse.call(createNewProject, resp);
+	if (Protocol.checkResponse.call(createNewProject, resp)) {
+		projectID = resp.id;
+	}
 });
 
 

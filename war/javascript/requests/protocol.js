@@ -44,8 +44,10 @@ Protocol.checkResponse = function (response) {
     
     if (info) {
     	alert("response ok!\nresult: " + response.result + "\ndescription: " + response.description);
-    } else
-    	alert("error!" + "\n" + "field not found: " + info[1]);
+    	return true;
+    } 
+    alert("error!" + "\n" + "field not found: " + info[1]);
+    return false;
 }
 
 

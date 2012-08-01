@@ -7,13 +7,12 @@ import javax.jdo.annotations.Persistent;
 
 import storage.ProjectItem;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 public class Project extends ProjectItem {
 
 	public Project(String name, Date creationTime, String type) {
 		super(name, null, null);
 		this.creationTime = creationTime;
-		this.setProject(getKey());
 		this.type = type;
 	}
 
