@@ -78,7 +78,7 @@ public class NewProjectRequestHandler extends BaseRequestHandler {
 		BaseResponse response;
 		try{
 			String key = Database.create(StoringType.PROJECT, ((NewProjectRequest)request).getProjectName(), ((NewProjectRequest)request).getProjectType());
-			response = new IDResponse(request.getRequestID(), true, "Here is your ID. Please do not use it for evil.", key);
+			response = new IDResponse(request.getRequestID(), true, "New project created. Here is your ID. Please do not use it for evil.", key);
 		} catch (DatabaseException e){
 			response = new StandartResponse(request.getRequestID(), false, "DB error. " + e.getMessage());
 		}
