@@ -1,6 +1,7 @@
 var userID = "yarik";
 var projectID;
 
+var currentFileID;
 
 
 
@@ -20,7 +21,7 @@ $(document).ready(function() {
     	
     	var testFileContent = {
     	    type: 'file',
-    	    filePath: 'project/sample.start.java',
+    	    fileID: currentFileID,
     	    text: 'some text ya!',
     	    fileType: 'what is filetype?',
     	    revisionID: 'revision ID',

@@ -14,8 +14,10 @@ var createRequest = Protocol.createNewFile;
 createRequest.request = new Request(createRequest.method, createRequest.URL, createRequest.requestType);
 
 createRequest.request.setResponseHandler(function(resp) {
-	Protocol.checkResponse.call(createRequest, resp);
-
+	if (Protocol.checkResponse.call(createRequest, resp)) {
+        currentFileID = resp.id;
+	}
+	
 });
 
 createRequest.request.send = function (fileName, parentID) {
