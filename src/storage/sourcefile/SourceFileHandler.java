@@ -8,17 +8,26 @@ import javax.jdo.PersistenceManager;
 import storage.DatabaseException;
 import storage.Handler;
 import storage.PMF;
-import storage.project.Project;
-import storage.project.ProjectItem;
-
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 
 public class SourceFileHandler implements Handler {
 
+	/**
+	 * Finds SourceFile with given key.
+	 * There should be 1 parameter: (String key)
+	 */
 	@Override
 	public SourceFile get(Object... params) throws DatabaseException {
-		Key key = KeyFactory.stringToKey((String) params[0]);
+		if (params.length != 1) {
+			throw new DatabaseException("Incorrect number of parameters to get source file." +
+					" There should be 1 parameter of String type - project Key");
+		}
+		
+		if (!(params[0] instanceof String)) {
+			throw new DatabaseException("Incorrect first parameter type to get source file." +
+					" Type of the first parameter should be String.");
+		}
+		
+		String key = (String) params[0];
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		SourceFile sourceFile = pm.getObjectById(SourceFile.class, key);
 		if (sourceFile == null) {
@@ -36,14 +45,13 @@ public class SourceFileHandler implements Handler {
 
 	/**
 	 * Creates new SourceFile object.
-	 * There should be 4 parameters: (String name, Key projectKey, Key parentKey,
-	 * Date creationTime)
+	 * There should be 3 parameters: (String name, Key projectKey, Key parentKey)
 	 */
 	@Override
 	public String create(Object... params) throws DatabaseException {
-		if (params.length != 4) {
+		if (params.length != 3) {
 			throw new DatabaseException("Incorrent number of parameters" +
-					" for creating new file. There should be 4 parameters, but" +
+					" for creating new file. There should be 3 parameters, but" +
 					params.length + " parameters are given");
 		}
 		
@@ -61,22 +69,15 @@ public class SourceFileHandler implements Handler {
 			throw new DatabaseException("Third parameter should be the key of" +
 					" the parent ProjectItem. Its type must be String");
 		}
-		
-		if (!(params[3] instanceof Date)) {
-			throw new DatabaseException("Fourth parameter should be time of" +
-					" creating file. Its type must be Date");
-		}
 			
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		String name = (String)params[0];
-		Key projectKey = KeyFactory.stringToKey((String)params[1]);
-		Key parentKey = null;//KeyFactory.stringToKey((String)params[2]);
-		ProjectItem parent = null;//(ProjectItem)pm.getObjectById(parentKey);
-		Date creationTime = (Date)params[3];
+		String projectKey = (String)params[1];
+		String parentKey = projectKey;
 		
-		SourceFile sourceFile = new SourceFile(name, projectKey, parent,
-				creationTime);
+		SourceFile sourceFile = new SourceFile(name, projectKey, parentKey,
+				new Date());
 		pm.makePersistent(sourceFile);
 		pm.close();
 		SourceFileWriter writer = sourceFile.openForWriting();
@@ -86,7 +87,7 @@ public class SourceFileHandler implements Handler {
 			throw new DatabaseException(e.getMessage());
 		}
 		
-		return KeyFactory.keyToString(sourceFile.getKey());
+		return sourceFile.getKey();
 	}
 
 }

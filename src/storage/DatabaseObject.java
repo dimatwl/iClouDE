@@ -8,8 +8,6 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.appengine.api.datastore.Key;
-
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public class DatabaseObject {
@@ -19,10 +17,10 @@ public class DatabaseObject {
 	}
 
 	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
+	@Persistent(valueStrategy = IdGeneratorStrategy.UUIDSTRING)
+	private String key;
 	
-	public Key getKey() {
+	public String getKey() {
 		return key;
 	}
 	

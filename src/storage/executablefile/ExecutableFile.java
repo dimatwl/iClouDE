@@ -5,18 +5,17 @@ import java.util.Date;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
-import storage.project.ProjectItem;
+import storage.ProjectItem;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Key;
 
 
 @PersistenceCapable
 public class ExecutableFile extends ProjectItem {
 
-	public ExecutableFile(String name, Key projectKey, ProjectItem parent,
+	public ExecutableFile(String name, String projectKey, String parentKey,
 			Date creationTime) {
-		super(name, projectKey, parent);
+		super(name, projectKey, parentKey);
 		this.creationTime = creationTime;
 	}
 

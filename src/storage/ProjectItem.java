@@ -1,4 +1,4 @@
-package storage.project;
+package storage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,43 +9,38 @@ import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
-import storage.DatabaseObject;
-import storage.PMF;
-
-import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class ProjectItem extends DatabaseObject {
 	
-	public ProjectItem(String name, Key projectKey, ProjectItem parent) {
+	public ProjectItem(String name, String projectKey, String parentKey) {
 		super(name);
 		this.projectKey = projectKey;
-		this.parent = parent;
+		this.parentKey = parentKey;
 	}
 	
+	@Persistent
+	private List<String> childrenKeys = new ArrayList<String>();
 	
 	@Persistent
-	private List<Key> childrenKeys = new ArrayList<Key>();
-	
-	@Persistent
-	private Key projectKey;
+	private String projectKey;
 	
 	
 	public List<ProjectItem> getChildren() {
 		List<ProjectItem> children = new ArrayList<ProjectItem>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		for (Key key: childrenKeys) {
+		for (String key: childrenKeys) {
 			children.add((ProjectItem)pm.getObjectById(key));
 		}
 		return children;
 	}
 	
-	public Key getProject() {
+	public String getProject() {
 		return projectKey;
 	}
 
-	public void setProject(Key projectKey) {
+	public void setProject(String projectKey) {
 		this.projectKey = projectKey;
 	}
 
@@ -54,14 +49,14 @@ public abstract class ProjectItem extends DatabaseObject {
 	}
 	
 	@Persistent
-	private ProjectItem parent;
+	private String parentKey;
 	
-	public ProjectItem getParent() {
-		return parent;
+	public String getParent() {
+		return parentKey;
 	}
 	
-	public void setParent(ProjectItem parent) {
-		this.parent = parent;
+	public void setParent(String parentKey) {
+		this.parentKey = parentKey;
 	}
 
 }

@@ -8,12 +8,11 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import storage.DatabaseException;
-import storage.project.ProjectItem;
+import storage.ProjectItem;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.files.AppEngineFile;
 import com.google.appengine.api.files.FileReadChannel;
 import com.google.appengine.api.files.FileService;
@@ -25,9 +24,9 @@ import com.google.appengine.api.files.LockException;
 @PersistenceCapable
 public class SourceFile extends ProjectItem {
 
-	public SourceFile(String name, Key projectKey, ProjectItem parent,
+	public SourceFile(String name, String projectKey, String parentKey,
 			Date creationTime) {
-		super(name, projectKey, parent);
+		super(name, projectKey, parentKey);
 		this.creationTime = creationTime;
 		this.modificationTime = creationTime;
 	}
