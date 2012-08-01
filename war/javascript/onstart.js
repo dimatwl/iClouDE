@@ -1,5 +1,5 @@
-var userID = 1;
-var projectID = 1;
+var userID = "yarik";
+var projectID;
 
 
 
