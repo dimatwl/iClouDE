@@ -33,7 +33,7 @@ Protocol.getRequestID = function() {
 Protocol.correctnessInfo = function (response, responseFields) {
 	for (i = 0; i < responseFields.length; ++i) {
 		if (response[responseFields[i]] == null)
-			return [false, responseField[i]];
+			return [false, responseFields[i]];
 	}
 	return [true, ''];	
 }

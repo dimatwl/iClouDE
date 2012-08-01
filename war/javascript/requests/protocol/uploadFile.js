@@ -9,18 +9,18 @@ Protocol.uploadFile = {
 };
 
 
-var current = Protocol.uploadFile;
+var uploadRequest = Protocol.uploadFile;
 
-current.request = new Request(current.method, current.URL, current.requestID);
+uploadRequest.request = new Request(uploadRequest.method, uploadRequest.URL, uploadRequest.requestType);
 
-current.request.setResponseHandler(function(resp) {
-	Protocol.checkResponse.call(current, resp);
+uploadRequest.request.setResponseHandler(function(resp) {
+	Protocol.checkResponse.call(uploadRequest, resp);
 });
 
-current.request.send = function (content) {
-	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), current.requestType, userID, projectID);
+uploadRequest.request.send = function (content) {
+	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, projectID);
 	
 	info['content'] = content;
     
-    current.request.sendMap(info);    	
+    uploadRequest.request.sendMap(info);    	
 }

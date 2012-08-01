@@ -43,10 +43,12 @@ function sendMap(requestMap) {
 	}
 	
 	
-	if (this.requestMethod == POST) {
-		request['dataType'] = 'json';
-		request['data'] = {json: jsonMsg};
-	} 
+	//if (this.requestMethod == POST) {
+	
+	request['dataType'] = 'json';
+	request['data'] = {json: jsonMsg};
+	
+	//} 
 	    
     $.ajax(request);
 }

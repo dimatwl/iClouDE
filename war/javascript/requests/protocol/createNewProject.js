@@ -9,22 +9,22 @@ Protocol.createNewProject = {
 };
 
 
-var current = Protocol.createNewProject;
+var createNewProject = Protocol.createNewProject;
 
-current.request = new Request(current.method, current.URL, current.requestID);
+createNewProject.request = new Request(createNewProject.method, createNewProject.URL, createNewProject.requestType);
 
-current.request.setResponseHandler(function(resp) {
-	Protocol.checkResponse.call(current, resp);
+createNewProject.request.setResponseHandler(function(resp) {
+	Protocol.checkResponse.call(createNewProject, resp);
 });
 
 
-current.request.send = function (projectName, projectType) {
-	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), current.requestType, userID);
+createNewProject.request.send = function (projectName, projectType) {
+	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID);
 	
 	delete info.projectID;
 	
 	info['projectName'] = projectName;
     info['projectType'] = projectType;
     
-    current.request.sendMap(info);    	
+    createNewProject.request.sendMap(info);    	
 }
