@@ -8,17 +8,17 @@ import java.util.Date;
  */
 public class FileContent {
 	private String type;
-	private String filePath;
+	private String fileID;
 	private String text;
 	private String fileType;
 	private String ownerID;
 	private String revisionID;
-	private Date creationDate;
-	private Date modificationDate;
+	private Long creationDate;
+	private Long modificationDate;
 	
 	/**
 	 * @param type
-	 * @param filePath
+	 * @param fileID
 	 * @param text
 	 * @param fileType
 	 * @param ownerID
@@ -26,12 +26,12 @@ public class FileContent {
 	 * @param creationDate
 	 * @param modificationDate
 	 */
-	public FileContent(String type, String filePath, String text,
+	public FileContent(String type, String fileID, String text,
 			String fileType, String ownerID, String revisionID,
-			Date creationDate, Date modificationDate) {
+			Long creationDate, Long modificationDate) {
 		super();
 		this.type = type;
-		this.filePath = filePath;
+		this.fileID = fileID;
 		this.text = text;
 		this.fileType = fileType;
 		this.ownerID = ownerID;
@@ -51,10 +51,10 @@ public class FileContent {
 	}
 
 	/**
-	 * @return the filePath
+	 * @return the fileID
 	 */
-	public String getFilePath() {
-		return filePath;
+	public String getFileID() {
+		return fileID;
 	}
 
 	/**
@@ -88,14 +88,14 @@ public class FileContent {
 	/**
 	 * @return the creationDate
 	 */
-	public Date getCreationDate() {
+	public Long getCreationDate() {
 		return creationDate;
 	}
 
 	/**
 	 * @return the modificationDate
 	 */
-	public Date getModificationDate() {
+	public Long getModificationDate() {
 		return modificationDate;
 	}
 

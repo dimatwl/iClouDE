@@ -1,33 +1,24 @@
 package icloude.request_handlers;
 
-import icloude.contents.FileContent;
+import icloude.requests.BaseRequest;
 import icloude.requests.DownloadFileRequest;
-import icloude.responses.FileResponse;
+import icloude.responses.BaseResponse;
+import icloude.responses.StandartResponse;
 
-import java.util.Date;
-
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL 
- * Handling all requests on "rest/downloadfile" 
- * URL: rest/downloadfile
- * Method: GET
- * Required response: File
+ * @author DimaTWL Handling all requests on "rest/downloadfile" URL:
+ *         rest/downloadfile Method: GET Required response: File
  */
 @Path("/downloadfile")
-public class DownloadFileRequestHandler {
-	private final static Gson gson = new Gson();
+public class DownloadFileRequestHandler extends BaseRequestHandler {
 
 	/**
 	 * This method used to handle all GET request on "rest/downloadfile"
@@ -36,66 +27,47 @@ public class DownloadFileRequestHandler {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String get(@QueryParam("json") String json) {
-		FileResponse responce;
-		if (json == null) {
-			responce = new FileResponse("Error", false,
-					"No 'json' parameter in http request.", null);
-		} else {
-			try {
-				DownloadFileRequest fromJSON = gson.fromJson(json,
-						DownloadFileRequest.class);
-				if (fromJSON.getRequestType().equals("downloadfile")) {
-					FileContent content = new FileContent("file", fromJSON.getFilePath(), "Hello! I'm text of the file!", "txt", "Vasya Pupkin", "1", new Date(), new Date());
-					responce = new FileResponse(fromJSON.getRequestID(),
-							true, "Request 'Download file' recieved.", content);
-				} else {
-					responce = new FileResponse(
-							fromJSON.getRequestID(),
-							true,
-							"Request type '"
-									+ fromJSON.getRequestType()
-									+ "' not allowed on rest/downloadfile. Use 'downloadfile' request type." , null);
-				}
-			} catch (JsonSyntaxException e) {
-				responce = new FileResponse("Error", false,
-						"Bad JSON syntax.", null);
-			}
-		}
-		return gson.toJson(responce);
+	public String post(@QueryParam("json") String json) {
+		return getResponce(json);
 	}
 
 	/**
-	 * This method used to handle all GET request on "rest/downloadfile"
+	 * Realization of this method expected to convert JSON representation to
+	 * concrete request object.
 	 * 
-	 * @return error message
+	 * @param json
+	 *            is JSON string from client.
+	 * @return concrete request object.
 	 */
-	@POST
-	@Produces(MediaType.TEXT_PLAIN)
-	public String post() {
-		return new String("POST method is not allowed here.");
+	@Override
+	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
+		return gson.fromJson(json, DownloadFileRequest.class);
 	}
-	
+
 	/**
-	 * This method used to handle all PUT request on "rest/downloadfile"
+	 * Realization of this method expected to check if 'requestType' in request
+	 * is allowed on some address.
 	 * 
-	 * @return error message
+	 * @param requestType
+	 *            is 'requestType' field from request.
+	 * @return 'true' if request is allowed and 'false' otherwise.
 	 */
-	@PUT
-	@Produces(MediaType.TEXT_PLAIN)
-	public String put() {
-		return new String("PUT method is not allowed here.");
+	@Override
+	protected Boolean requestTypeCheck(String requestType) {
+		return "downloadfile".equals(requestType);
 	}
-	
+
 	/**
-	 * This method used to handle all DELETE request on "rest/downloadfile"
+	 * Realization of this method expected to do all specific staff (save/read
+	 * DB) and generate some response witch will be sent to client.
 	 * 
-	 * @return error message
+	 * @param request
+	 *            is concrete request object.
+	 * @return response witch will be sent to client.
 	 */
-	@DELETE
-	@Produces(MediaType.TEXT_PLAIN)
-	public String delete() {
-		return new String("DELETE method is not allowed here.");
+	@Override
+	protected BaseResponse handleRequest(BaseRequest request) {
+		return new StandartResponse(request.getRequestID(), true,
+				"Request 'Download file' recieved.");
 	}
 }
-

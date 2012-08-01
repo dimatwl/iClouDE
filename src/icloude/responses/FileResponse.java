@@ -1,24 +1,23 @@
-/**
- * 
- */
 package icloude.responses;
 
 import icloude.contents.FileContent;
 
 /**
- * @author DimaTWL
+ * @author DimaTWL 
  * This class describes 'File' response from protocol.
  */
 public class FileResponse extends BaseResponse {
-	
+
 	private FileContent content;
 
 	/**
 	 * @param requestID
 	 * @param result
 	 * @param description
+	 * @param content
 	 */
-	public FileResponse(String requestID, Boolean result, String description, FileContent content) {
+	public FileResponse(String requestID, Boolean result, String description,
+			FileContent content) {
 		super(requestID, result, description);
 		this.content = content;
 	}

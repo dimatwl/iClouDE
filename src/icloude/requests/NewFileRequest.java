@@ -1,12 +1,12 @@
 package icloude.requests;
 
 /**
- * @author DimaTWL 
- * This class describes 'New file' request from protocol.
+ * @author DimaTWL This class describes 'New file' request from protocol.
  */
 public class NewFileRequest extends BaseRequest {
 	private String projectID;
-	private String filePath;
+	private String parentID;
+	private String fileName;
 	private String fileType;
 
 	private NewFileRequest() {
@@ -20,10 +20,17 @@ public class NewFileRequest extends BaseRequest {
 	}
 
 	/**
-	 * @return the filePath
+	 * @return the parentID
 	 */
-	public String getFilePath() {
-		return filePath;
+	public String getParentID() {
+		return parentID;
+	}
+
+	/**
+	 * @return the fileName
+	 */
+	public String getFileName() {
+		return fileName;
 	}
 
 	/**
@@ -31,5 +38,7 @@ public class NewFileRequest extends BaseRequest {
 	 */
 	public String getFileType() {
 		return fileType;
-	};
+	}
+
+
 }

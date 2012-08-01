@@ -1,93 +1,27 @@
-/**
- * Requests
- */
-const postRequest = "POST";
-const getRequest = "GET";
-
+var Protocol = {};
 
 /**
- * Protocols URL and request types
+ * Responses
  */
-function basicInfo(requestID, userID, pojectID, requestTypeID) {
+Protocol.response = {
+    STANDART: ['requestID', 'result', 'description'],
+    FILE: ['requestID', 'result', 'description', 'content'],
+    PROJECT: ['requestID', 'result', 'description', 'content']
+};
+
+
+Protocol.makeBasicRequestInfo = function (requestID, method, userID, pojectID) {
     return {
     	requestID: requestID,
-        userID: userID,
-    	projectID: projectID,
-    	requestType: requestTypeID
+    	requestType: method,
+    	userID: userID,
+    	projectID: projectID    	
     };	
 }
 
-
-const standartResponse = ['requestID', 'result', 'description'];
-
-
-
-/**
- * New file request
- */
-const newFileURL = "rest/newfile";
-const newFileRequestType = postRequest;
-const newFileRequestID = "newfile";
-
-function newFileRequest(requestID, filePath, fileType) {
-	var newFileInfo = basicInfo(requestID, userID, projectID, newFileRequestID);
-	
-	newFileInfo['filePath'] = filePath;
-    newFileInfo['fileType'] = fileType;
-	
-    return newFileInfo;	
+Protocol.getRequestID = function() {
+	return (new Date()).toString();
 }
-
-
-
-
-
-const newFileResponseFields = standartResponse;
-
-/*
-
-
-function newFileResponseChecker(response) {
-	var correctInfo = correctInfo(response, newFileResponseFields);
-	if (correctInfo[0])
-		return true;
-	alert("New file response not correct!\n" + correctInfo[1]);
-	return false;	
-}
-*/
-
-
-
-
-
-/**
- * Upload file request
- */
-const uploadFileURL = "rest/uploadfile";
-const uploadFileRequestType = postRequest;
-const uploadFileRequestTypeID = "uploadfile";
-
-function uploadFileRequest(requestID, filePath, content) {
-	var uploadFileInfo = basicInfo(requestID, userID, projectID, uploadFileRequestTypeID);
-	
-	uploadFileInfo['filePath'] = filePath;
-    uploadFileInfo['content'] = content;
-	
-    return uploadFileInfo;	
-}
-
-const uploadFileResponseFields = standartResponse;
-
-
-
-
-
-
-
-
-
-
-
 
 
 /**
@@ -96,15 +30,23 @@ const uploadFileResponseFields = standartResponse;
  * @param responseFields
  * @returns {Array} tuple with boolean result and field name which was not found
  */
-function correctInfo(response, responseFields) {
+Protocol.correctnessInfo = function (response, responseFields) {
 	for (i = 0; i < responseFields.length; ++i) {
 		if (response[responseFields[i]] == null)
-			return [false, responseField[i]];
+			return [false, responseFields[i]];
 	}
 	return [true, ''];	
 }
 
 
+Protocol.checkResponse = function (response) {
+    var info = Protocol.correctnessInfo(response, this.responseFields);
+    
+    if (info) {
+    	alert("response ok!\nresult: " + response.result + "\ndescription: " + response.description);
+    } else
+    	alert("error!" + "\n" + "field not found: " + info[1]);
+}
 
 
 

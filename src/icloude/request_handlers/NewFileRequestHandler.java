@@ -1,18 +1,16 @@
 package icloude.request_handlers;
 
+import icloude.requests.BaseRequest;
 import icloude.requests.NewFileRequest;
+import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 /**
@@ -20,11 +18,10 @@ import com.google.gson.JsonSyntaxException;
  * Handling all requests on "rest/newfile" 
  * URL: rest/newfile
  * Method: POST 
- * Required response: Standart
+ * Required response: ID
  */
 @Path("/newfile")
-public class NewFileRequestHandler {
-	private final static Gson gson = new Gson();
+public class NewFileRequestHandler extends BaseRequestHandler {
 
 	/**
 	 * This method used to handle all POST request on "rest/newfile"
@@ -34,88 +31,47 @@ public class NewFileRequestHandler {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public String post(@FormParam("json") String json) {
-		StandartResponse responce;
-		if (json == null) {
-			responce = new StandartResponse("Error", false,
-					"No 'json' parameter in http request.");
-		} else {
-			try {
-				NewFileRequest fromJSON = gson.fromJson(json,
-						NewFileRequest.class);
-				if (fromJSON.getRequestType().equals("newfile")) {
-					responce = new StandartResponse(fromJSON.getRequestID(),
-							true, "Request 'New file' recieved.");
-				} else {
-					responce = new StandartResponse(
-							fromJSON.getRequestID(),
-							true,
-							"Request type '"
-									+ fromJSON.getRequestType()
-									+ "' not allowed on rest/newfile. Use 'newfile' request type.");
-				}
-			} catch (JsonSyntaxException e) {
-				responce = new StandartResponse("Error", false,
-						"Bad JSON syntax.");
-			}
-		}
-		return gson.toJson(responce);
-	}
-	
-	/**
-	 * This method used to handle all GET request on "rest/newfile"
-	 * 
-	 * @return error message
-	 */
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public String get() {
-		return new String("GET method is not allowed here.");
-	}
-	
-	/**
-	 * This method used to handle all PUT request on "rest/newfile"
-	 * 
-	 * @return error message
-	 */
-	@PUT
-	@Produces(MediaType.TEXT_PLAIN)
-	public String put() {
-		return new String("PUT method is not allowed here.");
-	}
-	
-	/**
-	 * This method used to handle all DELETE request on "rest/newfile"
-	 * 
-	 * @return error message
-	 */
-	@DELETE
-	@Produces(MediaType.TEXT_PLAIN)
-	public String delete() {
-		return new String("DELETE method is not allowed here.");
+		return getResponce(json);
 	}
 
+	/**
+	 * Realization of this method expected to convert JSON representation to
+	 * concrete request object.
+	 * 
+	 * @param json
+	 *            is JSON string from client.
+	 * @return concrete request object.
+	 */
+	@Override
+	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
+		return gson.fromJson(json, NewFileRequest.class);
+	}
 
-//	/**
-//	 * This method used to handle all GET request on "rest/newfile"
-//	 * 
-//	 * @return error message
-//	 * @throws DatabaseException 
-//	 * @throws IOException 
-//	 */
-//	@GET
-//	@Produces(MediaType.TEXT_PLAIN)
-//	public String get() throws DatabaseException, IOException {
-//		//OMG I didn't write that code... It look like example for working with database. So I use it in another place. 
-//		//String key = Database.create(StoringType.SOURCE_FILE);
-//		//System.err.println(key);
-//		//
-//		//SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
-//		//PrintWriter writer = file.getWriter();
-//		//writer.println("hello");
-//		//Database.save(StoringType.SOURCE_FILE, file);
-//		//
-//		//BufferedReader reader = file.getReader();
-//		//System.err.println(reader.readLine());
-//		return new String("GET method is not allowed here.");
-//	}
+	/**
+	 * Realization of this method expected to check if 'requestType' in request
+	 * is allowed on some address.
+	 * 
+	 * @param requestType
+	 *            is 'requestType' field from request.
+	 * @return 'true' if request is allowed and 'false' otherwise.
+	 */
+	@Override
+	protected Boolean requestTypeCheck(String requestType) {
+		return "newfile".equals(requestType);
+	}
+
+	/**
+	 * Realization of this method expected to do all specific staff (save/read
+	 * DB) and generate some response witch will be sent to client.
+	 * 
+	 * @param request
+	 *            is concrete request object.
+	 * @return response witch will be sent to client.
+	 */
+	@Override
+	protected BaseResponse handleRequest(BaseRequest request) {
+		return new StandartResponse(request.getRequestID(), true,
+				"Request 'New file' recieved.");
+	}
+
 }
