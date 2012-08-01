@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public class FileContent {
 	private String type;
-	private String filePath;
+	private String fileID;
 	private String text;
 	private String fileType;
 	private String revisionID;
@@ -16,18 +16,18 @@ public class FileContent {
 
 	/**
 	 * @param type
-	 * @param filePath
+	 * @param fileID
 	 * @param text
 	 * @param fileType
 	 * @param revisionID
 	 * @param creationDate
 	 * @param modificationDate
 	 */
-	public FileContent(String type, String filePath, String text,
+	public FileContent(String type, String fileID, String text,
 			String fileType, String revisionID, String creationDate,
 			String modificationDate) {
 		this.type = type;
-		this.filePath = filePath;
+		this.fileID = fileID;
 		this.text = text;
 		this.fileType = fileType;
 		this.revisionID = revisionID;
@@ -46,10 +46,10 @@ public class FileContent {
 	}
 
 	/**
-	 * @return the filePath
+	 * @return the fileID
 	 */
-	public String getFilePath() {
-		return filePath;
+	public String getFileID() {
+		return fileID;
 	}
 
 	/**

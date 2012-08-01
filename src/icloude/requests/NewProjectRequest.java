@@ -4,17 +4,17 @@ package icloude.requests;
  * @author DimaTWL This class describes 'New project' request from protocol.
  */
 public class NewProjectRequest extends BaseRequest {
-	private String projectID;
+	private String projectName;
 	private String projectType;
 
 	private NewProjectRequest() {
 	}
 
 	/**
-	 * @return the projectID
+	 * @return the projectName
 	 */
-	public String getProjectID() {
-		return projectID;
+	public String getProjectName() {
+		return projectName;
 	}
 
 	/**

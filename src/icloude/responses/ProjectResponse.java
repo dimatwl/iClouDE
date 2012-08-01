@@ -7,6 +7,7 @@ import icloude.contents.ProjectContent;
 
 /**
  * @author DimaTWL
+ * This class describes 'Project' response from protocol.
  * 
  */
 public class ProjectResponse extends BaseResponse {

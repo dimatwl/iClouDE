@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author DimaTWL This class describes 'Project list' response from protocol.
+ * @author DimaTWL 
+ * This class describes 'Project list' response from protocol.
  */
 public class ProjectListResponse extends BaseResponse {
 

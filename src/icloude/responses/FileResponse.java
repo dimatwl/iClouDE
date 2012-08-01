@@ -3,7 +3,8 @@ package icloude.responses;
 import icloude.contents.FileContent;
 
 /**
- * @author DimaTWL This class describes 'File' response from protocol.
+ * @author DimaTWL 
+ * This class describes 'File' response from protocol.
  */
 public class FileResponse extends BaseResponse {
 

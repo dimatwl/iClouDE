@@ -7,7 +7,7 @@ package icloude.requests;
  */
 public class ChangeFileTypeRequest extends BaseRequest {
 	private String projectID;
-	private String filePath;
+	private String fileID;
 	private String newFileType;
 
 	private ChangeFileTypeRequest() {
@@ -21,10 +21,10 @@ public class ChangeFileTypeRequest extends BaseRequest {
 	}
 
 	/**
-	 * @return the filePath
+	 * @return the fileID
 	 */
-	public String getFilePath() {
-		return filePath;
+	public String getFileID() {
+		return fileID;
 	}
 
 	/**

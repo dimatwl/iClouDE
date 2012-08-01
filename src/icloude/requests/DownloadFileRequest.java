@@ -6,7 +6,7 @@ package icloude.requests;
  */
 public class DownloadFileRequest extends BaseRequest {
 	private String projectID;
-	private String filePath;
+	private String fileID;
 
 	private DownloadFileRequest() {
 	}
@@ -19,10 +19,10 @@ public class DownloadFileRequest extends BaseRequest {
 	}
 
 	/**
-	 * @return the filePath
+	 * @return the fileID
 	 */
-	public String getFilePath() {
-		return filePath;
+	public String getFileID() {
+		return fileID;
 	}
 
 }

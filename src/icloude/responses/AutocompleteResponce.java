@@ -5,7 +5,8 @@ import icloude.contents.Choise;
 import java.util.List;
 
 /**
- * @author DimaTWL This class describes 'Autocomplete' response from protocol.
+ * @author DimaTWL 
+ * This class describes 'Autocomplete' response from protocol.
  */
 public class AutocompleteResponce extends BaseResponse {
 

@@ -6,7 +6,7 @@ package icloude.requests;
  */
 public class RunProjectRequest extends BaseRequest {
 	private String projectID;
-	private String entryPointPath;
+	private String entryPointID;
 	private String inputData;
 
 	private RunProjectRequest() {
@@ -20,10 +20,10 @@ public class RunProjectRequest extends BaseRequest {
 	}
 
 	/**
-	 * @return the entryPointPath
+	 * @return the entryPointID
 	 */
-	public String getEntryPointPath() {
-		return entryPointPath;
+	public String getEntryPointID() {
+		return entryPointID;
 	}
 
 	/**

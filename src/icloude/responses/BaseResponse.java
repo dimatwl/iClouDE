@@ -4,7 +4,8 @@
 package icloude.responses;
 
 /**
- * @author DimaTWL This class describes general part of response from protocol.
+ * @author DimaTWL 
+ * This class describes general part of response from protocol.
  */
 public class BaseResponse {
 	private String requestID;
