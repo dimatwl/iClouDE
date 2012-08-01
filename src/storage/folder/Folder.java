@@ -4,7 +4,7 @@ import javax.jdo.annotations.PersistenceCapable;
 
 import storage.ProjectItem;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 public class Folder extends ProjectItem {
 
 	public Folder(String name, String projectKey, String parentKey) {

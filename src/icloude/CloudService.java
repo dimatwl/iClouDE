@@ -1,7 +1,6 @@
 package icloude;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -13,9 +12,6 @@ import javax.ws.rs.core.MediaType;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
-import storage.sourcefile.SourceFile;
-import storage.sourcefile.SourceFileReader;
-import storage.sourcefile.SourceFileWriter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -56,8 +52,8 @@ public class CloudService {
 //		System.err.println(file.getName());
 //		System.err.println(file.getCreationTime());
 		
-		String projectKey = Database.create(StoringType.PROJECT, "Project", new Date(), "Java");
-		String fileKey = Database.create(StoringType.SOURCE_FILE, "File", projectKey, "parentKey", new Date());
+		String projectKey = Database.create(StoringType.PROJECT, "Project", "Java");
+		String fileKey = Database.create(StoringType.SOURCE_FILE, "File", projectKey, "parentKey");
 		
 		
 		Database.get(StoringType.PROJECT, projectKey);

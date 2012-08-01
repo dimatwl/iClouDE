@@ -1,7 +1,10 @@
 package storage.project;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -45,6 +48,7 @@ public class ProjectHandler implements Handler {
 		
 		Project project = new Project(name, new Date(), type);
 		pm.makePersistent(project);
+		project.setProjectKey(project.getKey());
 		pm.close();
 		
 		return project.getKey();
@@ -53,9 +57,10 @@ public class ProjectHandler implements Handler {
 	/**
 	 * Finds Project with given key.
 	 * There should be 1 parameter: (String key)
+	 * @return map of all project items
 	 */
 	@Override
-	public Project get(Object... params) throws DatabaseException {
+	public Map<String, ProjectItem> get(Object... params) throws DatabaseException {
 		if (params.length != 1) {
 			throw new DatabaseException("Incorrect number of parameters to get project." +
 					" There should be 1 parameter of String type - project Key");
@@ -67,16 +72,19 @@ public class ProjectHandler implements Handler {
 		}
 		
 		String projectKey = (String) params[0];
-		List<ProjectItem> result = getObjectsOfType(projectKey, SourceFile.class);
+		List<ProjectItem> result = new ArrayList<ProjectItem>();
+		result.addAll(getObjectsOfType(projectKey, SourceFile.class));
 		result.addAll(getObjectsOfType(projectKey, Folder.class));
 		result.addAll(getObjectsOfType(projectKey, Package.class));
+		result.addAll(getObjectsOfType(projectKey, Project.class));
 		
+		
+		Map<String, ProjectItem> map = new HashMap<String, ProjectItem>();
 		for (ProjectItem pi: result) {
+			map.put(pi.getKey(), pi);
 			System.err.println(pi.getName());
 		}
-		
-		
-		return null;
+		return map;
 	}
 	
 	private List<ProjectItem> getObjectsOfType(String projectKey, Class<?> type) {
@@ -87,7 +95,7 @@ public class ProjectHandler implements Handler {
 		q.declareParameters("String key");
 		
 		@SuppressWarnings("unchecked")
-		List<ProjectItem> result = (List<ProjectItem>)q.execute(projectKey);
+		List<ProjectItem> result = new ArrayList<ProjectItem>((List<ProjectItem>)q.execute(projectKey));
 		
 		pm.close();
 		return result;

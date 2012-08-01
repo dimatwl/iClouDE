@@ -1,5 +1,7 @@
 package storage;
 
+import storage.folder.Folder;
+
 /**
  * Interface for handlind common database operations
  * with any supported types
