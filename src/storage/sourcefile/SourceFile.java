@@ -21,7 +21,7 @@ import com.google.appengine.api.files.FileWriteChannel;
 import com.google.appengine.api.files.FinalizationException;
 import com.google.appengine.api.files.LockException;
 
-@PersistenceCapable(detachable="true")
+@PersistenceCapable(detachable = "true")
 public class SourceFile extends ProjectItem {
 
 	public SourceFile(String name, String projectKey, String parentKey,
@@ -32,13 +32,13 @@ public class SourceFile extends ProjectItem {
 	}
 
 
-	@Persistent
+	@Persistent(defaultFetchGroup = "true")
 	private Date creationTime;
 	
 	@Persistent
 	private Date modificationTime;
 	
-	@Persistent
+	@Persistent(defaultFetchGroup = "true")
 	private BlobKey content;
 	
 	

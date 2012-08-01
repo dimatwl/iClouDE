@@ -5,6 +5,10 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.nio.channels.Channels;
 
+import javax.jdo.PersistenceManager;
+
+import storage.PMF;
+
 import com.google.appengine.api.files.AppEngineFile;
 import com.google.appengine.api.files.FileService;
 import com.google.appengine.api.files.FileServiceFactory;
@@ -36,6 +40,13 @@ public class SourceFileWriter extends Writer {
 		writeChannel.closeFinally();
 		FileService fileService = FileServiceFactory.getFileService();
 		sourceFile.setContent(fileService.getBlobKey(file));
+		System.err.println("Content = " + sourceFile.getContent());
+		
+//		sourceFile.setProjectKey("new key");
+//		PersistenceManager pm = PMF.get().getPersistenceManager();
+//		SourceFile tmp = pm.makePersistent(sourceFile);
+//		pm.makePersistent(tmp);
+//		pm.close();
 	}
 
 	@Override

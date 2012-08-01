@@ -1,7 +1,9 @@
 package icloude;
 
 import java.io.IOException;
+import java.util.Date;
 
+import javax.jdo.PersistenceManager;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -9,9 +11,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+
 import storage.Database;
 import storage.DatabaseException;
+import storage.PMF;
 import storage.StoringType;
+import storage.sourcefile.SourceFile;
+import storage.sourcefile.SourceFileReader;
+import storage.sourcefile.SourceFileWriter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -33,31 +40,30 @@ public class CloudService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getInfoJSON() throws IOException, DatabaseException {
 		
-//		String key = Database.create(StoringType.SOURCE_FILE, "FirstFile", "projectKey", "parentKey",
-//				new Date());
-//		System.err.println(key);
+		String key = Database.create(StoringType.SOURCE_FILE, "FirstFile", "projectKey", "parentKey");
+		System.err.println(key);
+		
+		SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
+		SourceFileWriter writer = file.openForWriting();
+		writer.write("hello");
+		writer.close();
+		Database.save(StoringType.SOURCE_FILE, file);
+		
+		file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
+		SourceFileReader reader = file.openForReading();
+		char[] cbuf = new char[4];
+		reader.read(cbuf);
+		System.err.println(new String(cbuf));
+		reader.close();
+		
+		System.err.println("get");
+		
+//		String projectKey = Database.create(StoringType.PROJECT, "Project", "Java");
+//		String fileKey = Database.create(StoringType.SOURCE_FILE, "newfile", projectKey, "parentKey");
 //		
-//		SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
-//		SourceFileWriter writer = file.openForWriting();
-//		writer.write("hello");
-//		writer.close();
 //		
-//		SourceFileReader reader = file.openForReading();
-//		char[] cbuf = new char[4];
-//		reader.read(cbuf);
-//		System.err.println(new String(cbuf));
-//		reader.close();
+//		Database.get(StoringType.PROJECT, projectKey);
 //		
-//		System.err.println("get");
-//		System.err.println(file.getName());
-//		System.err.println(file.getCreationTime());
-		
-		String projectKey = Database.create(StoringType.PROJECT, "Project", "Java");
-		String fileKey = Database.create(StoringType.SOURCE_FILE, "File", projectKey, "parentKey");
-		
-		
-		Database.get(StoringType.PROJECT, projectKey);
-		
 		SimpleMessage msg = new SimpleMessage("Hello from GET in JSON.");
 		return gson.toJson(msg);
 	}
