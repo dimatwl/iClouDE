@@ -11,8 +11,6 @@ Protocol.createNewFile = {
 
 var createRequest = Protocol.createNewFile;
 
-alert("Create new file " + createRequest.requestType);
-
 createRequest.request = new Request(createRequest.method, createRequest.URL, createRequest.requestType);
 
 createRequest.request.setResponseHandler(function(resp) {
