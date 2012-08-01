@@ -22,7 +22,10 @@
     <script type="text/javascript" src="javascript/requests/protocol/downloadProjectStructure.js"></script>
     <script type="text/javascript" src="javascript/requests/protocol/uploadFile.js"></script>
     
-    
+    <script type="text/javascript" src="javascript/libs/codemirror/codemirror.js"></script>
+    <link rel="stylesheet" href="javascript/libs/codemirror/codemirror.css">
+    <script type="text/javascript" src="javascript/libs/codemirror/clike.js"></script>
+        
     <script type="text/javascript" src="javascript/onstart.js"></script>
     
         
@@ -56,10 +59,11 @@
     
     <table>
         <tr>
-            <td colspan="2"><textarea id="codeArea" cols="40" rows="10"></textarea></td>
+            <td colspan="2"><textarea id="codeArea" name="codeArea" cols="40" rows="10">public AAA { public static main(String[] args) {} }</textarea></td>
             <td valign="top"><div id="status"></div></td>
         </tr>
     </table>
+    
     
     
     
