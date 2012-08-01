@@ -13,8 +13,8 @@ public class FileContent {
 	private String fileType;
 	private String ownerID;
 	private String revisionID;
-	private Date creationDate;
-	private Date modificationDate;
+	private Long creationDate;
+	private Long modificationDate;
 	
 	/**
 	 * @param type
@@ -28,7 +28,7 @@ public class FileContent {
 	 */
 	public FileContent(String type, String fileID, String text,
 			String fileType, String ownerID, String revisionID,
-			Date creationDate, Date modificationDate) {
+			Long creationDate, Long modificationDate) {
 		super();
 		this.type = type;
 		this.fileID = fileID;
@@ -88,14 +88,14 @@ public class FileContent {
 	/**
 	 * @return the creationDate
 	 */
-	public Date getCreationDate() {
+	public Long getCreationDate() {
 		return creationDate;
 	}
 
 	/**
 	 * @return the modificationDate
 	 */
-	public Date getModificationDate() {
+	public Long getModificationDate() {
 		return modificationDate;
 	}
 
