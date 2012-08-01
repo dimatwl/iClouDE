@@ -16,12 +16,12 @@ import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
-public class ProjectItem extends DatabaseObject {
+public abstract class ProjectItem extends DatabaseObject {
 	
-	public ProjectItem(String name, Key projectKey, Key parentKey) {
+	public ProjectItem(String name, Key projectKey, ProjectItem parent) {
 		super(name);
 		this.projectKey = projectKey;
-		this.parentKey = parentKey;
+		this.parent = parent;
 	}
 	
 	
@@ -36,7 +36,7 @@ public class ProjectItem extends DatabaseObject {
 		List<ProjectItem> children = new ArrayList<ProjectItem>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		for (Key key: childrenKeys) {
-			children.add(pm.getObjectById(ProjectItem.class, key));
+			children.add((ProjectItem)pm.getObjectById(key));
 		}
 		return children;
 	}
@@ -54,14 +54,14 @@ public class ProjectItem extends DatabaseObject {
 	}
 	
 	@Persistent
-	private Key parentKey;
+	private ProjectItem parent;
 	
-	public Key getParent() {
-		return parentKey;
+	public ProjectItem getParent() {
+		return parent;
 	}
 	
-	public void setParent(Key parentKey) {
-		this.parentKey = parentKey;
+	public void setParent(ProjectItem parent) {
+		this.parent = parent;
 	}
 
 }

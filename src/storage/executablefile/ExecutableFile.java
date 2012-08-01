@@ -14,9 +14,10 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable
 public class ExecutableFile extends ProjectItem {
 
-	public ExecutableFile(String name, Key projectKey, Key parentKey) {
-		super(name, projectKey, parentKey);
-		// TODO Auto-generated constructor stub
+	public ExecutableFile(String name, Key projectKey, ProjectItem parent,
+			Date creationTime) {
+		super(name, projectKey, parent);
+		this.creationTime = creationTime;
 	}
 
 	private Date creationTime;

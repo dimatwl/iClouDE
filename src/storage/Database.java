@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import storage.executablefile.ExecutableFileHandler;
+import storage.project.ProjectHandler;
 import storage.sourcefile.SourceFileHandler;
 
 
@@ -17,6 +18,7 @@ public class Database {
 	static {
 		handlers.put(StoringType.SOURCE_FILE, new SourceFileHandler());
 		handlers.put(StoringType.EXECUTABLE_FILE, new ExecutableFileHandler());
+		handlers.put(StoringType.PROJECT, new ProjectHandler());
 	}
 
 	

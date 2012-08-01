@@ -37,24 +37,31 @@ public class CloudService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getInfoJSON() throws IOException, DatabaseException {
 		
-		String key = Database.create(StoringType.SOURCE_FILE, "FirstFile", "projectKey", "parentKey",
-				new Date(), "Java");
-		System.err.println(key);
+//		String key = Database.create(StoringType.SOURCE_FILE, "FirstFile", "projectKey", "parentKey",
+//				new Date());
+//		System.err.println(key);
+//		
+//		SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
+//		SourceFileWriter writer = file.openForWriting();
+//		writer.write("hello");
+//		writer.close();
+//		
+//		SourceFileReader reader = file.openForReading();
+//		char[] cbuf = new char[4];
+//		reader.read(cbuf);
+//		System.err.println(new String(cbuf));
+//		reader.close();
+//		
+//		System.err.println("get");
+//		System.err.println(file.getName());
+//		System.err.println(file.getCreationTime());
 		
-		SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
-		SourceFileWriter writer = file.openForWriting();
-		writer.write("hello");
-		writer.close();
+		String projectKey = Database.create(StoringType.PROJECT, "Project", new Date(), "Java");
+		String fileKey = Database.create(StoringType.SOURCE_FILE, "File", projectKey, "parentKey", new Date());
 		
-		SourceFileReader reader = file.openForReading();
-		char[] cbuf = new char[4];
-		reader.read(cbuf);
-		System.err.println(new String(cbuf));
-		reader.close();
 		
-		System.err.println("get");
-		System.err.println(file.getName());
-		System.err.println(file.getCreationTime());
+		Database.get(StoringType.PROJECT, projectKey);
+		
 		SimpleMessage msg = new SimpleMessage("Hello from GET in JSON.");
 		return gson.toJson(msg);
 	}

@@ -25,11 +25,10 @@ import com.google.appengine.api.files.LockException;
 @PersistenceCapable
 public class SourceFile extends ProjectItem {
 
-	public SourceFile(String name, Key projectKey, Key parentKey,
-			Date creationTime, String language) {
-		super(name, projectKey, parentKey);
+	public SourceFile(String name, Key projectKey, ProjectItem parent,
+			Date creationTime) {
+		super(name, projectKey, parent);
 		this.creationTime = creationTime;
-		this.language = language;
 		this.modificationTime = creationTime;
 	}
 
@@ -42,10 +41,6 @@ public class SourceFile extends ProjectItem {
 	
 	@Persistent
 	private BlobKey content;
-	
-	@Persistent
-	private String language;
-	
 	
 	
 	
@@ -72,15 +67,6 @@ public class SourceFile extends ProjectItem {
 	public void setContent(BlobKey content) {
 		this.content = content;
 	}
-	
-	public String getLanguage() {
-		return language;
-	}
-	
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-	
 	
 	public SourceFileWriter openForWriting() throws DatabaseException {
 		if (fileExists()) {

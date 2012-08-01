@@ -8,6 +8,8 @@ import javax.jdo.PersistenceManager;
 import storage.DatabaseException;
 import storage.Handler;
 import storage.PMF;
+import storage.project.Project;
+import storage.project.ProjectItem;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -34,14 +36,14 @@ public class SourceFileHandler implements Handler {
 
 	/**
 	 * Creates new SourceFile object.
-	 * There should be 5 parameters: (String name, Key projectKey, Key parentKey,
-	 * Date creationTime, String language)
+	 * There should be 4 parameters: (String name, Key projectKey, Key parentKey,
+	 * Date creationTime)
 	 */
 	@Override
 	public String create(Object... params) throws DatabaseException {
-		if (params.length != 5) {
+		if (params.length != 4) {
 			throw new DatabaseException("Incorrent number of parameters" +
-					" for creating new file. There should be 5 parameters, but" +
+					" for creating new file. There should be 4 parameters, but" +
 					params.length + " parameters are given");
 		}
 		
@@ -64,21 +66,17 @@ public class SourceFileHandler implements Handler {
 			throw new DatabaseException("Fourth parameter should be time of" +
 					" creating file. Its type must be Date");
 		}
-		
-		if (!(params[4] instanceof String)) {
-			throw new DatabaseException("Fifth parameter should be the language." +
-					" Its type must be String");
-		}
 			
-		String name = (String)params[0];
-		Key projectKey = null;//KeyFactory.stringToKey((String)params[1]);
-		Key parentKey = null;//KeyFactory.stringToKey((String)params[2]);
-		Date creationTime = (Date)params[3];
-		String language = (String)params[4];
-		
-		SourceFile sourceFile = new SourceFile(name, projectKey, parentKey,
-				creationTime, language);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		String name = (String)params[0];
+		Key projectKey = KeyFactory.stringToKey((String)params[1]);
+		Key parentKey = null;//KeyFactory.stringToKey((String)params[2]);
+		ProjectItem parent = null;//(ProjectItem)pm.getObjectById(parentKey);
+		Date creationTime = (Date)params[3];
+		
+		SourceFile sourceFile = new SourceFile(name, projectKey, parent,
+				creationTime);
 		pm.makePersistent(sourceFile);
 		pm.close();
 		SourceFileWriter writer = sourceFile.openForWriting();

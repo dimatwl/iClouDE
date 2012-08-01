@@ -5,18 +5,14 @@ import java.util.Date;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
-import com.google.appengine.api.datastore.Key;
-
-import storage.DatabaseObject;
-
 @PersistenceCapable
-public class Project extends DatabaseObject {
+public class Project extends ProjectItem {
 
-	public Project(String name, Date creationTime, Key rootKey) {
-		super(name);
+	public Project(String name, Date creationTime, String type) {
+		super(name, null, null);
 		this.creationTime = creationTime;
-		this.rootKey = rootKey;
-		this.modificationTime = creationTime;
+		this.setProject(getKey());
+		this.type = type;
 	}
 
 	@Persistent
@@ -26,7 +22,16 @@ public class Project extends DatabaseObject {
 	private Date modificationTime;
 	
 	@Persistent
-	private Key rootKey;
+	private String type;
+	
+
+	public String getProjectType() {
+		return type;
+	}
+
+	public void setProjectType(String projectType) {
+		this.type = projectType;
+	}
 
 	public Date getCreationTime() {
 		return creationTime;
@@ -44,13 +49,4 @@ public class Project extends DatabaseObject {
 		this.modificationTime = modificationTime;
 	}
 
-	public Key getRootKey() {
-		return rootKey;
-	}
-
-	public void setRootKey(Key rootKey) {
-		this.rootKey = rootKey;
-	}
-
-	
 }

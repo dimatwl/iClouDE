@@ -5,8 +5,6 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.nio.channels.Channels;
 
-import storage.DatabaseException;
-
 import com.google.appengine.api.files.AppEngineFile;
 import com.google.appengine.api.files.FileService;
 import com.google.appengine.api.files.FileServiceFactory;
