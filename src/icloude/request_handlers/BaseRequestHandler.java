@@ -60,6 +60,7 @@ public abstract class BaseRequestHandler {
 	 */
 	protected final String getResponce(String json) {
 		BaseResponse response;
+		System.err.println(json);
 		if (json == null) {
 			response = new StandartResponse("Error", false,
 					"No 'json' parameter in http request.");
