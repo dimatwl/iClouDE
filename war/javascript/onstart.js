@@ -12,8 +12,8 @@ $(document).ready(function() {
 	
 	
 	$('#CreateNewFileBtn').click(function() {
-		var filePath = prompt('Enter path: ', '');
-		Protocol.createNewFile.request.send(filePath, "file type");
+		var fileName = prompt('Enter name: ', '');
+		Protocol.createNewFile.request.send(fileName);
     });
     
     $('#SaveFileBtn').click(function() {
