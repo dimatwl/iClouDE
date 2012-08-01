@@ -14,8 +14,11 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/newfile" URL: rest/newfile
- *         Method: POST Required response: Standart
+ * @author DimaTWL 
+ * Handling all requests on "rest/newfile" 
+ * URL: rest/newfile
+ * Method: POST 
+ * Required response: ID
  */
 @Path("/newfile")
 public class NewFileRequestHandler extends BaseRequestHandler {
