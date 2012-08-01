@@ -16,6 +16,13 @@
     <script type="text/javascript" src="javascript/requests/Request.js"></script>
     <script type="text/javascript" src="javascript/requests/protocol.js"></script>
     
+    <script type="text/javascript" src="javascript/requests/protocol/createNewFile.js"></script>
+    <script type="text/javascript" src="javascript/requests/protocol/createNewProject.js"></script>
+    <script type="text/javascript" src="javascript/requests/protocol/downloadFile.js"></script>
+    <script type="text/javascript" src="javascript/requests/protocol/downloadProjectStructure.js"></script>
+    <script type="text/javascript" src="javascript/requests/protocol/uploadFile.js"></script>
+    
+    
     <script type="text/javascript" src="javascript/onstart.js"></script>
   </head>
 
@@ -31,9 +38,16 @@
       </tr>
     </table>
     
-    <input id="getBtn" type="button" value="get">
-    <input id="postBtn" type="button" value="post">
-    <input id="repeatBtn" type="button" value="repeat">
+    <input id="CreateNewProjectBtn" type="button" value="CreateNewProject">
+    <input id="CreateNewFileBtn" type="button" value="CreateNewFile">
+    <input id="SaveFileBtn" type="button" value="SaveFile">
+    
+    </br></br><input id="DownloadProjectStructureBtn" type="button" value="DownloadProjectStructure">
+    <input id="DownloadFileBtn" type="button" value="DownloadFile">
+    
+    
+    
+    
     
     <br/>
     
@@ -41,8 +55,6 @@
     <input id="sendBtn" type="button" value="send">
     <div id="status"></div>
     
-    <input id="checkNewFileBtn" type="button" value="new file res check!"></br>
-    <input id="checkUploadFileBtn" type="button" value="upload file res check!"></br>
     
     
   </body>

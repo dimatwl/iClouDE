@@ -9,13 +9,13 @@ var projectID = 1;
 $(document).ready(function() {
     
 	
-	$('#checkNewFileBtn').click(function() {
+	$('#CreateNewFileBtn').click(function() {
     	//createNewFileRequest.setResponseHandler(function() {alert("ok!");});
 		Protocol.createNewFile.request.send("project/sample/start.java", "ok!");
 
     });
     
-    $('#checkUploadFileBtn').click(function() {
+    $('#SaveFileBtn').click(function() {
     	
     	var testFileContent = {
     	    type: 'file',
@@ -23,8 +23,8 @@ $(document).ready(function() {
     	    text: 'some text ya!',
     	    fileType: 'what is filetype?',
     	    revisionID: 'revision ID',
-    	    creationDate: 'currDate',
-            modificationDate: 'nodificationDate',
+    	    creationDate: (new Date()).getTime(),
+            modificationDate: (new Date()).getTime(),
             size: '1000'
     	};
 		
@@ -32,6 +32,11 @@ $(document).ready(function() {
     	Protocol.uploadFile.request.send(testFileContent);
     	
     });
+    
+    
+    
+    
+    
     
     
 });
