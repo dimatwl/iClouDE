@@ -22,7 +22,7 @@ $(document).ready(function() {
     	var testFileContent = {
     	    type: 'file',
     	    fileID: currentFileID,
-    	    text: 'some text ya!',
+    	    text: $('#codeArea').val(),
     	    fileType: 'what is filetype?',
     	    revisionID: 'revision ID',
     	    creationDate: (new Date()).getTime(),
@@ -30,7 +30,6 @@ $(document).ready(function() {
             size: '1000'
     	};
 		
-    	    	
     	Protocol.uploadFile.request.send(testFileContent);
     	
     });
