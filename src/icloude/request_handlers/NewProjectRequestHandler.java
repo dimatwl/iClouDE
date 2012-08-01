@@ -3,6 +3,7 @@ package icloude.request_handlers;
 import icloude.requests.BaseRequest;
 import icloude.requests.NewProjectRequest;
 import icloude.responses.BaseResponse;
+import icloude.responses.IDResponse;
 import icloude.responses.StandartResponse;
 
 import javax.ws.rs.FormParam;
@@ -10,6 +11,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import storage.Database;
+import storage.DatabaseException;
+import storage.StoringType;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -70,8 +75,14 @@ public class NewProjectRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
-		return new StandartResponse(request.getRequestID(), true,
-				"Request 'New project' recieved.");
+		BaseResponse response;
+		try{
+			String key = Database.create(StoringType.PROJECT, ((NewProjectRequest)request).getProjectName(), ((NewProjectRequest)request).getProjectType());
+			response = new IDResponse(request.getRequestID(), true, "New project created. Here is your ID. Please do not use it for evil.", key);
+		} catch (DatabaseException e){
+			response = new StandartResponse(request.getRequestID(), false, "DB error. " + e.getMessage());
+		}
+		return response;
 	}
 
 }

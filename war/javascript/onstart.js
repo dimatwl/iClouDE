@@ -8,10 +8,12 @@ var projectID = 1;
 
 $(document).ready(function() {
     
+
+	
 	
 	$('#CreateNewFileBtn').click(function() {
-    	Protocol.createNewFile.request.send("project/sample/start.java", "ok!");
-
+		var filePath = prompt('Enter path: ', '');
+		Protocol.createNewFile.request.send(filePath, "file type");
     });
     
     $('#SaveFileBtn').click(function() {
@@ -34,15 +36,18 @@ $(document).ready(function() {
     
     
     $('#CreateNewProjectBtn').click(function() {
-    	Protocol.createNewProject.request.send("myProject1", "web-appl");    	
+    	var projectName = prompt('Enter project name', '');
+    	Protocol.createNewProject.request.send(projectName, "web-appl");    	
     });
     
     $('#DownloadProjectStructureBtn').click(function() {
-    	Protocol.downloadProjectStructure.request.send("some id");    	
+    	var projectID = prompt('Enter project ID: ');
+    	Protocol.downloadProjectStructure.request.send(projectID);    	
     });
     
     $('#DownloadFileBtn').click(function() {
-    	Protocol.downloadFile.request.send("/home/yarik/bla-bla");    	
+    	var filePath = prompt ('Enter file path to download');
+    	Protocol.downloadFile.request.send(filePath);
     });
     
     

@@ -15,13 +15,17 @@ createRequest.request = new Request(createRequest.method, createRequest.URL, cre
 
 createRequest.request.setResponseHandler(function(resp) {
 	Protocol.checkResponse.call(createRequest, resp);
+
 });
 
-createRequest.request.send = function (filePath, fileType) {
+createRequest.request.send = function (fileName, parentID) {
 	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, projectID);
 	
-    info['filePath'] = filePath;
-    info['fileType'] = fileType;
+	if (parentID == null)
+		parentID = projectID;
+	
+    info['parentID'] = parentID;
+    info['fileName'] = fileName;
     
     createRequest.request.sendMap(info);    	
 }
