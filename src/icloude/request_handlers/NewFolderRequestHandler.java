@@ -1,7 +1,7 @@
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
-import icloude.requests.NewFileRequest;
+import icloude.requests.NewFolderRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
 
@@ -15,16 +15,16 @@ import com.google.gson.JsonSyntaxException;
 
 /**
  * @author DimaTWL 
- * Handling all requests on "rest/newfile" 
- * URL: rest/newfile
+ * Handling all requests on "rest/newfolder" 
+ * URL: rest/newfolder
  * Method: POST 
  * Required response: ID
  */
-@Path("/newfile")
-public class NewFileRequestHandler extends BaseRequestHandler {
+@Path("/newfolder")
+public class NewFolderRequestHandler extends BaseRequestHandler {
 
 	/**
-	 * This method used to handle all POST request on "rest/newfile"
+	 * This method used to handle all POST request on "rest/newfolder"
 	 * 
 	 * @return the StandartResponse witch will be sent to client
 	 */
@@ -44,7 +44,7 @@ public class NewFileRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, NewFileRequest.class);
+		return gson.fromJson(json, NewFolderRequest.class);
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class NewFileRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected Boolean requestTypeCheck(String requestType) {
-		return "newfile".equals(requestType);
+		return "newfolder".equals(requestType);
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class NewFileRequestHandler extends BaseRequestHandler {
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
 		return new StandartResponse(request.getRequestID(), true,
-				"Request 'New file' recieved.");
+				"Request 'New folder' recieved.");
 	}
 
 }
