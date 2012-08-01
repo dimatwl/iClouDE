@@ -1,27 +1,38 @@
-var userID = 1;
-var projectID = 1;
+var userID = "yarik";
+var projectID;
 
+var currentFileID;
 
-
+//var editor = CodeMirror.fromTextArea(document.getElementById("#codeArea"));
 
 
 
 $(document).ready(function() {
     
-
+	var editor = CodeMirror.fromTextArea(document.getElementById("codeArea"), {
+		  mode: "text/x-java",
+		  lineNumbers: true,
+		  lineWrapping: true,
+		  onCursorActivity: function() {
+		    editor.setLineClass(hlLine, null, null);
+		    hlLine = editor.setLineClass(editor.getCursor().line, null, "activeline");
+		  }
+		});
+    
+	var hlLine = editor.setLineClass(0, "activeline");
 	
 	
 	$('#CreateNewFileBtn').click(function() {
-		var filePath = prompt('Enter path: ', '');
-		Protocol.createNewFile.request.send(filePath, "file type");
+		var fileName = prompt('Enter name: ', '');
+		Protocol.createNewFile.request.send(fileName);
     });
     
     $('#SaveFileBtn').click(function() {
     	
     	var testFileContent = {
     	    type: 'file',
-    	    filePath: 'project/sample.start.java',
-    	    text: 'some text ya!',
+    	    fileID: currentFileID,
+    	    text: $('#codeArea').val(),
     	    fileType: 'what is filetype?',
     	    revisionID: 'revision ID',
     	    creationDate: (new Date()).getTime(),
@@ -29,7 +40,6 @@ $(document).ready(function() {
             size: '1000'
     	};
 		
-    	    	
     	Protocol.uploadFile.request.send(testFileContent);
     	
     });
