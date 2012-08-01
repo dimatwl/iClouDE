@@ -78,10 +78,6 @@ public class NewFileRequestHandler extends BaseRequestHandler {
 	protected BaseResponse handleRequest(BaseRequest request) {
 		BaseResponse response;
 		try{
-			System.err.println(((NewFileRequest)request).getFileName());
-			System.err.println(((NewFileRequest)request).getProjectID());
-			System.err.println(((NewFileRequest)request).getParentID());
-			System.err.println(((NewFileRequest)request).getFileType());
 			String key = Database.create(StoringType.SOURCE_FILE, ((NewFileRequest)request).getFileName(), ((NewFileRequest)request).getProjectID(), ((NewFileRequest)request).getParentID());
 			response = new IDResponse(request.getRequestID(), true, "New file created.", key);
 		} catch (DatabaseException e){
