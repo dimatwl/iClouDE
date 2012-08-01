@@ -9,20 +9,20 @@ Protocol.downloadFile = {
 };
 
 
-var current = Protocol.downloadFile;
+var downloadFile = Protocol.downloadFile;
 
-current.request = new Request(current.method, current.URL, current.requestID);
+downloadFile.request = new Request(downloadFile.method, downloadFile.URL, downloadFile.requestType);
 
-current.request.setResponseHandler(function(resp) {
-	Protocol.checkResponse.call(current, resp);
+downloadFile.request.setResponseHandler(function(resp) {
+	Protocol.checkResponse.call(downloadFile, resp);
     
 	alert("i got a file!");
     
 });
 
 
-current.request.send = function (filePath) {
-	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), current.requestType, userID, projectID);
+downloadFile.request.send = function (filePath) {
+	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, projectID);
     info['filePath'] = filePath;
-	current.request.sendMap(info);    	
+	downloadFile.request.sendMap(info);    	
 }

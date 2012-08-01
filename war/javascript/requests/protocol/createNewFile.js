@@ -5,23 +5,25 @@ Protocol.createNewFile = {
     URL: "rest/newfile",
     method: POST,
     requestType: "newfile",
-    responseFields: Protocol.STANDART_RESPONSE
+    responseFields: Protocol.response.STANDART
 };
 
 
-var current = Protocol.createNewFile;
+var createRequest = Protocol.createNewFile;
 
-current.request = new Request(current.method, current.URL, current.requestID);
+alert("Create new file " + createRequest.requestType);
 
-current.request.setResponseHandler(function(resp) {
-	Protocol.checkResponse.call(current, resp);
+createRequest.request = new Request(createRequest.method, createRequest.URL, createRequest.requestType);
+
+createRequest.request.setResponseHandler(function(resp) {
+	Protocol.checkResponse.call(createRequest, resp);
 });
 
-current.request.send = function (filePath, fileType) {
-	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), current.requestType, userID, projectID);
+createRequest.request.send = function (filePath, fileType) {
+	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, projectID);
 	
-	info['filePath'] = filePath;
+    info['filePath'] = filePath;
     info['fileType'] = fileType;
     
-    current.request.sendMap(info);    	
+    createRequest.request.sendMap(info);    	
 }

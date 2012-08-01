@@ -9,19 +9,16 @@ Protocol.downloadProjectStructure = {
 };
 
 
-var current = Protocol.downloadProjectStructure;
+var downloadPS = Protocol.downloadProjectStructure;
 
-current.request = new Request(current.method, current.URL, current.requestID);
+downloadPS.request = new Request(downloadPS.method, downloadPS.URL, downloadPS.requestType);
 
-current.request.setResponseHandler(function(resp) {
-	Protocol.checkResponse.call(current, resp);
-    
-	alert("i got new project!");
-    
+downloadPS.request.setResponseHandler(function(resp) {
+	Protocol.checkResponse.call(downloadPS, resp);
 });
 
 
-current.request.send = function (wantedProjectID) {
-	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), current.requestType, userID, wantedProjectID);
-	current.request.sendMap(info);    	
+downloadPS.request.send = function (wantedProjectID) {
+	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, wantedProjectID);
+	downloadPS.request.sendMap(info);    	
 }
