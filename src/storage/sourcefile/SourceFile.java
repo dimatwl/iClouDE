@@ -32,13 +32,13 @@ public class SourceFile extends ProjectItem {
 	}
 
 
-	@Persistent(defaultFetchGroup = "true")
+	@Persistent
 	private Date creationTime;
 	
 	@Persistent
 	private Date modificationTime;
 	
-	@Persistent(defaultFetchGroup = "true")
+	@Persistent
 	private BlobKey content;
 	
 	

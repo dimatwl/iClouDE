@@ -41,20 +41,20 @@ public class CloudService {
 	public String getInfoJSON() throws IOException, DatabaseException {
 		
 		String key = Database.create(StoringType.SOURCE_FILE, "FirstFile", "projectKey", "parentKey");
-		System.err.println(key);
-		
-		SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
-		SourceFileWriter writer = file.openForWriting();
-		writer.write("hello");
-		writer.close();
-		Database.save(StoringType.SOURCE_FILE, file);
-		
-		file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
-		SourceFileReader reader = file.openForReading();
-		char[] cbuf = new char[4];
-		reader.read(cbuf);
-		System.err.println(new String(cbuf));
-		reader.close();
+//		System.err.println(key);
+//		
+//		SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
+//		SourceFileWriter writer = file.openForWriting();
+//		writer.write("hello");
+//		writer.close();
+//		Database.save(StoringType.SOURCE_FILE, file);
+//		
+//		file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
+//		SourceFileReader reader = file.openForReading();
+//		char[] cbuf = new char[4];
+//		reader.read(cbuf);
+//		System.err.println(new String(cbuf));
+//		reader.close();
 		
 		System.err.println("get");
 		

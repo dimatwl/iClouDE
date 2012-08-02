@@ -9,15 +9,15 @@ import java.util.Map;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import storage.AbstractHandler;
 import storage.DatabaseException;
-import storage.Handler;
 import storage.PMF;
 import storage.ProjectItem;
 import storage.folder.Folder;
 import storage.pack.Package;
 import storage.sourcefile.SourceFile;
 
-public class ProjectHandler implements Handler {
+public class ProjectHandler extends AbstractHandler {
 
 	
 	/**
@@ -60,23 +60,12 @@ public class ProjectHandler implements Handler {
 	 * @return map of all project items
 	 */
 	@Override
-	public Map<String, ProjectItem> get(Object... params) throws DatabaseException {
-		if (params.length != 1) {
-			throw new DatabaseException("Incorrect number of parameters to get project." +
-					" There should be 1 parameter of String type - project Key");
-		}
-		
-		if (!(params[0] instanceof String)) {
-			throw new DatabaseException("Incorrect first parameter type to get project." +
-					" Type of the first parameter should be String.");
-		}
-		
-		String projectKey = (String) params[0];
+	public Map<String, ProjectItem> get(String key) throws DatabaseException {
 		List<ProjectItem> result = new ArrayList<ProjectItem>();
-		result.addAll(getObjectsOfType(projectKey, SourceFile.class));
-		result.addAll(getObjectsOfType(projectKey, Folder.class));
-		result.addAll(getObjectsOfType(projectKey, Package.class));
-		result.addAll(getObjectsOfType(projectKey, Project.class));
+		result.addAll(getObjectsOfType(key, SourceFile.class));
+		result.addAll(getObjectsOfType(key, Folder.class));
+		result.addAll(getObjectsOfType(key, Package.class));
+		result.addAll(getObjectsOfType(key, Project.class));
 		
 		
 		Map<String, ProjectItem> map = new HashMap<String, ProjectItem>();
@@ -102,7 +91,7 @@ public class ProjectHandler implements Handler {
 	}
 
 	@Override
-	public void save(Object toSave) throws DatabaseException {
+	public void delete(String key) throws DatabaseException {
 		// TODO Auto-generated method stub
 		
 	}
