@@ -5,11 +5,12 @@ import java.util.Date;
 
 import javax.jdo.PersistenceManager;
 
+import storage.AbstractHandler;
 import storage.DatabaseException;
 import storage.Handler;
 import storage.PMF;
 
-public class SourceFileHandler implements Handler {
+public class SourceFileHandler extends AbstractHandler {
 
 	/**
 	 * Creates new SourceFile object.
@@ -47,8 +48,10 @@ public class SourceFileHandler implements Handler {
 		SourceFile sourceFile = new SourceFile(name, projectKey, parentKey,
 				new Date());
 		pm.makePersistent(sourceFile);
+		SourceFile tmp = pm.detachCopy(pm.getObjectById(SourceFile.class, sourceFile.getKey()));
 		pm.close();
-		SourceFileWriter writer = sourceFile.openForWriting();
+		
+		SourceFileWriter writer = tmp.openForWriting();
 		try {
 			writer.close();
 		} catch (IOException e) {
@@ -80,15 +83,11 @@ public class SourceFileHandler implements Handler {
 		if (sourceFile == null) {
 			throw new DatabaseException("No such file");
 		}
-		return sourceFile;
-	}
-
-	@Override
-	public void save(Object toSave) throws DatabaseException {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		pm.refresh(toSave);
+		
+		SourceFile result = pm.detachCopy(sourceFile);
 		pm.close();
+		
+		return result;
 	}
-
 
 }
