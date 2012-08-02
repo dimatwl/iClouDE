@@ -1,6 +1,3 @@
-/**
- * 
- */
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;

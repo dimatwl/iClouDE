@@ -19,11 +19,8 @@ import storage.StoringType;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL 
- * Handling all requests on "rest/newfile" 
- * URL: rest/newfile
- * Method: POST 
- * Required response: ID
+ * @author DimaTWL Handling all requests on "rest/newfile" URL: rest/newfile
+ *         Method: POST Required response: ID
  */
 @Path("/newfile")
 public class NewFileRequestHandler extends BaseRequestHandler {
@@ -76,11 +73,16 @@ public class NewFileRequestHandler extends BaseRequestHandler {
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
 		BaseResponse response;
-		try{
-			String key = Database.create(StoringType.SOURCE_FILE, ((NewFileRequest)request).getFileName(), ((NewFileRequest)request).getProjectID(), ((NewFileRequest)request).getParentID());
-			response = new IDResponse(request.getRequestID(), true, "New file created.", key);
-		} catch (DatabaseException e){
-			response = new StandartResponse(request.getRequestID(), false, "DB error. " + e.getMessage());
+		try {
+			String key = Database.create(StoringType.SOURCE_FILE,
+					((NewFileRequest) request).getFileName(),
+					((NewFileRequest) request).getProjectID(),
+					((NewFileRequest) request).getParentID());
+			response = new IDResponse(request.getRequestID(), true,
+					"New file created.", key);
+		} catch (DatabaseException e) {
+			response = new StandartResponse(request.getRequestID(), false,
+					"DB error. " + e.getMessage());
 		}
 		return response;
 	}
