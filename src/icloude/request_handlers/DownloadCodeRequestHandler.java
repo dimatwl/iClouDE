@@ -1,33 +1,38 @@
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
-import icloude.requests.ChangeFileTypeRequest;
+import icloude.requests.DownloadCodeRequest;
+import icloude.requests.DownloadProjectStructureRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/changefiletype" URL:
- *         rest/changefiletype Method: POST Required response: Standart
+ * @author DimaTWL 
+ * Handling all requests on "rest/downloadcode" 
+ * URL: rest/downloadcode 
+ * Method: GET 
+ * Required response: Project
  */
-@Path("/changefiletype")
-public class ChangeFileTypeRequestHandler extends BaseRequestHandler {
+@Path("/downloadcode")
+public class DownloadCodeRequestHandler extends BaseRequestHandler {
 
 	/**
-	 * This method used to handle all POST request on "rest/changefiletype"
+	 * This method used to handle all GET request on
+	 * "rest/downloadcode"
 	 * 
 	 * @return the StandartResponse witch will be sent to client
 	 */
-	@POST
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String post(@FormParam("json") String json) {
+	public String post(@QueryParam("json") String json) {
 		return getResponce(json);
 	}
 
@@ -41,7 +46,7 @@ public class ChangeFileTypeRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return GSON.fromJson(json, ChangeFileTypeRequest.class);
+		return GSON.fromJson(json, DownloadCodeRequest.class);
 	}
 
 	/**
@@ -54,7 +59,7 @@ public class ChangeFileTypeRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected Boolean requestTypeCheck(String requestType) {
-		return "changefiletype".equals(requestType);
+		return "downloadcode".equals(requestType);
 	}
 
 	/**
@@ -68,6 +73,7 @@ public class ChangeFileTypeRequestHandler extends BaseRequestHandler {
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
 		return new StandartResponse(request.getRequestID(), true,
-				"Request 'Change file type' recieved.");
+				"Request 'Download code' recieved.");
 	}
+
 }

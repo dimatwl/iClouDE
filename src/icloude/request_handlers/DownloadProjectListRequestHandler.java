@@ -41,7 +41,7 @@ public class DownloadProjectListRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, DownloadProjectListRequest.class);
+		return GSON.fromJson(json, DownloadProjectListRequest.class);
 	}
 
 	/**

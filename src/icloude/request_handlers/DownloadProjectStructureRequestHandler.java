@@ -1,6 +1,3 @@
-/**
- * 
- */
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
@@ -45,7 +42,7 @@ public class DownloadProjectStructureRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, DownloadProjectStructureRequest.class);
+		return GSON.fromJson(json, DownloadProjectStructureRequest.class);
 	}
 
 	/**

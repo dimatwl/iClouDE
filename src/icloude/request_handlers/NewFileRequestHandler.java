@@ -2,7 +2,6 @@ package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
 import icloude.requests.NewFileRequest;
-import icloude.requests.NewProjectRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.IDResponse;
 import icloude.responses.StandartResponse;
@@ -20,11 +19,8 @@ import storage.StoringType;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL 
- * Handling all requests on "rest/newfile" 
- * URL: rest/newfile
- * Method: POST 
- * Required response: ID
+ * @author DimaTWL Handling all requests on "rest/newfile" URL: rest/newfile
+ *         Method: POST Required response: ID
  */
 @Path("/newfile")
 public class NewFileRequestHandler extends BaseRequestHandler {
@@ -50,7 +46,7 @@ public class NewFileRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, NewFileRequest.class);
+		return GSON.fromJson(json, NewFileRequest.class);
 	}
 
 	/**
@@ -77,11 +73,16 @@ public class NewFileRequestHandler extends BaseRequestHandler {
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
 		BaseResponse response;
-		try{
-			String key = Database.create(StoringType.SOURCE_FILE, ((NewFileRequest)request).getFileName(), ((NewFileRequest)request).getProjectID(), ((NewFileRequest)request).getParentID());
-			response = new IDResponse(request.getRequestID(), true, "New file created.", key);
-		} catch (DatabaseException e){
-			response = new StandartResponse(request.getRequestID(), false, "DB error. " + e.getMessage());
+		try {
+			String key = Database.create(StoringType.SOURCE_FILE,
+					((NewFileRequest) request).getFileName(),
+					((NewFileRequest) request).getProjectID(),
+					((NewFileRequest) request).getParentID());
+			response = new IDResponse(request.getRequestID(), true,
+					"New file created.", key);
+		} catch (DatabaseException e) {
+			response = new StandartResponse(request.getRequestID(), false,
+					"DB error. " + e.getMessage());
 		}
 		return response;
 	}

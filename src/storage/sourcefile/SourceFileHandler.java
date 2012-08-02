@@ -5,11 +5,13 @@ import java.util.Date;
 
 import javax.jdo.PersistenceManager;
 
+import storage.AbstractHandler;
+import storage.Database;
 import storage.DatabaseException;
-import storage.Handler;
 import storage.PMF;
+import storage.StoringType;
 
-public class SourceFileHandler implements Handler {
+public class SourceFileHandler extends AbstractHandler {
 
 	/**
 	 * Creates new SourceFile object.
@@ -47,48 +49,42 @@ public class SourceFileHandler implements Handler {
 		SourceFile sourceFile = new SourceFile(name, projectKey, parentKey,
 				new Date());
 		pm.makePersistent(sourceFile);
+		SourceFile tmp = pm.detachCopy(sourceFile);
 		pm.close();
-		SourceFileWriter writer = sourceFile.openForWriting();
+		
+		SourceFileWriter writer = tmp.openForWriting();
 		try {
 			writer.close();
 		} catch (IOException e) {
 			throw new DatabaseException(e.getMessage());
 		}
+		Database.save(StoringType.SOURCE_FILE, tmp);
 		
 		return sourceFile.getKey();
 	}
 	
 	/**
 	 * Finds SourceFile with given key.
-	 * There should be 1 parameter: (String key)
 	 */
 	@Override
-	public SourceFile get(Object... params) throws DatabaseException {
-		if (params.length != 1) {
-			throw new DatabaseException("Incorrect number of parameters to get source file." +
-					" There should be 1 parameter of String type - project Key");
-		}
-		
-		if (!(params[0] instanceof String)) {
-			throw new DatabaseException("Incorrect first parameter type to get source file." +
-					" Type of the first parameter should be String.");
-		}
-		
-		String key = (String) params[0];
+	public SourceFile get(String key) throws DatabaseException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		SourceFile sourceFile = pm.getObjectById(SourceFile.class, key);
 		if (sourceFile == null) {
 			throw new DatabaseException("No such file");
 		}
-		return sourceFile;
+		
+		SourceFile result = pm.detachCopy(sourceFile);
+		pm.close();
+		
+		return result;
 	}
 
 	@Override
-	public void save(Object toSave) throws DatabaseException {
+	public void delete(String key) throws DatabaseException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		pm.refresh(toSave);
+		pm.deletePersistent(pm.getObjectById(key));
 		pm.close();
 	}
-
 
 }
