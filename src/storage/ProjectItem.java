@@ -23,7 +23,7 @@ public abstract class ProjectItem extends DatabaseObject {
 	@Persistent
 	private List<String> childrenKeys = new ArrayList<String>();
 	
-	@Persistent(defaultFetchGroup = "true")
+	@Persistent
 	private String projectKey;
 	
 	

@@ -23,7 +23,7 @@ public interface Handler {
 	 * @return - new object or object from database
 	 * @throws DatabaseException if it's impossible to get required object
 	 */
-	public Object get(Object... params) throws DatabaseException;
+	public Object get(String key) throws DatabaseException;
 	
 	/**
 	 * Saves object to database
@@ -32,4 +32,7 @@ public interface Handler {
 	 * database 
 	 */
 	public void save(Object toSave) throws DatabaseException;
+	
+	
+	public void delete(String key) throws DatabaseException;
 }
