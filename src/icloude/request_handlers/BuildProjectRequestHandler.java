@@ -41,7 +41,7 @@ public class BuildProjectRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, BuildProjectRequest.class);
+		return GSON.fromJson(json, BuildProjectRequest.class);
 	}
 
 	/**
