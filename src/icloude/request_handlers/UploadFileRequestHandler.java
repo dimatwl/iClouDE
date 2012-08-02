@@ -1,5 +1,7 @@
 package icloude.request_handlers;
 
+import java.io.IOException;
+
 import icloude.requests.BaseRequest;
 import icloude.requests.NewProjectRequest;
 import icloude.requests.UploadFileRequest;
@@ -16,6 +18,9 @@ import javax.ws.rs.core.MediaType;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
+import storage.sourcefile.SourceFile;
+import storage.sourcefile.SourceFileReader;
+import storage.sourcefile.SourceFileWriter;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -74,11 +79,37 @@ public class UploadFileRequestHandler extends BaseRequestHandler {
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
 		BaseResponse response;
+		UploadFileRequest castedRequest = (UploadFileRequest)request;
+		SourceFileWriter writer = null;
 		try{
-			String key = Database.create(StoringType.SOURCE_FILE, ((NewProjectRequest)request).getProjectName(), ((NewProjectRequest)request).getProjectType());
-			response = new IDResponse(request.getRequestID(), true, "New file created.", key);
+			SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, castedRequest.getContent().getFileID());
+			writer = file.openForWriting();
+			writer.write(castedRequest.getContent().getText());
+			writer.close();
+			
+			
+			writer.close();
+			System.err.println(castedRequest.getContent().getText());
+			SourceFileReader reader = file.openForReading();
+			char[] cbuf = new char[4];
+			reader.read(cbuf);
+			System.err.println(new String(cbuf));
+			reader.close();
+			
+			
+			response = new StandartResponse(request.getRequestID(), true, "File uploaded.");
 		} catch (DatabaseException e){
 			response = new StandartResponse(request.getRequestID(), false, "DB error. " + e.getMessage());
+		} catch (IOException e) {
+			response = new StandartResponse(request.getRequestID(), false, "IO error. " + e.getMessage());
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException e) {
+					response = new StandartResponse(request.getRequestID(), false, "IO error. " + e.getMessage());
+				}
+			}
 		}
 		return response;
 	}
