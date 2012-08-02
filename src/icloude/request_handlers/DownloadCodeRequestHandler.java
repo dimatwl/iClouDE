@@ -1,6 +1,7 @@
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
+import icloude.requests.DownloadCodeRequest;
 import icloude.requests.DownloadProjectStructureRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
@@ -14,15 +15,18 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/downloadprojectstructure" URL:
- *         rest/downloadprojectstructure Method: GET Required response: Project
+ * @author DimaTWL 
+ * Handling all requests on "rest/downloadcode" 
+ * URL: rest/downloadcode 
+ * Method: GET 
+ * Required response: Project
  */
-@Path("/downloadprojectstructure")
-public class DownloadProjectStructureRequestHandler extends BaseRequestHandler {
+@Path("/downloadcode")
+public class DownloadCodeRequestHandler extends BaseRequestHandler {
 
 	/**
 	 * This method used to handle all GET request on
-	 * "rest/downloadprojectstructure"
+	 * "rest/downloadcode"
 	 * 
 	 * @return the StandartResponse witch will be sent to client
 	 */
@@ -42,7 +46,7 @@ public class DownloadProjectStructureRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return GSON.fromJson(json, DownloadProjectStructureRequest.class);
+		return GSON.fromJson(json, DownloadCodeRequest.class);
 	}
 
 	/**
@@ -55,7 +59,7 @@ public class DownloadProjectStructureRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected Boolean requestTypeCheck(String requestType) {
-		return "downloadprojectstructure".equals(requestType);
+		return "downloadcode".equals(requestType);
 	}
 
 	/**
@@ -69,7 +73,7 @@ public class DownloadProjectStructureRequestHandler extends BaseRequestHandler {
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
 		return new StandartResponse(request.getRequestID(), true,
-				"Request 'Download project structure' recieved.");
+				"Request 'Download code' recieved.");
 	}
 
 }

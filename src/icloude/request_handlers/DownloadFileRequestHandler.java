@@ -24,8 +24,11 @@ import storage.sourcefile.SourceFileReader;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/downloadfile" URL:
- *         rest/downloadfile Method: GET Required response: File
+ * @author DimaTWL 
+ * Handling all requests on "rest/downloadfile" 
+ * URL: rest/downloadfile 
+ * Method: GET 
+ * Required response: File
  */
 @Path("/downloadfile")
 public class DownloadFileRequestHandler extends BaseRequestHandler {
