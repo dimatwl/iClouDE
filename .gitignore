@@ -3,3 +3,4 @@
 /.classpath
 /war/WEB-INF/appengine-generated
 /war/WEB-INF/classes
+/.classpath
