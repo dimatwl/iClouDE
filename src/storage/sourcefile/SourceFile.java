@@ -47,10 +47,6 @@ public class SourceFile extends ProjectItem {
 		return creationTime;
 	}
 	
-	public void setCreationTime(Date creationTime) {
-		this.creationTime = creationTime;
-	}
-	
 	public Date getModificationTime() {
 		return modificationTime;
 	}
@@ -63,7 +59,7 @@ public class SourceFile extends ProjectItem {
 		return content;
 	}
 	
-	public void setContent(BlobKey content) {
+	protected void setContent(BlobKey content) {
 		this.content = content;
 	}
 	

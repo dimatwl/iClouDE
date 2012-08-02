@@ -25,7 +25,11 @@ public class Database {
 
 	
 	public static String create(StoringType type, Object... params) throws DatabaseException {
-		return handlers.get(type).create(params);
+		try {
+			return handlers.get(type).create(params);
+		} catch (Exception e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 
 	
@@ -38,7 +42,11 @@ public class Database {
 	 * @throws DatabaseException if parameters are incorrect
 	 */
 	public static Object get(StoringType type, String key) throws DatabaseException {
-		return handlers.get(type).get(key);
+		try {
+			return handlers.get(type).get(key);
+		} catch (Exception e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 	
 	/**
@@ -49,7 +57,11 @@ public class Database {
 	 * @throws DatabaseException if and error occurs while saving object to database
 	 */
 	public static void save(StoringType type, Object toSave) throws DatabaseException {
-		handlers.get(type).save(toSave);
+		try {
+			handlers.get(type).save(toSave);
+		} catch (Exception e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 	
 	/**
@@ -66,6 +78,10 @@ public class Database {
 	}
 	
 	public static void delete(StoringType type, String key) throws DatabaseException {
-		handlers.get(type).delete(key);
+		try {
+			handlers.get(type).delete(key);
+		} catch (Exception e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 }

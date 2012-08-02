@@ -67,17 +67,8 @@ public class SourceFileHandler extends AbstractHandler {
 	 * Finds SourceFile with given key.
 	 */
 	@Override
-	public SourceFile get(String key) throws DatabaseException {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		SourceFile sourceFile = pm.getObjectById(SourceFile.class, key);
-		if (sourceFile == null) {
-			throw new DatabaseException("No such file");
-		}
-		
-		SourceFile result = pm.detachCopy(sourceFile);
-		pm.close();
-		
-		return result;
+	public Object get(String key) throws DatabaseException {
+		return get(key, SourceFile.class);
 	}
 
 	@Override

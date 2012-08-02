@@ -1,21 +1,12 @@
 package storage.project;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 
 import storage.AbstractHandler;
 import storage.DatabaseException;
 import storage.PMF;
-import storage.ProjectItem;
-import storage.folder.Folder;
-import storage.pack.Package;
-import storage.sourcefile.SourceFile;
 
 public class ProjectHandler extends AbstractHandler {
 
@@ -53,43 +44,16 @@ public class ProjectHandler extends AbstractHandler {
 		
 		return project.getKey();
 	}
+	
+	@Override
+	public Object get(String key) throws DatabaseException {
+		return get(key, Project.class);
+	}
+
 
 	/**
-	 * Finds Project with given key.
-	 * There should be 1 parameter: (String key)
-	 * @return map of all project items
+	 * Deletes
 	 */
-	@Override
-	public Map<String, ProjectItem> get(String key) throws DatabaseException {
-		List<ProjectItem> result = new ArrayList<ProjectItem>();
-		result.addAll(getObjectsOfType(key, SourceFile.class));
-		result.addAll(getObjectsOfType(key, Folder.class));
-		result.addAll(getObjectsOfType(key, Package.class));
-		result.addAll(getObjectsOfType(key, Project.class));
-		
-		
-		Map<String, ProjectItem> map = new HashMap<String, ProjectItem>();
-		for (ProjectItem pi: result) {
-			map.put(pi.getKey(), pi);
-			System.err.println(pi.getName());
-		}
-		return map;
-	}
-	
-	private List<ProjectItem> getObjectsOfType(String projectKey, Class<?> type) {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		Query q = pm.newQuery(type);
-		q.setFilter("projectKey == key");
-		q.declareParameters("String key");
-		
-		@SuppressWarnings("unchecked")
-		List<ProjectItem> result = new ArrayList<ProjectItem>((List<ProjectItem>)q.execute(projectKey));
-		
-		pm.close();
-		return result;
-	}
-
 	@Override
 	public void delete(String key) throws DatabaseException {
 		// TODO Auto-generated method stub
