@@ -1,13 +1,8 @@
 package icloude.request_handlers;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Map;
-import java.util.zip.ZipOutputStream;
-
 import icloude.requests.BaseRequest;
 import icloude.requests.DownloadCodeRequest;
-import icloude.requests.UploadFileRequest;
+import icloude.requests.DownloadProjectStructureRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
 
@@ -16,9 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
-import storage.ProjectItem;
-import storage.project.Project;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -80,44 +72,8 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
-		BaseResponse response;
-		DownloadCodeRequest castedRequest = (DownloadCodeRequest) request;
-		return null;
+		return new StandartResponse(request.getRequestID(), true,
+				"Request 'Download code' recieved.");
 	}
-//	
-//	private void zipProject(Map<String, ProjectItem> project) throws IOException {
-//		ZipOutputStream zipOut = new ZipOutputStream(new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE));
-//		for (String key : project.keySet()) {
-//			addToZip(key, project, zipOut);
-//		} 
-//		zipOut.flush();
-//		zipOut.close();
-//
-//		System.out.println("Successfully created ");
-//	}
-//
-//	private void addToZip(String key, Map<String, ProjectItem> project, ZipOutputStream zipOut) throws IOException {
-//		File file = new File(srcFile);
-//		String filePath = "".equals(path) ? file.getName() : path + "/"
-//				+ file.getName();
-//			zipOut.putNextEntry(new ZipEntry(filePath));
-//			FileInputStream in = new FileInputStream(srcFile);
-//
-//			byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
-//			int len;
-//			while ((len = in.read(buffer)) != -1) {
-//				zipOut.write(buffer, 0, len);
-//			}
-//
-//			in.close();
-//	}
-//	
-//	private void getFullPath(String key, Map<String, ProjectItem> project) {
-//		String currentItemKey = key;
-//		StringBuilder fullPath = new StringBuilder();
-//		while (! (project.get(currentItemKey) instanceof Project)) {
-//			
-//		}
-//	}
 
 }
