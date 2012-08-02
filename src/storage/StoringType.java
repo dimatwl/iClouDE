@@ -9,7 +9,5 @@ public enum StoringType {
 
 	SOURCE_FILE,
 	EXECUTABLE_FILE,
-	PROJECT,
-	FOLDER,
-	PACKAGE
+	PROJECT
 }

@@ -41,7 +41,7 @@ public class AutocompleteRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return GSON.fromJson(json, AutocompleteRequest.class);
+		return gson.fromJson(json, AutocompleteRequest.class);
 	}
 
 	/**

@@ -41,7 +41,7 @@ public class DeleteFileRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return GSON.fromJson(json, DeleteFileRequest.class);
+		return gson.fromJson(json, DeleteFileRequest.class);
 	}
 
 	/**

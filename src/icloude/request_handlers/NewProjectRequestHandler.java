@@ -19,8 +19,11 @@ import storage.StoringType;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/newproject" URL:
- *         rest/newproject Method: POST Required response: ID
+ * @author DimaTWL 
+ * Handling all requests on "rest/newproject" 
+ * URL: rest/newproject 
+ * Method: POST 
+ * Required response: ID
  */
 @Path("/newproject")
 public class NewProjectRequestHandler extends BaseRequestHandler {
@@ -46,7 +49,7 @@ public class NewProjectRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return GSON.fromJson(json, NewProjectRequest.class);
+		return gson.fromJson(json, NewProjectRequest.class);
 	}
 
 	/**
@@ -73,18 +76,11 @@ public class NewProjectRequestHandler extends BaseRequestHandler {
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
 		BaseResponse response;
-		try {
-			String key = Database.create(StoringType.PROJECT,
-					((NewProjectRequest) request).getProjectName(),
-					((NewProjectRequest) request).getProjectType());
-			response = new IDResponse(
-					request.getRequestID(),
-					true,
-					"New project created. Here is your ID. Please do not use it for evil.",
-					key);
-		} catch (DatabaseException e) {
-			response = new StandartResponse(request.getRequestID(), false,
-					"DB error. " + e.getMessage());
+		try{
+			String key = Database.create(StoringType.PROJECT, ((NewProjectRequest)request).getProjectName(), ((NewProjectRequest)request).getProjectType());
+			response = new IDResponse(request.getRequestID(), true, "New project created. Here is your ID. Please do not use it for evil.", key);
+		} catch (DatabaseException e){
+			response = new StandartResponse(request.getRequestID(), false, "DB error. " + e.getMessage());
 		}
 		return response;
 	}

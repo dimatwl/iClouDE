@@ -14,8 +14,11 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/newfolder" URL: rest/newfolder
- *         Method: POST Required response: ID
+ * @author DimaTWL 
+ * Handling all requests on "rest/newfolder" 
+ * URL: rest/newfolder
+ * Method: POST 
+ * Required response: ID
  */
 @Path("/newfolder")
 public class NewFolderRequestHandler extends BaseRequestHandler {
@@ -41,7 +44,7 @@ public class NewFolderRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return GSON.fromJson(json, NewFolderRequest.class);
+		return gson.fromJson(json, NewFolderRequest.class);
 	}
 
 	/**

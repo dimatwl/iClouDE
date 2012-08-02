@@ -2,11 +2,11 @@ package storage.pack;
 
 import javax.jdo.PersistenceManager;
 
-import storage.AbstractHandler;
 import storage.DatabaseException;
+import storage.Handler;
 import storage.PMF;
 
-public class PackageHandler extends AbstractHandler {
+public class PackageHandler implements Handler {
 
 	@Override
 	public String create(Object... params) throws DatabaseException {
@@ -45,21 +45,28 @@ public class PackageHandler extends AbstractHandler {
 	}
 
 	@Override
-	public Object get(String key) throws DatabaseException {
+	public Object get(Object... params) throws DatabaseException {
+		if (params.length != 1) {
+			throw new DatabaseException("Incorrect number of parameters to get folder." +
+					" There should be 1 parameter of String type - project Key");
+		}
+		
+		if (!(params[0] instanceof String)) {
+			throw new DatabaseException("Incorrect first parameter type to get folder." +
+					" Type of the first parameter should be String.");
+		}
+		
+		String key = (String) params[0];
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Package pack = pm.getObjectById(Package.class, key);
 		if (pack == null) {
 			throw new DatabaseException("No such package");
 		}
-		
-		Package result = pm.detachCopy(pack);
-		pm.close();
-		return result;
+		return pack;
 	}
-	
 
 	@Override
-	public void delete(String key) throws DatabaseException {
+	public void save(Object toSave) throws DatabaseException {
 		// TODO Auto-generated method stub
 		
 	}
