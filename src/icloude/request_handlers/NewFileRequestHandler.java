@@ -49,7 +49,7 @@ public class NewFileRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, NewFileRequest.class);
+		return GSON.fromJson(json, NewFileRequest.class);
 	}
 
 	/**

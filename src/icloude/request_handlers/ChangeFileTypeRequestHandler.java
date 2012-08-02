@@ -41,7 +41,7 @@ public class ChangeFileTypeRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, ChangeFileTypeRequest.class);
+		return GSON.fromJson(json, ChangeFileTypeRequest.class);
 	}
 
 	/**

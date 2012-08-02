@@ -1,13 +1,11 @@
 package icloude.request_handlers;
 
-import java.io.IOException;
-
 import icloude.requests.BaseRequest;
-import icloude.requests.NewProjectRequest;
 import icloude.requests.UploadFileRequest;
 import icloude.responses.BaseResponse;
-import icloude.responses.IDResponse;
 import icloude.responses.StandartResponse;
+
+import java.io.IOException;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -19,7 +17,6 @@ import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
 import storage.sourcefile.SourceFile;
-import storage.sourcefile.SourceFileReader;
 import storage.sourcefile.SourceFileWriter;
 
 import com.google.gson.JsonSyntaxException;
@@ -52,7 +49,7 @@ public class UploadFileRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, UploadFileRequest.class);
+		return GSON.fromJson(json, UploadFileRequest.class);
 	}
 
 	/**

@@ -44,7 +44,7 @@ public class NewFolderRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, NewFolderRequest.class);
+		return GSON.fromJson(json, NewFolderRequest.class);
 	}
 
 	/**
