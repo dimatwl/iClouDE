@@ -80,35 +80,26 @@ public class UploadFileRequestHandler extends BaseRequestHandler {
 	protected BaseResponse handleRequest(BaseRequest request) {
 		BaseResponse response;
 		UploadFileRequest castedRequest = (UploadFileRequest)request;
+		SourceFile file = null;
 		SourceFileWriter writer = null;
 		try{
-			SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, castedRequest.getContent().getFileID());
+			file = (SourceFile)Database.get(StoringType.SOURCE_FILE, castedRequest.getContent().getFileID());
 			writer = file.openForWriting();
 			writer.write(castedRequest.getContent().getText());
-			
-			
-			writer.close();
-			Database.save(StoringType.SOURCE_FILE, file);
-			System.err.println(castedRequest.getContent().getText());
-			SourceFile newfile = (SourceFile)Database.get(StoringType.SOURCE_FILE, castedRequest.getContent().getFileID());
-			SourceFileReader reader = newfile.openForReading();
-			char[] cbuf = new char[10];
-			reader.read(cbuf);
-			System.err.println(new String(cbuf));
-			reader.close();
-			
-			
 			response = new StandartResponse(request.getRequestID(), true, "File uploaded.");
 		} catch (DatabaseException e){
 			response = new StandartResponse(request.getRequestID(), false, "DB error. " + e.getMessage());
 		} catch (IOException e) {
 			response = new StandartResponse(request.getRequestID(), false, "IO error. " + e.getMessage());
 		} finally {
-			if (writer != null) {
+			if (writer != null && file != null) {
 				try {
 					writer.close();
+					Database.save(StoringType.SOURCE_FILE, file);
 				} catch (IOException e) {
 					response = new StandartResponse(request.getRequestID(), false, "IO error. " + e.getMessage());
+				} catch (DatabaseException e){
+					response = new StandartResponse(request.getRequestID(), false, "DB error. " + e.getMessage());
 				}
 			}
 		}
