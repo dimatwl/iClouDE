@@ -2,7 +2,6 @@ package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
 import icloude.requests.NewFileRequest;
-import icloude.requests.NewProjectRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.IDResponse;
 import icloude.responses.StandartResponse;
@@ -50,7 +49,7 @@ public class NewFileRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, NewFileRequest.class);
+		return GSON.fromJson(json, NewFileRequest.class);
 	}
 
 	/**

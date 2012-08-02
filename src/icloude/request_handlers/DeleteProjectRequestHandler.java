@@ -41,7 +41,7 @@ public class DeleteProjectRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, DeleteProjectRequest.class);
+		return GSON.fromJson(json, DeleteProjectRequest.class);
 	}
 
 	/**

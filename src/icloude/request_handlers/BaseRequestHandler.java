@@ -18,7 +18,7 @@ public abstract class BaseRequestHandler {
 	/**
 	 * This field used to do all JSON staff.
 	 */
-	protected final static Gson gson = new Gson();
+	protected final static Gson GSON = new Gson();
 
 	/**
 	 * Realization of this method expected to convert JSON representation to
@@ -77,8 +77,8 @@ public abstract class BaseRequestHandler {
 				response = new StandartResponse("error", false,
 						"Bad JSON syntax." + e.getMessage());
 			}
-		System.err.println("To:" + gson.toJson(response));
-		return gson.toJson(response);
+		System.err.println("To:" + GSON.toJson(response));
+		return GSON.toJson(response);
 	}
 
 }

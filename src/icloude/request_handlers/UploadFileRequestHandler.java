@@ -47,7 +47,7 @@ public class UploadFileRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, UploadFileRequest.class);
+		return GSON.fromJson(json, UploadFileRequest.class);
 	}
 
 	/**

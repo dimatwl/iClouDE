@@ -41,7 +41,7 @@ public class DownloadFileRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return gson.fromJson(json, DownloadFileRequest.class);
+		return GSON.fromJson(json, DownloadFileRequest.class);
 	}
 
 	/**
