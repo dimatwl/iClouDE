@@ -22,7 +22,7 @@ public class SourceFileTest implements Test {
 	private SourceFileReader reader;
 	
 	private String createNewFile() throws TestException {
-		String result = "Test creating new file: ";
+		String result = "Creating new file: ";
 		
 		createFile(result);
 		getFile(result);
@@ -58,7 +58,7 @@ public class SourceFileTest implements Test {
 	}
 	
 	private String writeAndRead() throws TestException {
-		String result = "Test write and read source file: ";
+		String result = "Writing and reading source file: ";
 		
 		getFile(result);
 		openFileForWriting(result);
@@ -159,7 +159,7 @@ public class SourceFileTest implements Test {
 	}
 	
 	private String updateFields() throws TestException {
-		String result = "Test updating fields: ";
+		String result = "Updating fields: ";
 
 		getFile(result);
 		Date modificationDate = new Date(0);
@@ -176,7 +176,7 @@ public class SourceFileTest implements Test {
 	}
 	
 	private String deleteFile() throws TestException {
-		String result = "Test deleting file: ";
+		String result = "Deleting file: ";
 		
 		deleteFile(result);
 		

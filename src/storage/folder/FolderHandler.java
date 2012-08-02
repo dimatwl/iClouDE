@@ -46,15 +46,7 @@ public class FolderHandler extends AbstractHandler {
 
 	@Override
 	public Object get(String key) throws DatabaseException {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Folder folder = pm.getObjectById(Folder.class, key);
-		if (folder == null) {
-			throw new DatabaseException("No such folder");
-		}
-		
-		Folder result = pm.detachCopy(folder);
-		pm.close();
-		return result;
+		return get(key, Folder.class);
 	}
 
 	@Override

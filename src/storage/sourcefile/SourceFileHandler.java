@@ -74,7 +74,7 @@ public class SourceFileHandler extends AbstractHandler {
 	@Override
 	public void delete(String key) throws DatabaseException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		pm.deletePersistent(pm.getObjectById(key));
+		pm.deletePersistent(pm.getObjectById(SourceFile.class, key));
 		pm.close();
 	}
 
