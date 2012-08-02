@@ -12,12 +12,13 @@ import storage.DatabaseException;
 @Path("/testing")
 public class TestingResource {
 
-//	@GET
-//	@Produces(MediaType.TEXT_HTML)
-//	public String getInfoJSON() throws IOException, DatabaseException {	
-//		StringBuilder outputMessageBuilder = new StringBuilder();
-//		outputMessageBuilder
-//		return outputMessage
-//	}
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	public String getInfoJSON() throws IOException, DatabaseException {	
+		StringBuilder outputMessageBuilder = new StringBuilder();
+		outputMessageBuilder.append("Testing results:");
+		
+		return outputMessageBuilder.toString();
+	}
 
 }
