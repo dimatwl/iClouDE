@@ -85,13 +85,14 @@ public class UploadFileRequestHandler extends BaseRequestHandler {
 			SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, castedRequest.getContent().getFileID());
 			writer = file.openForWriting();
 			writer.write(castedRequest.getContent().getText());
-			writer.close();
 			
 			
 			writer.close();
+			Database.save(StoringType.SOURCE_FILE, file);
 			System.err.println(castedRequest.getContent().getText());
-			SourceFileReader reader = file.openForReading();
-			char[] cbuf = new char[4];
+			SourceFile newfile = (SourceFile)Database.get(StoringType.SOURCE_FILE, castedRequest.getContent().getFileID());
+			SourceFileReader reader = newfile.openForReading();
+			char[] cbuf = new char[10];
 			reader.read(cbuf);
 			System.err.println(new String(cbuf));
 			reader.close();
