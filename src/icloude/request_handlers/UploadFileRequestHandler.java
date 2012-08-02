@@ -1,11 +1,11 @@
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
+import icloude.requests.NewProjectRequest;
 import icloude.requests.UploadFileRequest;
 import icloude.responses.BaseResponse;
+import icloude.responses.IDResponse;
 import icloude.responses.StandartResponse;
-
-import java.io.IOException;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -16,8 +16,6 @@ import javax.ws.rs.core.MediaType;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
-import storage.sourcefile.SourceFile;
-import storage.sourcefile.SourceFileWriter;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -76,29 +74,11 @@ public class UploadFileRequestHandler extends BaseRequestHandler {
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
 		BaseResponse response;
-		UploadFileRequest castedRequest = (UploadFileRequest)request;
-		SourceFile file = null;
-		SourceFileWriter writer = null;
 		try{
-			file = (SourceFile)Database.get(StoringType.SOURCE_FILE, castedRequest.getContent().getFileID());
-			writer = file.openForWriting();
-			writer.write(castedRequest.getContent().getText());
-			response = new StandartResponse(request.getRequestID(), true, "File uploaded.");
+			String key = Database.create(StoringType.SOURCE_FILE, ((NewProjectRequest)request).getProjectName(), ((NewProjectRequest)request).getProjectType());
+			response = new IDResponse(request.getRequestID(), true, "New file created.", key);
 		} catch (DatabaseException e){
 			response = new StandartResponse(request.getRequestID(), false, "DB error. " + e.getMessage());
-		} catch (IOException e) {
-			response = new StandartResponse(request.getRequestID(), false, "IO error. " + e.getMessage());
-		} finally {
-			if (writer != null && file != null) {
-				try {
-					writer.close();
-					Database.save(StoringType.SOURCE_FILE, file);
-				} catch (IOException e) {
-					response = new StandartResponse(request.getRequestID(), false, "IO error. " + e.getMessage());
-				} catch (DatabaseException e){
-					response = new StandartResponse(request.getRequestID(), false, "DB error. " + e.getMessage());
-				}
-			}
 		}
 		return response;
 	}
