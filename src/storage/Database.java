@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import storage.executablefile.ExecutableFileHandler;
+import storage.folder.FolderHandler;
+import storage.pack.PackageHandler;
 import storage.project.ProjectHandler;
 import storage.sourcefile.SourceFileHandler;
 
@@ -17,8 +18,9 @@ public class Database {
 	
 	static {
 		handlers.put(StoringType.SOURCE_FILE, new SourceFileHandler());
-		handlers.put(StoringType.EXECUTABLE_FILE, new ExecutableFileHandler());
 		handlers.put(StoringType.PROJECT, new ProjectHandler());
+		handlers.put(StoringType.FOLDER, new FolderHandler());
+		handlers.put(StoringType.PACKAGE, new PackageHandler());
 	}
 
 	
@@ -39,17 +41,12 @@ public class Database {
 	 * @return object of required type according to specified parameters
 	 * @throws DatabaseException if parameters are incorrect
 	 */
-<<<<<<< HEAD
 	public static Object get(StoringType type, String key) throws DatabaseException {
 		try {
 			return handlers.get(type).get(key);
 		} catch (Exception e) {
 			throw new DatabaseException(e.getMessage());
 		}
-=======
-	public static Object get(StoringType type, Object... params) throws DatabaseException {
-		return handlers.get(type).get(params);
->>>>>>> 35d8ea8c191b1dce83f6b8c87d02957a9976a2b3
 	}
 	
 	/**
@@ -79,7 +76,6 @@ public class Database {
 			Object... params) throws DatabaseException {
 		return null;
 	}
-<<<<<<< HEAD
 	
 	public static void delete(StoringType type, String key) throws DatabaseException {
 		try {
@@ -88,6 +84,4 @@ public class Database {
 			throw new DatabaseException(e.getMessage());
 		}
 	}
-=======
->>>>>>> 35d8ea8c191b1dce83f6b8c87d02957a9976a2b3
 }
