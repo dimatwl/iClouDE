@@ -19,8 +19,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import storage.DatabaseException;
-import storage.ProjectItem;
 import storage.project.Project;
+import storage.project.ProjectItem;
 import storage.sourcefile.SourceFile;
 import storage.sourcefile.SourceFileReader;
 
@@ -31,7 +31,7 @@ import com.google.gson.JsonSyntaxException;
  * Handling all requests on "rest/downloadcode" 
  * URL: rest/downloadcode 
  * Method: GET 
- * Required response: Project
+ * Required response: ????
  */
 @Path("/downloadcode")
 public class DownloadCodeRequestHandler extends BaseRequestHandler {
@@ -89,15 +89,16 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 	}
 	
 	
-	private void zipProject(Map<String, ProjectItem> project) throws IOException, DatabaseException {
-		ZipOutputStream zipOut = new ZipOutputStream(new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE));
+	private byte[] zipProject(Map<String, ProjectItem> project) throws IOException, DatabaseException {
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);
+		ZipOutputStream zipOut = new ZipOutputStream(outStream);
 		for (String key : project.keySet()) {
 			addToZip(key, project, zipOut);
 		} 
 		zipOut.flush();
 		zipOut.close();
 
-		System.out.println("Successfully created ");
+		return outStream.toByteArray();
 	}
 
 	private void addToZip(String key, Map<String, ProjectItem> project, ZipOutputStream zipOut) throws IOException, DatabaseException {
@@ -126,7 +127,7 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 		while (! (currentItem instanceof Project)) {
 			fullPath.insert(0, currentItem.getName());
 			fullPath.insert(0, '/');
-			currentItemKey = currentItem.getParent();
+			currentItemKey = currentItem.getParentKey();
 			currentItem = project.get(currentItemKey);
 		}
 		fullPath.insert(0, currentItem.getName());
