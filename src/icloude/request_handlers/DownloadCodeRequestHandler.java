@@ -1,5 +1,10 @@
 package icloude.request_handlers;
 
+import icloude.requests.BaseRequest;
+import icloude.requests.DownloadCodeRequest;
+import icloude.responses.BaseResponse;
+import icloude.responses.StandartResponse;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -8,20 +13,10 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import icloude.contents.FileContent;
-import icloude.requests.BaseRequest;
-import icloude.requests.DownloadCodeRequest;
-import icloude.requests.DownloadFileRequest;
-import icloude.requests.DownloadProjectStructureRequest;
-import icloude.responses.BaseResponse;
-import icloude.responses.FileResponse;
-import icloude.responses.StandartResponse;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 
 import storage.Database;
 import storage.DatabaseException;
