@@ -14,7 +14,7 @@ var uploadRequest = Protocol.uploadFile;
 uploadRequest.request = new Request(uploadRequest.method, uploadRequest.URL, uploadRequest.requestType);
 
 uploadRequest.request.setResponseHandler(function(resp) {
-	Protocol.checkResponse.call(uploadRequest, resp);
+	Protocol.checkResponse.call(uploadRequest, resp).correct;
 });
 
 uploadRequest.request.send = function (content) {

@@ -17,7 +17,7 @@ $(document).ready(function() {
 		    editor.setLineClass(hlLine, null, null);
 		    hlLine = editor.setLineClass(editor.getCursor().line, null, "activeline");
 		  }
-		});
+    });
     
 	var hlLine = editor.setLineClass(0, "activeline");
 	
@@ -32,7 +32,7 @@ $(document).ready(function() {
     	var testFileContent = {
     	    type: 'file',
     	    fileID: currentFileID,
-    	    text: $('#codeArea').val(),
+    	    text: editor.getValue(),
     	    fileType: 'what is filetype?',
     	    revisionID: 'revision ID',
     	    creationDate: (new Date()).getTime(),
@@ -56,8 +56,9 @@ $(document).ready(function() {
     });
     
     $('#DownloadFileBtn').click(function() {
-    	var filePath = prompt ('Enter file path to download');
-    	Protocol.downloadFile.request.send(filePath);
+    	//var filePath = prompt ('Enter file path to download');
+    	var fileID = currentFileID;
+    	Protocol.downloadFile.request.send(fileID);
     });
     
     

@@ -14,14 +14,14 @@ var downloadFile = Protocol.downloadFile;
 downloadFile.request = new Request(downloadFile.method, downloadFile.URL, downloadFile.requestType);
 
 downloadFile.request.setResponseHandler(function(resp) {
-	if (Protocol.checkResponse.call(downloadFile, resp)) {
+	if (Protocol.checkResponse.call(downloadFile, resp).correct) {
 		$('#status').text(resp.content.text);		
 	}
 });
 
 
-downloadFile.request.send = function (filePath) {
+downloadFile.request.send = function (fileID) {
 	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, projectID);
-    info['filePath'] = filePath;
+    info['fileID'] = fileID;
 	downloadFile.request.sendMap(info);    	
 }
