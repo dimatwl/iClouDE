@@ -20,7 +20,7 @@ Request.prototype.sendMap = sendMap;
 Request.prototype.setResponseHandler = setResponseHandler;
 Request.prototype.setErrorHandler = setErrorHandler;
 
-Request.prototype.SERVER_URL = "http://localhost:8888/";
+Request.prototype.SERVER_URL = "http://" + window.location.host + "/";
 
 
 function setResponseHandler(responseHandler) {
