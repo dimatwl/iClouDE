@@ -8,9 +8,15 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
+/**
+ * Base class for object stored in database. Contains the most common
+ * properties such as Key and Name.
+ * @author Sergey
+ *
+ */
+@PersistenceCapable(identityType = IdentityType.DATASTORE, detachable = "true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
-public class DatabaseObject {
+public abstract class DatabaseObject {
 	
 	public DatabaseObject(String name) {
 		this.name = name;
@@ -20,13 +26,13 @@ public class DatabaseObject {
 	@Persistent(valueStrategy = IdGeneratorStrategy.UUIDSTRING)
 	private String key;
 	
-	public String getKey() {
-		return key;
-	}
-	
 	@Persistent
 	private String name;
 	
+
+	public String getKey() {
+		return key;
+	}
 	
 	public String getName() {
 		return name;
