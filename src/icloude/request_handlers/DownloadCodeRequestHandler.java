@@ -1,5 +1,11 @@
 package icloude.request_handlers;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 import icloude.requests.BaseRequest;
 import icloude.requests.DownloadCodeRequest;
 import icloude.requests.DownloadProjectStructureRequest;
@@ -11,6 +17,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import storage.DatabaseException;
+import storage.ProjectItem;
+import storage.project.Project;
+import storage.sourcefile.SourceFile;
+import storage.sourcefile.SourceFileReader;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -74,6 +86,52 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 	protected BaseResponse handleRequest(BaseRequest request) {
 		return new StandartResponse(request.getRequestID(), true,
 				"Request 'Download code' recieved.");
+	}
+	
+	
+	private void zipProject(Map<String, ProjectItem> project) throws IOException, DatabaseException {
+		ZipOutputStream zipOut = new ZipOutputStream(new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE));
+		for (String key : project.keySet()) {
+			addToZip(key, project, zipOut);
+		} 
+		zipOut.flush();
+		zipOut.close();
+
+		System.out.println("Successfully created ");
+	}
+
+	private void addToZip(String key, Map<String, ProjectItem> project, ZipOutputStream zipOut) throws IOException, DatabaseException {
+		ProjectItem currentItem = project.get(key);
+		String fullPath = getFullPath(key, project);
+		zipOut.putNextEntry(new ZipEntry(fullPath));
+		if (currentItem instanceof SourceFile) {
+			SourceFileReader reader = ((SourceFile)currentItem).openForReading();
+			char[] buf = new char[DEFAULT_BUFFER_SIZE];
+			int charsReaded;
+			while ((charsReaded = reader.read(buf)) >= 0) {
+				zipOut.write(new String(buf).getBytes(), 0, charsReaded);
+			}
+			reader.close();
+		}
+
+	}
+	
+	private String getFullPath(String key, Map<String, ProjectItem> project) {
+		String currentItemKey = key;
+		ProjectItem currentItem = project.get(currentItemKey);
+		StringBuilder fullPath = new StringBuilder();
+		if (! (currentItem instanceof SourceFile)) {
+			fullPath.insert(0, '/');
+		}
+		while (! (currentItem instanceof Project)) {
+			fullPath.insert(0, currentItem.getName());
+			fullPath.insert(0, '/');
+			currentItemKey = currentItem.getParent();
+			currentItem = project.get(currentItemKey);
+		}
+		fullPath.insert(0, currentItem.getName());
+		fullPath.insert(0, '/');
+		return fullPath.toString();
 	}
 
 }
