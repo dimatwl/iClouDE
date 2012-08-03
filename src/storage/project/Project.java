@@ -13,13 +13,12 @@ import javax.jdo.annotations.Persistent;
 
 import storage.DatabaseException;
 import storage.PMF;
-import storage.ProjectItem;
 import storage.folder.Folder;
 import storage.pack.Package;
 import storage.sourcefile.SourceFile;
 
 @PersistenceCapable(detachable="true")
-public class Project extends ProjectItem {
+public class Project extends CompositeProjectItem {
 
 	public Project(String name, Date creationTime, String type) {
 		super(name, null, null);

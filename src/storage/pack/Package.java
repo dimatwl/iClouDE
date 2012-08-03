@@ -2,10 +2,10 @@ package storage.pack;
 
 import javax.jdo.annotations.PersistenceCapable;
 
-import storage.ProjectItem;
+import storage.project.CompositeProjectItem;
 
 @PersistenceCapable(detachable="true")
-public class Package extends ProjectItem {
+public class Package extends CompositeProjectItem {
 
 	public Package(String name, String projectKey, String parentKey) {
 		super(name, projectKey, parentKey);

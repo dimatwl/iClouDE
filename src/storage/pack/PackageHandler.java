@@ -2,11 +2,12 @@ package storage.pack;
 
 import javax.jdo.PersistenceManager;
 
-import storage.AbstractHandler;
 import storage.DatabaseException;
 import storage.PMF;
+import storage.project.CompositeProjectItemHandler;
+import storage.project.ProjectItemHandler;
 
-public class PackageHandler extends AbstractHandler {
+public class PackageHandler extends CompositeProjectItemHandler {
 
 	@Override
 	public String create(Object... params) throws DatabaseException {
@@ -57,11 +58,4 @@ public class PackageHandler extends AbstractHandler {
 		return result;
 	}
 	
-
-	@Override
-	public void delete(String key) throws DatabaseException {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

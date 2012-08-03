@@ -1,9 +1,13 @@
-package storage;
+package storage.project;
 
 import javax.jdo.PersistenceManager;
 
+import storage.DatabaseException;
+import storage.Handler;
+import storage.PMF;
 
-public abstract class AbstractHandler implements Handler {
+
+public abstract class ProjectItemHandler implements Handler {
 
 	@Override
 	public void save(Object toSave) throws DatabaseException {

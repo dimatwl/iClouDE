@@ -2,11 +2,12 @@ package storage.folder;
 
 import javax.jdo.PersistenceManager;
 
-import storage.AbstractHandler;
 import storage.DatabaseException;
 import storage.PMF;
+import storage.project.CompositeProjectItemHandler;
+import storage.project.ProjectItemHandler;
 
-public class FolderHandler extends AbstractHandler {
+public class FolderHandler extends CompositeProjectItemHandler {
 
 	@Override
 	public String create(Object... params) throws DatabaseException {
@@ -47,12 +48,6 @@ public class FolderHandler extends AbstractHandler {
 	@Override
 	public Object get(String key) throws DatabaseException {
 		return get(key, Folder.class);
-	}
-
-	@Override
-	public void delete(String key) throws DatabaseException {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

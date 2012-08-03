@@ -5,13 +5,13 @@ import java.util.Date;
 
 import javax.jdo.PersistenceManager;
 
-import storage.AbstractHandler;
 import storage.Database;
 import storage.DatabaseException;
 import storage.PMF;
 import storage.StoringType;
+import storage.project.ProjectItemHandler;
 
-public class SourceFileHandler extends AbstractHandler {
+public class SourceFileHandler extends ProjectItemHandler {
 
 	/**
 	 * Creates new SourceFile object.

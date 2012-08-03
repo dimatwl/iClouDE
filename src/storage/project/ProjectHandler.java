@@ -4,11 +4,10 @@ import java.util.Date;
 
 import javax.jdo.PersistenceManager;
 
-import storage.AbstractHandler;
 import storage.DatabaseException;
 import storage.PMF;
 
-public class ProjectHandler extends AbstractHandler {
+public class ProjectHandler extends CompositeProjectItemHandler {
 
 	
 	/**
@@ -48,16 +47,6 @@ public class ProjectHandler extends AbstractHandler {
 	@Override
 	public Object get(String key) throws DatabaseException {
 		return get(key, Project.class);
-	}
-
-
-	/**
-	 * Deletes
-	 */
-	@Override
-	public void delete(String key) throws DatabaseException {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
