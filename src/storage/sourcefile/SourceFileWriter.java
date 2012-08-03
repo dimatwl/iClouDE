@@ -11,7 +11,9 @@ import com.google.appengine.api.files.FileServiceFactory;
 import com.google.appengine.api.files.FileWriteChannel;
 
 /**
- * Class for writing files which are located in database
+ * Class for writing files which are located in database.
+ * Provides standart Java Writer interface. Shouldn't be created
+ * manually, it's only created in SourceFile class.
  * @author Sergey
  *
  */
@@ -36,13 +38,6 @@ public class SourceFileWriter extends Writer {
 		writeChannel.closeFinally();
 		FileService fileService = FileServiceFactory.getFileService();
 		sourceFile.setContent(fileService.getBlobKey(file));
-		System.err.println("Content = " + sourceFile.getContent());
-		
-//		sourceFile.setProjectKey("new key");
-//		PersistenceManager pm = PMF.get().getPersistenceManager();
-//		SourceFile tmp = pm.makePersistent(sourceFile);
-//		pm.makePersistent(tmp);
-//		pm.close();
 	}
 
 	@Override

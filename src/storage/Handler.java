@@ -3,7 +3,8 @@ package storage;
 
 /**
  * Interface for handlind common database operations
- * with any supported types
+ * with any supported types. Each type should have its own
+ * handler implementation for these operations.
  * @author Sergey
  *
  */
@@ -11,7 +12,7 @@ public interface Handler {
 	
 	/**
 	 * Creates new object in database
-	 * @param params - parameters defining properties of new object
+	 * @param params - parameters required for creating object
 	 * @return String key of created object
 	 * @throws DatabaseException 
 	 */
@@ -19,8 +20,7 @@ public interface Handler {
 
 	/**
 	 * Gets object from database
-	 * @param params - parameters defining how to get object
-	 * @return - new object or object from database
+	 * @return - object from database
 	 * @throws DatabaseException if it's impossible to get required object
 	 */
 	public Object get(String key) throws DatabaseException;
@@ -33,6 +33,10 @@ public interface Handler {
 	 */
 	public void save(Object toSave) throws DatabaseException;
 	
-	
+	/**
+	 * Deletes object from database.
+	 * @param key - database key of the object to delete
+	 * @throws DatabaseException if some error occurs while deleting object
+	 */
 	public void delete(String key) throws DatabaseException;
 }

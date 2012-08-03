@@ -8,7 +8,9 @@ import java.nio.channels.Channels;
 import com.google.appengine.api.files.FileReadChannel;
 
 /**
- * Class for reading source files which are located in database
+ * Class for reading source files which are located in database.
+ * Provides standart Java Reader interface. Shouldn't be created
+ * manually, it's only created in SourceFile class.
  * @author Sergey
  *
  */

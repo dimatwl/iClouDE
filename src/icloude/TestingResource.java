@@ -20,34 +20,46 @@ public class TestingResource {
 	@Produces(MediaType.TEXT_HTML)
 	public String getInfoJSON() throws IOException, DatabaseException {	
 		StringBuilder outputMessageBuilder = new StringBuilder();
-		outputMessageBuilder.append("Testing results: <br/>");
+		outputMessageBuilder.append("Test results: <br/>");
 		
+		sourceFileTest(outputMessageBuilder);
+		projectTest(outputMessageBuilder);
+		folderTest(outputMessageBuilder);
+		packageTest(outputMessageBuilder);
 		
-		outputMessageBuilder.append("<br/>SourceFileTest<br/>");
-		SourceFileTest SourceFileTest = new SourceFileTest();
-		for (String s: SourceFileTest.test()) {
-			outputMessageBuilder.append(s + "<br/>");
-		}
-		
-		outputMessageBuilder.append("<br/>ProjectTest<br/>");
-		ProjectTest projectTest = new ProjectTest();
-		for (String s: projectTest.test()) {
-			outputMessageBuilder.append(s + "<br/>");
-		}
-		
-		outputMessageBuilder.append("<br/>FolderTest<br/>");
-		FolderTest folderTest = new FolderTest();
-		for (String s: folderTest.test()) {
-			outputMessageBuilder.append(s + "<br/>");
-		}
-		
+		return outputMessageBuilder.toString();
+	}
+
+	private void packageTest(StringBuilder outputMessageBuilder) {
 		outputMessageBuilder.append("<br/>PackageTest<br/>");
 		PackageTest packageTest = new PackageTest();
 		for (String s: packageTest.test()) {
 			outputMessageBuilder.append(s + "<br/>");
 		}
-		
-		return outputMessageBuilder.toString();
+	}
+
+	private void folderTest(StringBuilder outputMessageBuilder) {
+		outputMessageBuilder.append("<br/>FolderTest<br/>");
+		FolderTest folderTest = new FolderTest();
+		for (String s: folderTest.test()) {
+			outputMessageBuilder.append(s + "<br/>");
+		}
+	}
+
+	private void projectTest(StringBuilder outputMessageBuilder) {
+		outputMessageBuilder.append("<br/>ProjectTest<br/>");
+		ProjectTest projectTest = new ProjectTest();
+		for (String s: projectTest.test()) {
+			outputMessageBuilder.append(s + "<br/>");
+		}
+	}
+
+	private void sourceFileTest(StringBuilder outputMessageBuilder) {
+		outputMessageBuilder.append("<br/>SourceFileTest<br/>");
+		SourceFileTest SourceFileTest = new SourceFileTest();
+		for (String s: SourceFileTest.test()) {
+			outputMessageBuilder.append(s + "<br/>");
+		}
 	}
 
 }

@@ -7,12 +7,21 @@ import javax.jdo.PersistenceManager;
 import storage.DatabaseException;
 import storage.PMF;
 
+/**
+ * This class provides implementations of all database operations
+ * with Project objects (create, get, update, delete).
+ * @author Sergey
+ *
+ */
 public class ProjectHandler extends CompositeProjectItemHandler {
 
 	
 	/**
 	 * Creates new Project object.
-	 * There should be 2 parameters: (String name, String type)
+	 * <br/><br/>
+	 * There should be 2 parameters:<br/>
+	 * String name - name of the project to create<br/>
+	 * String type - type of the project to create
 	 */
 	@Override
 	public String create(Object... params) throws DatabaseException {
@@ -38,12 +47,18 @@ public class ProjectHandler extends CompositeProjectItemHandler {
 		
 		Project project = new Project(name, new Date(), type);
 		pm.makePersistent(project);
-		project.setProjectKey(project.getKey());
 		pm.close();
 		
 		return project.getKey();
 	}
 	
+	/**
+	 * Finds project with given key.
+	 * @param key - database key of the project to get
+	 * @return project found
+	 * @throws DatabaseException if some error occurs in database or
+	 * project wasn't found
+	 */
 	@Override
 	public Object get(String key) throws DatabaseException {
 		return get(key, Project.class);

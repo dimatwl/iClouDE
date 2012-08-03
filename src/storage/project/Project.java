@@ -17,6 +17,14 @@ import storage.folder.Folder;
 import storage.pack.Package;
 import storage.sourcefile.SourceFile;
 
+/**
+ * Class representing projects in database.
+ * <br/><br/>
+ * For creating new Project you need to provide its name,
+ * and its type.
+ * @author Sergey
+ *
+ */
 @PersistenceCapable(detachable="true")
 public class Project extends CompositeProjectItem {
 
@@ -74,6 +82,14 @@ public class Project extends CompositeProjectItem {
 		return result;
 	}
 	
+	/**
+	 * Returns Map containg all project items which are located in this project.
+	 * Keys in this map are database keys of project items, and values are
+	 * project items with corresponding key.
+	 * @return Returns Map containg all project items which are located in this project.
+	 * @throws DatabaseException if some error occurs in database or some
+	 * project item wasn't found.
+	 */
 	public Map<String, ProjectItem> getContent() throws DatabaseException {
 		List<ProjectItem> result = new ArrayList<ProjectItem>();
 		result.addAll(getObjectsOfType(getKey(), SourceFile.class));
