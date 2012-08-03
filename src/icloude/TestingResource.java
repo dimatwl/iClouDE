@@ -13,7 +13,7 @@ import test.PackageTest;
 import test.ProjectTest;
 import test.SourceFileTest;
 
-@Path("/testing")
+@Path("/testing/sergey")
 public class TestingResource {
 
 	@GET
