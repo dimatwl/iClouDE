@@ -25,5 +25,15 @@ public class ProjectResponse extends BaseResponse {
 		super(requestID, result, description);
 		this.content = content;
 	}
+	
+	private ProjectResponse() {
+	}
+
+	/**
+	 * @return the content
+	 */
+	public ProjectContent getContent() {
+		return content;
+	}
 
 }

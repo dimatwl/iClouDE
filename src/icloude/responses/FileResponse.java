@@ -22,4 +22,15 @@ public class FileResponse extends BaseResponse {
 		this.content = content;
 	}
 
+	
+	private FileResponse() {
+	}
+
+
+	/**
+	 * @return the content
+	 */
+	public FileContent getContent() {
+		return content;
+	}
 }

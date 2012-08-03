@@ -1,15 +1,20 @@
 package icloude.request_handlers;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import icloude.contents.FileContent;
 import icloude.requests.BaseRequest;
 import icloude.requests.DownloadCodeRequest;
+import icloude.requests.DownloadFileRequest;
 import icloude.requests.DownloadProjectStructureRequest;
 import icloude.responses.BaseResponse;
+import icloude.responses.FileResponse;
 import icloude.responses.StandartResponse;
 
 import javax.ws.rs.GET;
@@ -18,7 +23,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import storage.Database;
 import storage.DatabaseException;
+import storage.StoringType;
 import storage.project.Project;
 import storage.project.ProjectItem;
 import storage.sourcefile.SourceFile;
@@ -43,9 +50,9 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 	 * @return the StandartResponse witch will be sent to client
 	 */
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public String post(@QueryParam("json") String json) {
-		return getResponce(json);
+	@Produces("application/x-zip-compressed")
+	public InputStream get(@QueryParam("json") String json) {
+		return doZip(jsonToRequest(json));
 	}
 
 	/**
@@ -88,12 +95,34 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 				"Request 'Download code' recieved.");
 	}
 	
+	private InputStream doZip(BaseRequest request) {
+		InputStream response = null;
+		DownloadCodeRequest castedRequest = (DownloadCodeRequest) request;
+		Project project = null;
+		try {
+			project = (Project) Database.get(StoringType.PROJECT,
+					castedRequest.getProjectID());
+			byte[] buf = zipProject(project.getContent(), castedRequest.getProjectID(), project.getName());
+			response = new ByteArrayInputStream(buf);
+		} catch (DatabaseException e) {
+			response = null;
+		} catch (IOException e) {
+			response = null;
+		}
+		return response;
+	}
 	
-	private byte[] zipProject(Map<String, ProjectItem> project) throws IOException, DatabaseException {
+	
+	private byte[] zipProject(Map<String, ProjectItem> project, String projectKey, String projectName) throws IOException, DatabaseException {
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);
 		ZipOutputStream zipOut = new ZipOutputStream(outStream);
+		
 		for (String key : project.keySet()) {
-			addToZip(key, project, zipOut);
+			System.err.println(key + " : " + project.get(key));
+		} 
+		
+		for (String key : project.keySet()) {
+			addToZip(key, project, zipOut, projectKey, projectName);
 		} 
 		zipOut.flush();
 		zipOut.close();
@@ -101,9 +130,9 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 		return outStream.toByteArray();
 	}
 
-	private void addToZip(String key, Map<String, ProjectItem> project, ZipOutputStream zipOut) throws IOException, DatabaseException {
+	private void addToZip(String key, Map<String, ProjectItem> project, ZipOutputStream zipOut, String projectKey, String projectName) throws IOException, DatabaseException {
 		ProjectItem currentItem = project.get(key);
-		String fullPath = getFullPath(key, project);
+		String fullPath = getFullPath(key, project, projectKey, projectName);
 		zipOut.putNextEntry(new ZipEntry(fullPath));
 		if (currentItem instanceof SourceFile) {
 			SourceFileReader reader = ((SourceFile)currentItem).openForReading();
@@ -117,20 +146,22 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 
 	}
 	
-	private String getFullPath(String key, Map<String, ProjectItem> project) {
+	private String getFullPath(String key, Map<String, ProjectItem> project, String projectKey, String projectName) {
 		String currentItemKey = key;
 		ProjectItem currentItem = project.get(currentItemKey);
 		StringBuilder fullPath = new StringBuilder();
 		if (! (currentItem instanceof SourceFile)) {
 			fullPath.insert(0, '/');
 		}
-		while (! (currentItem instanceof Project)) {
+		while (! currentItem.getParentKey().equals(projectKey)) {
 			fullPath.insert(0, currentItem.getName());
 			fullPath.insert(0, '/');
 			currentItemKey = currentItem.getParentKey();
 			currentItem = project.get(currentItemKey);
 		}
 		fullPath.insert(0, currentItem.getName());
+		fullPath.insert(0, '/');
+		fullPath.insert(0, projectName);
 		fullPath.insert(0, '/');
 		return fullPath.toString();
 	}

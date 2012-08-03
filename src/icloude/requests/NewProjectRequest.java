@@ -23,4 +23,18 @@ public class NewProjectRequest extends BaseRequest {
 	public String getProjectType() {
 		return projectType;
 	}
+
+	/**
+	 * @param requestID
+	 * @param requestType
+	 * @param userID
+	 * @param projectName
+	 * @param projectType
+	 */
+	public NewProjectRequest(String requestID, String requestType,
+			String userID, String projectName, String projectType) {
+		super(requestID, requestType, userID);
+		this.projectName = projectName;
+		this.projectType = projectType;
+	}
 }

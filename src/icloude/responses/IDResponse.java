@@ -18,5 +18,17 @@ public class IDResponse extends BaseResponse {
 		super(requestID, result, description);
 		this.id = id;
 	}
+	
+
+	private IDResponse() {
+	}
+
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
 
 }
