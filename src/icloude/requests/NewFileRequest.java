@@ -40,5 +40,23 @@ public class NewFileRequest extends BaseRequest {
 		return fileType;
 	}
 
+	/**
+	 * @param requestID
+	 * @param requestType
+	 * @param userID
+	 * @param projectID
+	 * @param parentID
+	 * @param fileName
+	 * @param fileType
+	 */
+	public NewFileRequest(String requestID, String requestType, String userID,
+			String projectID, String parentID, String fileName, String fileType) {
+		super(requestID, requestType, userID);
+		this.projectID = projectID;
+		this.parentID = parentID;
+		this.fileName = fileName;
+		this.fileType = fileType;
+	}
+
 
 }

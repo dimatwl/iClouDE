@@ -23,5 +23,18 @@ public class AutocompleteResponce extends BaseResponse {
 		super(requestID, result, description);
 		this.choises = choises;
 	}
+	
+
+	private AutocompleteResponce() {
+	}
+
+
+	/**
+	 * @return the choises
+	 */
+	public List<Choise> getChoises() {
+		return choises;
+	}
+
 
 }

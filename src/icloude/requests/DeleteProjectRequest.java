@@ -16,4 +16,16 @@ public class DeleteProjectRequest extends BaseRequest {
 	public String getProjectID() {
 		return projectID;
 	}
+
+	/**
+	 * @param requestID
+	 * @param requestType
+	 * @param userID
+	 * @param projectID
+	 */
+	public DeleteProjectRequest(String requestID, String requestType,
+			String userID, String projectID) {
+		super(requestID, requestType, userID);
+		this.projectID = projectID;
+	}
 }

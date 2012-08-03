@@ -36,4 +36,21 @@ public class AutocompleteRequest extends BaseRequest {
 		return caretPosition;
 	}
 
+	/**
+	 * @param requestID
+	 * @param requestType
+	 * @param userID
+	 * @param projectID
+	 * @param content
+	 * @param caretPosition
+	 */
+	public AutocompleteRequest(String requestID, String requestType,
+			String userID, String projectID, FileContent content,
+			Long caretPosition) {
+		super(requestID, requestType, userID);
+		this.projectID = projectID;
+		this.content = content;
+		this.caretPosition = caretPosition;
+	}
+
 }

@@ -13,7 +13,10 @@ public class StandartResponse extends BaseResponse {
 	 */
 	public StandartResponse(String requestID, Boolean result, String description) {
 		super(requestID, result, description);
-		// TODO Auto-generated constructor stub
+	}
+	
+
+	private StandartResponse() {
 	}
 
 }

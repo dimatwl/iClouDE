@@ -1,9 +1,20 @@
 package icloude;
 
+import icloude.contents.FileContent;
+import icloude.request_handlers.DownloadCodeRequestHandler;
+import icloude.request_handlers.NewFileRequestHandler;
+import icloude.request_handlers.NewProjectRequestHandler;
+import icloude.request_handlers.UploadFileRequestHandler;
+import icloude.requests.DownloadCodeRequest;
+import icloude.requests.NewFileRequest;
+import icloude.requests.NewProjectRequest;
+import icloude.requests.UploadFileRequest;
+import icloude.responses.IDResponse;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
-import javax.jdo.PersistenceManager;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,14 +22,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-
 import storage.Database;
 import storage.DatabaseException;
-import storage.PMF;
 import storage.StoringType;
-import storage.sourcefile.SourceFile;
-import storage.sourcefile.SourceFileReader;
-import storage.sourcefile.SourceFileWriter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -37,35 +43,27 @@ public class CloudService {
 	}
 
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public String getInfoJSON() throws IOException, DatabaseException {
+	@Produces("application/x-zip-compressed")
+	public InputStream getInfoJSON() throws IOException, DatabaseException {
+		String json;
 		
-		String key = Database.create(StoringType.SOURCE_FILE, "FirstFile", "projectKey", "parentKey");
-//		System.err.println(key);
-//		
-//		SourceFile file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
-//		SourceFileWriter writer = file.openForWriting();
-//		writer.write("hello");
-//		writer.close();
-//		Database.save(StoringType.SOURCE_FILE, file);
-//		
-//		file = (SourceFile)Database.get(StoringType.SOURCE_FILE, key);
-//		SourceFileReader reader = file.openForReading();
-//		char[] cbuf = new char[4];
-//		reader.read(cbuf);
-//		System.err.println(new String(cbuf));
-//		reader.close();
+		NewProjectRequestHandler nprh = new NewProjectRequestHandler();
+		NewFileRequestHandler nfrh = new NewFileRequestHandler();
+		UploadFileRequestHandler ufrh = new UploadFileRequestHandler();
+		DownloadCodeRequestHandler dcrh = new DownloadCodeRequestHandler();
 		
-		System.err.println("get");
+		NewProjectRequest npr = new NewProjectRequest("NewProjectRequest", "newproject", "userIDZIP", "projectZIP", "typeZIP");
+		json = nprh.post(gson.toJson(npr));
+		IDResponse idrProj = gson.fromJson(json, IDResponse.class);
+		NewFileRequest nfr = new NewFileRequest("NewFileRequest", "newfile", "userIDZIP", idrProj.getId(), idrProj.getId(), "fileZIP", "typeZIP");
+		json = nfrh.post(gson.toJson(nfr));
+		IDResponse idrFile = gson.fromJson(json, IDResponse.class);
+		FileContent content = new FileContent("file", idrFile.getId(), "Hello, I am text of this file!!!", "textFile", "userIDZIP", "ZIPRevision", (new Date()).getTime(), (new Date()).getTime());
+		UploadFileRequest ufr = new UploadFileRequest("UploadFileRequest", "uploadfile", "userIDZIP", idrProj.getId(), content);
+		json = ufrh.post(gson.toJson(ufr));
+		DownloadCodeRequest dcr = new DownloadCodeRequest("DownloadCodeRequest", "downloadcode", "UserIDZIP", idrProj.getId());
 		
-//		String projectKey = Database.create(StoringType.PROJECT, "Project", "Java");
-//		String fileKey = Database.create(StoringType.SOURCE_FILE, "newfile", projectKey, "parentKey");
-//		
-//		
-//		Database.get(StoringType.PROJECT, projectKey);
-//		
-		SimpleMessage msg = new SimpleMessage("Hello from GET in JSON.");
-		return gson.toJson(msg);
+		return dcrh.get(gson.toJson(dcr));
 	}
 
 	@POST

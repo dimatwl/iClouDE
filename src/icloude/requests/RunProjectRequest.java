@@ -32,4 +32,21 @@ public class RunProjectRequest extends BaseRequest {
 	public String getInputData() {
 		return inputData;
 	}
+
+	/**
+	 * @param requestID
+	 * @param requestType
+	 * @param userID
+	 * @param projectID
+	 * @param entryPointID
+	 * @param inputData
+	 */
+	public RunProjectRequest(String requestID, String requestType,
+			String userID, String projectID, String entryPointID,
+			String inputData) {
+		super(requestID, requestType, userID);
+		this.projectID = projectID;
+		this.entryPointID = entryPointID;
+		this.inputData = inputData;
+	}
 }

@@ -5,17 +5,27 @@ import java.util.Date;
 
 import javax.jdo.PersistenceManager;
 
-import storage.AbstractHandler;
 import storage.Database;
 import storage.DatabaseException;
 import storage.PMF;
 import storage.StoringType;
+import storage.project.ProjectItemHandler;
 
-public class SourceFileHandler extends AbstractHandler {
+/**
+ * This class provides implementations of all database operations
+ * with SourceFile objects (create, get, update, delete).
+ * @author Sergey
+ *
+ */
+public class SourceFileHandler extends ProjectItemHandler {
 
 	/**
 	 * Creates new SourceFile object.
-	 * There should be 3 parameters: (String name, String projectKey, String parentKey)
+	 * <br/><br/>
+	 * There should be 3 parameters:<br/>
+	 * String name - name of the file to create<br/>
+	 * String projectKey - database key of the project where this file should be created<br/>
+	 * String parentKey - database key of the project item in which this file should be created
 	 */
 	@Override
 	public String create(Object... params) throws DatabaseException {
@@ -64,26 +74,41 @@ public class SourceFileHandler extends AbstractHandler {
 	}
 	
 	/**
-	 * Finds SourceFile with given key.
+	 * Finds source file with given key.
+	 * @param key - database key of the object to get
+	 * @return source file found
+	 * @throws DatabaseException if some error occurs in database or
+	 * file wasn't found
 	 */
 	@Override
-	public SourceFile get(String key) throws DatabaseException {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		SourceFile sourceFile = pm.getObjectById(SourceFile.class, key);
-		if (sourceFile == null) {
-			throw new DatabaseException("No such file");
-		}
-		
-		SourceFile result = pm.detachCopy(sourceFile);
-		pm.close();
-		
-		return result;
+	public Object get(String key) throws DatabaseException {
+		return get(key, SourceFile.class);
 	}
 
+	/**
+	 * Deletes source file from database.
+	 * @param key - database key of the object to delete
+	 * @throws DatabaseException if some error occurs in database or
+	 * if file wasn't found
+	 */
 	@Override
 	public void delete(String key) throws DatabaseException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		pm.deletePersistent(pm.getObjectById(key));
+		pm.deletePersistent(pm.getObjectById(SourceFile.class, key));
+		pm.close();
+	}
+	
+	/**
+	 * Saves changes in file to database.
+	 * @param toSave - SourceFile to be saved
+	 * @throws DatabaseException if some error occurs in database
+	 */
+	@Override
+	public void save(Object toSave) throws DatabaseException {
+		super.save(toSave);
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		SourceFile file = pm.getObjectById(SourceFile.class, ((SourceFile)toSave).getKey());
+		file.setModificationTime(new Date());
 		pm.close();
 	}
 

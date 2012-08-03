@@ -11,7 +11,9 @@ import com.google.appengine.api.files.FileServiceFactory;
 import com.google.appengine.api.files.FileWriteChannel;
 
 /**
- * Class for writing files which are located in database
+ * Class for writing files which are located in database.
+ * Provides standart Java Writer interface. Shouldn't be created
+ * manually, it's only created in SourceFile class.
  * @author Sergey
  *
  */

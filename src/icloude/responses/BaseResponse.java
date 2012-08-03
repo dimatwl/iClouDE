@@ -23,5 +23,33 @@ public class BaseResponse {
 		this.result = result;
 		this.description = description;
 	}
+	
+
+	protected BaseResponse() {
+	}
+
+
+	/**
+	 * @return the requestID
+	 */
+	public String getRequestID() {
+		return requestID;
+	}
+
+
+	/**
+	 * @return the result
+	 */
+	public Boolean getResult() {
+		return result;
+	}
+
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
 
 }

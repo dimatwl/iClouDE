@@ -1,28 +1,27 @@
 package storage.project;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 
-import storage.AbstractHandler;
 import storage.DatabaseException;
 import storage.PMF;
-import storage.ProjectItem;
-import storage.folder.Folder;
-import storage.pack.Package;
-import storage.sourcefile.SourceFile;
 
-public class ProjectHandler extends AbstractHandler {
+/**
+ * This class provides implementations of all database operations
+ * with Project objects (create, get, update, delete).
+ * @author Sergey
+ *
+ */
+public class ProjectHandler extends CompositeProjectItemHandler {
 
 	
 	/**
 	 * Creates new Project object.
-	 * There should be 2 parameters: (String name, String type)
+	 * <br/><br/>
+	 * There should be 2 parameters:<br/>
+	 * String name - name of the project to create<br/>
+	 * String type - type of the project to create
 	 */
 	@Override
 	public String create(Object... params) throws DatabaseException {
@@ -48,52 +47,21 @@ public class ProjectHandler extends AbstractHandler {
 		
 		Project project = new Project(name, new Date(), type);
 		pm.makePersistent(project);
-		project.setProjectKey(project.getKey());
 		pm.close();
 		
 		return project.getKey();
 	}
-
+	
 	/**
-	 * Finds Project with given key.
-	 * There should be 1 parameter: (String key)
-	 * @return map of all project items
+	 * Finds project with given key.
+	 * @param key - database key of the project to get
+	 * @return project found
+	 * @throws DatabaseException if some error occurs in database or
+	 * project wasn't found
 	 */
 	@Override
-	public Map<String, ProjectItem> get(String key) throws DatabaseException {
-		List<ProjectItem> result = new ArrayList<ProjectItem>();
-		result.addAll(getObjectsOfType(key, SourceFile.class));
-		result.addAll(getObjectsOfType(key, Folder.class));
-		result.addAll(getObjectsOfType(key, Package.class));
-		result.addAll(getObjectsOfType(key, Project.class));
-		
-		
-		Map<String, ProjectItem> map = new HashMap<String, ProjectItem>();
-		for (ProjectItem pi: result) {
-			map.put(pi.getKey(), pi);
-			System.err.println(pi.getName());
-		}
-		return map;
-	}
-	
-	private List<ProjectItem> getObjectsOfType(String projectKey, Class<?> type) {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		Query q = pm.newQuery(type);
-		q.setFilter("projectKey == key");
-		q.declareParameters("String key");
-		
-		@SuppressWarnings("unchecked")
-		List<ProjectItem> result = new ArrayList<ProjectItem>((List<ProjectItem>)q.execute(projectKey));
-		
-		pm.close();
-		return result;
-	}
-
-	@Override
-	public void delete(String key) throws DatabaseException {
-		// TODO Auto-generated method stub
-		
+	public Object get(String key) throws DatabaseException {
+		return get(key, Project.class);
 	}
 
 }

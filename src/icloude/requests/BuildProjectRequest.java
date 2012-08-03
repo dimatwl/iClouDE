@@ -24,4 +24,18 @@ public class BuildProjectRequest extends BaseRequest {
 	public String getParameters() {
 		return parameters;
 	}
+
+	/**
+	 * @param requestID
+	 * @param requestType
+	 * @param userID
+	 * @param projectID
+	 * @param parameters
+	 */
+	public BuildProjectRequest(String requestID, String requestType,
+			String userID, String projectID, String parameters) {
+		super(requestID, requestType, userID);
+		this.projectID = projectID;
+		this.parameters = parameters;
+	}
 }

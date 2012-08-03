@@ -28,4 +28,23 @@ public abstract class BaseRequest {
 	public String getUserID() {
 		return userID;
 	}
+
+	/**
+	 * @param requestID
+	 * @param requestType
+	 * @param userID
+	 */
+	public BaseRequest(String requestID, String requestType, String userID) {
+		super();
+		this.requestID = requestID;
+		this.requestType = requestType;
+		this.userID = userID;
+	}
+
+	/**
+	 * 
+	 */
+	protected BaseRequest() {
+		super();
+	}
 }

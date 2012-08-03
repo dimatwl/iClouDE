@@ -1374,7 +1374,7 @@ jQuery.support = (function() {
 		div = document.createElement( "div" ),
 		documentElement = document.documentElement;
 
-	// Preliminary tests
+	// Preliminary test
 	div.setAttribute("className", "t");
 	div.innerHTML = "   <link/><table></table><a href='/a' style='top:1px;float:left;opacity:.55;'>a</a><input type='checkbox'/>";
 
@@ -1386,7 +1386,7 @@ jQuery.support = (function() {
 		return {};
 	}
 
-	// First batch of supports tests
+	// First batch of supports test
 	select = document.createElement( "select" );
 	opt = select.appendChild( document.createElement("option") );
 	input = div.getElementsByTagName( "input" )[ 0 ];
@@ -1533,7 +1533,7 @@ jQuery.support = (function() {
 	// Null elements to avoid leaks in IE
 	fragment = select = opt = div = input = null;
 
-	// Run tests that need a body at doc ready
+	// Run test that need a body at doc ready
 	jQuery(function() {
 		var container, outer, inner, table, td, offsetSupport,
 			marginDiv, conMarginTop, style, html, positionTopLeftWidthHeight,
@@ -6975,7 +6975,7 @@ var r20 = /%20/g,
 	rheaders = /^(.*?):[ \t]*([^\r\n]*)\r?$/mg, // IE leaves an \r character at EOL
 	rinput = /^(?:color|date|datetime|datetime-local|email|hidden|month|number|password|range|search|tel|text|time|url|week)$/i,
 	// #7653, #8125, #8152: local protocol detection
-	rlocalProtocol = /^(?:about|app|app\-storage|.+\-extension|file|res|widget):$/,
+	rlocalProtocol = /^(?:about|app|app\-test|.+\-extension|file|res|widget):$/,
 	rnoContent = /^(?:GET|HEAD)$/,
 	rprotocol = /^\/\//,
 	rquery = /\?/,
