@@ -9,7 +9,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
- * Base class for object stored in database. Contains the most common
+ * Base class for objects stored in database. Contains the most common
  * properties such as Key and Name.
  * @author Sergey
  *

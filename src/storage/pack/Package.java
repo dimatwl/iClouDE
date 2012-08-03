@@ -4,6 +4,13 @@ import javax.jdo.annotations.PersistenceCapable;
 
 import storage.project.CompositeProjectItem;
 
+/**
+ * Class representing package in database.
+ * <br/><br/>
+ * For creating new Package you need to provide its name,
+ * database key of the project where this package should be created,
+ * database key of the parent project item in which this package should be created.
+ */
 @PersistenceCapable(detachable="true")
 public class Package extends CompositeProjectItem {
 

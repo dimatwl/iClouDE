@@ -11,6 +11,14 @@ import javax.jdo.annotations.Persistent;
 
 import com.google.appengine.api.datastore.Key;
 
+/**
+ * Class representing composite items of the project such as folder or package.
+ * Composite project items can contain another project items.<br/>
+ * This class provides access to the children of this CompositeProjectItem through
+ * the list of children's database keys
+ * @author Sergey
+ *
+ */
 @PersistenceCapable(detachable = "true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class CompositeProjectItem extends ProjectItem {
@@ -20,7 +28,6 @@ public abstract class CompositeProjectItem extends ProjectItem {
 
 	public CompositeProjectItem(String name, String projectKey, String parentKey) {
 		super(name, projectKey, parentKey);
-		// TODO Auto-generated constructor stub
 	}
 
 	public List<Key> getChildren() {

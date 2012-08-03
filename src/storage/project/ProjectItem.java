@@ -8,6 +8,14 @@ import javax.jdo.annotations.Persistent;
 import storage.DatabaseObject;
 
 
+/**
+ * Class representing some item of the project such as folder or source file.
+ * Contains two properties:<br/>
+ * String projectKey - database key of the project where this item is located<br/>
+ * String parentKey - database key of the another project item in which this item is located
+ * @author Sergey
+ *
+ */
 @PersistenceCapable(detachable = "true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class ProjectItem extends DatabaseObject {
@@ -28,17 +36,8 @@ public abstract class ProjectItem extends DatabaseObject {
 	public String getProjectKey() {
 		return projectKey;
 	}
-
-	public void setProjectKey(String projectKey) {
-		this.projectKey = projectKey;
-	}
 	
 	public String getParentKey() {
 		return parentKey;
 	}
-	
-	public void setParentKey(String parentKey) {
-		this.parentKey = parentKey;
-	}
-
 }

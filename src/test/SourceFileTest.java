@@ -2,7 +2,6 @@ package test;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import storage.Database;
@@ -158,22 +157,22 @@ public class SourceFileTest implements Test {
 		}
 	}
 	
-	private String updateFields() throws TestException {
-		String result = "Updating fields: ";
-
-		getFile(result);
-		Date modificationDate = new Date(0);
-		file.setModificationTime(modificationDate);
-		saveFile(result);
-		
-		getFile(result);
-		if (!modificationDate.equals(file.getModificationTime())) {
-			throw new TestException(result + Test.FAILED + 
-					" - file field hasn't changed");
-		}
-		
-		return result + Test.PASSED;
-	}
+//	private String updateFields() throws TestException {
+//		String result = "Updating fields: ";
+//
+//		getFile(result);
+//		Date modificationDate = new Date(0);
+//		file.setModificationTime(modificationDate);
+//		saveFile(result);
+//		
+//		getFile(result);
+//		if (!modificationDate.equals(file.getModificationTime())) {
+//			throw new TestException(result + Test.FAILED + 
+//					" - file field hasn't changed");
+//		}
+//		
+//		return result + Test.PASSED;
+//	}
 	
 	private String deleteFile() throws TestException {
 		String result = "Deleting file: ";
@@ -205,7 +204,7 @@ public class SourceFileTest implements Test {
 		try {
 			result.add(createNewFile());
 			result.add(writeAndRead());
-			result.add(updateFields());
+//			result.add(updateFields());
 			result.add(deleteFile());
 		} catch (TestException e) {
 			result.add(e.getMessage());
