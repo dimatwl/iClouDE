@@ -119,7 +119,7 @@ public class SourceFileTest implements Test {
 
 	private void saveFile(String result) throws TestException {
 		try {
-			Database.save(StoringType.SOURCE_FILE, file);
+			Database.update(StoringType.SOURCE_FILE, file);
 		} catch (DatabaseException e) {
 			throw new TestException(result + Test.FAILED + 
 					" due to DatabaseException while saving file to database. " +

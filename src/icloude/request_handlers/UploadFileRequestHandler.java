@@ -99,7 +99,7 @@ public class UploadFileRequestHandler extends BaseRequestHandler {
 			if (writer != null && file != null) {
 				try {
 					writer.close();
-					Database.save(StoringType.SOURCE_FILE, file);
+					Database.update(StoringType.SOURCE_FILE, file);
 				} catch (IOException e) {
 					response = new StandartResponse(request.getRequestID(),
 							false, "IO error. " + e.getMessage());

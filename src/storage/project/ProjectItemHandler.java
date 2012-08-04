@@ -33,7 +33,7 @@ public abstract class ProjectItemHandler implements Handler {
 	 * database 
 	 */
 	@Override
-	public void save(Object toSave) throws DatabaseException {
+	public void update(Object toSave) throws DatabaseException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Object tmp = pm.makePersistent(toSave);
 		pm.makePersistent(tmp);
@@ -59,14 +59,4 @@ public abstract class ProjectItemHandler implements Handler {
 		return result;
 	}
 	
-	/**
-	 * Deletes object with specified key from database
-	 * @param key - key of the object to delete
-	 * @throws DatabaseException if object wasn't found
-	 */
-	public void delete(String key) throws DatabaseException {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		pm.deletePersistent(pm.getObjectById(getHandlingType(), key));
-		pm.close();
-	}
 }

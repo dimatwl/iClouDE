@@ -31,7 +31,7 @@ public interface Handler {
 	 * @throws DatabaseException if an error occurs while saving object to
 	 * database 
 	 */
-	public void save(Object toSave) throws DatabaseException;
+	public void update(Object toSave) throws DatabaseException;
 	
 	/**
 	 * Deletes object from database.

@@ -8,7 +8,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import storage.DatabaseException;
-import storage.project.ProjectItem;
+import storage.project.SimpleProjectItem;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
@@ -39,7 +39,7 @@ import com.google.appengine.api.files.LockException;
  *
  */
 @PersistenceCapable(detachable = "true")
-public class SourceFile extends ProjectItem {
+public class SourceFile extends SimpleProjectItem {
 
 	public SourceFile(String name, String projectKey, String parentKey,
 			Date creationTime) {

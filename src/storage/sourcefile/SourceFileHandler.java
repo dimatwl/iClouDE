@@ -9,7 +9,7 @@ import storage.Database;
 import storage.DatabaseException;
 import storage.PMF;
 import storage.StoringType;
-import storage.project.ProjectItemHandler;
+import storage.project.SimpleProjectItemHandler;
 
 /**
  * This class provides implementations of all database operations
@@ -17,7 +17,7 @@ import storage.project.ProjectItemHandler;
  * @author Sergey
  *
  */
-public class SourceFileHandler extends ProjectItemHandler {
+public class SourceFileHandler extends SimpleProjectItemHandler {
 	
 	public SourceFileHandler() {
 		super(SourceFile.class);
@@ -72,7 +72,7 @@ public class SourceFileHandler extends ProjectItemHandler {
 		} catch (IOException e) {
 			throw new DatabaseException(e.getMessage());
 		}
-		Database.save(StoringType.SOURCE_FILE, tmp);
+		Database.update(StoringType.SOURCE_FILE, tmp);
 		
 		return sourceFile.getKey();
 	}
@@ -83,8 +83,8 @@ public class SourceFileHandler extends ProjectItemHandler {
 	 * @throws DatabaseException if some error occurs in database
 	 */
 	@Override
-	public void save(Object toSave) throws DatabaseException {
-		super.save(toSave);
+	public void update(Object toSave) throws DatabaseException {
+		super.update(toSave);
 		updateModificationTime(toSave);
 	}
 

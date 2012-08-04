@@ -79,9 +79,9 @@ public class Database {
 	 * @param toSave - object which should be saved
 	 * @throws DatabaseException if and error occurs while saving object to database
 	 */
-	public static void save(StoringType type, Object toSave) throws DatabaseException {
+	public static void update(StoringType type, Object toSave) throws DatabaseException {
 		try {
-			handlers.get(type).save(toSave);
+			handlers.get(type).update(toSave);
 		} catch (Exception e) {
 			throw new DatabaseException(e.getMessage());
 		}
