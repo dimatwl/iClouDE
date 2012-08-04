@@ -10,55 +10,64 @@ import storage.project.Project;
 
 public class ProjectTest implements Test {
 	
-	private Project project;
-	private String key;
+	@Override
+	public List<String> test() {
+		List<String> result = new ArrayList<String>();
+		result.add(testNewProjectCreating());
+		
+		return result;
+	}
 	
 	
-	private String createNewProject() throws TestException {
+	
+	// test methods
+	
+	private String testNewProjectCreating() {
 		String result = "Creating new project: ";
 		
-		createProject(result);
-		getProject(result);
+		String key = null;
+		Project project = null;
+		try {
+			key = createProject("ProjectName", "ProjectType");
+			project = getProject(key);
+		} catch (TestException e) {
+			return (result + Test.FAILED + e.getMessage());
+		}
 		
 		if (!project.getKey().equals(key)) {
-			throw new TestException(result + Test.FAILED + 
+			return (result + Test.FAILED + 
 					" - project wasn't created or it's " +
 					"impossible to get it from database");
 		}
 		
 		return result + Test.PASSED;
 	}
+	
+	
+	
+	
+	
+	// utility methods
 
-	private void getProject(String result) throws TestException {
+	private Project getProject(String key) throws TestException {
 		try {
-			project = (Project) Database.get(StoringType.PROJECT, key);
+			return (Project) Database.get(StoringType.PROJECT, key);
 		} catch (DatabaseException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to DatabaseException while getting project from database. " +
+			throw new TestException( 
+					"DatabaseException while getting project from database. " +
 					"Error message: " + e.getMessage());
 		}
 	}
 
-	private void createProject(String result) throws TestException {
+	private String createProject(String projectName, String projectType) throws TestException {
 		try {
-			key = Database.create(StoringType.PROJECT, "Test project", "Project type");
+			String key = Database.create(StoringType.PROJECT, projectName, projectType);
+			return key;
 		} catch (DatabaseException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to DatabaseException while creating project. " +
+			throw new TestException(
+					"DatabaseException while creating project. " +
 					"Error message: " + e.getMessage());
 		}
-	}
-
-	@Override
-	public List<String> test() {
-		List<String> result = new ArrayList<String>();
-		try {
-			result.add(createNewProject());
-		} catch (TestException e) {
-			result.add(e.getMessage());
-		}
-		
-		return result;
 	}
 
 }

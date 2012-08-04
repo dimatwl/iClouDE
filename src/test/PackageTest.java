@@ -10,18 +10,29 @@ import storage.pack.Package;
 
 public class PackageTest implements Test {
 	
-	private Package pack;
-	private String key;
+	@Override
+	public List<String> test() {
+		List<String> result = new ArrayList<String>();
+		result.add(createNewPackage());
+		
+		return result;
+	}
 	
 	
-	private String createNewPackage() throws TestException {
+	private String createNewPackage() {
 		String result = "Creating new package: ";
 		
-		createPackage(result);
-		getPackage(result);
+		String key = null;
+		Package pack = null;
+		try {
+			key = createPackage("PackageName", "ProjectKey", "ParentKey");
+			pack = getPackage(key);
+		} catch (TestException e) {
+			return result + Test.FAILED + " - " + e.getMessage();
+		}
 		
 		if (!pack.getKey().equals(key)) {
-			throw new TestException(result + Test.FAILED + 
+			return (result + Test.FAILED + 
 					" - package wasn't created or it's " +
 					"impossible to get it from database");
 		}
@@ -29,36 +40,25 @@ public class PackageTest implements Test {
 		return result + Test.PASSED;
 	}
 
-	private void getPackage(String result) throws TestException {
+	private Package getPackage(String key) throws TestException {
 		try {
-			pack = (Package) Database.get(StoringType.PACKAGE, key);
+			return (Package) Database.get(StoringType.PACKAGE, key);
 		} catch (DatabaseException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to DatabaseException while getting package from database. " +
+			throw new TestException(
+					"DatabaseException while getting package from database. " +
 					"Error message: " + e.getMessage());
 		}
 	}
 
-	private void createPackage(String result) throws TestException {
+	private String createPackage(String packageName, String projectKey, String parentKey) throws TestException {
 		try {
-			key = Database.create(StoringType.PACKAGE, "Test package", "Project key", "Parent key");
+			String key =  Database.create(StoringType.PACKAGE, packageName, projectKey, parentKey);
+			return key;
 		} catch (DatabaseException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to DatabaseException while creating package. " +
+			throw new TestException( 
+					"DatabaseException while creating package. " +
 					"Error message: " + e.getMessage());
 		}
-	}
-
-	@Override
-	public List<String> test() {
-		List<String> result = new ArrayList<String>();
-		try {
-			result.add(createNewPackage());
-		} catch (TestException e) {
-			result.add(e.getMessage());
-		}
-		
-		return result;
 	}
 
 }

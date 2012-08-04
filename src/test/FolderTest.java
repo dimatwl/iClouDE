@@ -10,18 +10,31 @@ import storage.folder.Folder;
 
 public class FolderTest implements Test {
 	
-	private Folder folder;
-	private String key;
+	@Override
+	public List<String> test() {
+		List<String> result = new ArrayList<String>();
+		result.add(createNewFolder());
+		
+		return result;
+	}
+
 	
+	// test methods
 	
-	private String createNewFolder() throws TestException {
+	private String createNewFolder() {
 		String result = "Creating new folder: ";
 		
-		createFolder(result);
-		getFolder(result);
+		String key = null;
+		Folder folder = null;
+		try {
+			key = createFolder("FolderName", "ProjectKey", "ParentKey");
+			folder = getFolder(key);
+		} catch (TestException e) {
+			return result + Test.FAILED + " - " + e.getMessage();
+		}
 		
 		if (!folder.getKey().equals(key)) {
-			throw new TestException(result + Test.FAILED + 
+			return (result + Test.FAILED + 
 					" - folder wasn't created or it's " +
 					"impossible to get it from database");
 		}
@@ -29,36 +42,31 @@ public class FolderTest implements Test {
 		return result + Test.PASSED;
 	}
 
-	private void getFolder(String result) throws TestException {
+	
+	
+	
+	
+	// utility methods
+	
+	private Folder getFolder(String key) throws TestException {
 		try {
-			folder = (Folder) Database.get(StoringType.FOLDER, key);
+			return (Folder) Database.get(StoringType.FOLDER, key);
 		} catch (DatabaseException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to DatabaseException while getting folder from database. " +
+			throw new TestException( 
+					"DatabaseException while getting folder from database. " +
 					"Error message: " + e.getMessage());
 		}
 	}
 
-	private void createFolder(String result) throws TestException {
+	private String createFolder(String folderName, String projectKey, String parentKey) throws TestException {
 		try {
-			key = Database.create(StoringType.FOLDER, "Test folder", "Project key", "Parent key");
+			String key = Database.create(StoringType.FOLDER, folderName, projectKey, parentKey);
+			return key;
 		} catch (DatabaseException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to DatabaseException while creating folder. " +
+			throw new TestException(
+					"DatabaseException while creating folder. " +
 					"Error message: " + e.getMessage());
 		}
-	}
-
-	@Override
-	public List<String> test() {
-		List<String> result = new ArrayList<String>();
-		try {
-			result.add(createNewFolder());
-		} catch (TestException e) {
-			result.add(e.getMessage());
-		}
-		
-		return result;
 	}
 
 }

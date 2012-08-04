@@ -1,6 +1,8 @@
 package test;
 
 import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,26 +10,41 @@ import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
 import storage.sourcefile.SourceFile;
-import storage.sourcefile.SourceFileReader;
-import storage.sourcefile.SourceFileWriter;
 
 public class SourceFileTest implements Test {
 	
 	private static final String testString = "hello world";
 	
-	private String key;
-	private SourceFile file;
-	private SourceFileWriter writer;
-	private SourceFileReader reader;
+
+	@Override
+	public List<String> test() {
+		List<String> result = new ArrayList<String>();
+		result.add(testNewFileCreating());
+		result.add(testWritingAndReading());
+		result.add(testFileDeleting());
+		
+		return result;
+	}
 	
-	private String createNewFile() throws TestException {
+	
+	
+	
+	// test methods
+
+	private String testNewFileCreating() {
 		String result = "Creating new file: ";
 		
-		createFile(result);
-		getFile(result);
+		String key = null;
+		SourceFile file = null;
+		try {
+			key = createFile("Filename", "ProjectKey", "ParentKey");
+			file = getFile(key);
+		} catch (TestException e) {
+			return result + Test.FAILED + " - " + e.getMessage();
+		}
 		
 		if (!file.getKey().equals(key)) {
-			throw new TestException(result + Test.FAILED + 
+			return (result + Test.FAILED + 
 					" - file wasn't created or it's " +
 					"impossible to get it from database");
 		}
@@ -35,61 +52,97 @@ public class SourceFileTest implements Test {
 		return result + Test.PASSED;
 	}
 
-	private void createFile(String result) throws TestException {
-		try {
-			key = Database.create(StoringType.SOURCE_FILE, "TestFile", "projectKey", "parentKey");
-			
-		} catch (DatabaseException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to DatabaseException while creating file. " +
-					"Error message: " + e.getMessage());
-		}
-	}
-
-	private void getFile(String result) throws TestException {
-		try {
-			file = (SourceFile) Database.get(StoringType.SOURCE_FILE, key);
-		} catch (DatabaseException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to DatabaseException while getting file from database. " +
-					"Error message: " + e.getMessage());
-		}
-	}
-	
-	private String writeAndRead() throws TestException {
+	private String testWritingAndReading() {
 		String result = "Writing and reading source file: ";
 		
-		getFile(result);
-		openFileForWriting(result);
-		writeToFile(result);
-		closeWriter(result);
-		saveFile(result);
-		getFile(result);
-		openFileForReading(result);
-
-		String fileContent = readFile(result);
-		closeReader(result);
+		String fileContent = null;
+		try {
+			String key = createFile("Filename", "ProjectKey", "ParentKey");
+			SourceFile file = getFile(key);
+			
+			Writer writer = openFileForWriting(file);
+			writeToFile(writer);
+			closeWriter(writer);
+			saveFile(file);
+			
+			file = getFile(key);
+			Reader reader = openFileForReading(file);
+			fileContent = readFile(reader);
+			closeReader(reader);
+		} catch (TestException e) {
+			return result + Test.FAILED + " - " + e.getMessage();
+		}
 		
 		if (!testString.equals(fileContent)) {
-			throw new TestException(result + Test.FAILED + 
+			return (result + Test.FAILED + 
 					" - there must be '" + testString + "' in the file, but '" +
-							fileContent + "' found");
+					fileContent + "' found");
 		}
 		
 		return result + Test.PASSED;
 	}
-
-	private void closeReader(String result) throws TestException {
+	
+	private String testFileDeleting() {
+		String result = "Deleting file: ";
+		
+		String key = null;
 		try {
-			reader.close();
-		} catch (IOException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to IOException while closing file after reading. " +
+			key = createFile("Filename", "ProjectKey", "ParentKey");
+			getFile(key);
+			deleteFile(key);
+		} catch (TestException e) {
+			return (result + Test.FAILED + " - " + e.getMessage());
+		}
+
+		try {
+			getFile(key);
+		} catch (TestException e) {
+			return result + Test.PASSED;
+		}
+		
+		return result + Test.FAILED + " - file wasn't deleted";
+	}
+
+	
+	
+	
+	
+	// utility methods
+	
+	private String createFile(String filename, String projectKey, String parentKey) throws TestException {
+		try {
+			String key = Database.create(StoringType.SOURCE_FILE, filename, projectKey, parentKey);
+			return key;
+		} catch (DatabaseException e) {
+			throw new TestException( 
+					"DatabaseException while creating file. " +
 					"Error message: " + e.getMessage());
 		}
 	}
 
-	private String readFile(String result) throws TestException {
+	private SourceFile getFile(String key) throws TestException {
+		try {
+			SourceFile file = (SourceFile) Database.get(StoringType.SOURCE_FILE, key);
+			return file;
+		} catch (DatabaseException e) {
+			throw new TestException( 
+					"DatabaseException while getting file from database. " +
+					"Error message: " + e.getMessage());
+		}
+	}
+	
+
+	private void closeReader(Reader reader) throws TestException {
+		try {
+			reader.close();
+		} catch (IOException e) {
+			throw new TestException( 
+					"IOException while closing file after reading. " +
+					"Error message: " + e.getMessage());
+		}
+	}
+
+	private String readFile(Reader reader) throws TestException {
 		char[] cbuf = new char[5];
 		String fileContent = "";
 		try {
@@ -100,116 +153,73 @@ public class SourceFileTest implements Test {
 				}
 			}
 		} catch (IOException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to IOException while reading file. " +
+			throw new TestException(
+					"IOException while reading file. " +
 					"Error message: " + e.getMessage());
 		}
 		return fileContent;
 	}
 
-	private void openFileForReading(String result) throws TestException {
+	private Reader openFileForReading(SourceFile file) throws TestException {
 		try {
-			reader = file.openForReading();
+			return file.openForReading();
 		} catch (DatabaseException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to DatabaseException while opening file for reading. " +
+			throw new TestException(
+					"DatabaseException while opening file for reading. " +
 					"Error message: " + e.getMessage());
 		}
 	}
 
-	private void saveFile(String result) throws TestException {
+	private void saveFile(SourceFile file) throws TestException {
 		try {
 			Database.update(StoringType.SOURCE_FILE, file);
 		} catch (DatabaseException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to DatabaseException while saving file to database. " +
+			throw new TestException(
+					"DatabaseException while saving file to database. " +
 					"Error message: " + e.getMessage());
 		}
 	}
 
-	private void closeWriter(String result) throws TestException {
+	private void closeWriter(Writer writer) throws TestException {
 		try {
 			writer.close();
 		} catch (IOException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to IOException while closing file after writing. " +
+			throw new TestException( 
+					"IOException while closing file after writing. " +
 					"Error message: " + e.getMessage());
 		}
 	}
 
-	private void writeToFile(String result) throws TestException {
+	private void writeToFile(Writer writer) throws TestException {
 		try {
 			writer.write(testString);
 		} catch (IOException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to IOException while writing to the file. " +
+			throw new TestException(
+					"IOException while writing to the file. " +
 					"Error message: " + e.getMessage());
 		}
 	}
 
-	private void openFileForWriting(String result) throws TestException {
+	private Writer openFileForWriting(SourceFile file) throws TestException {
 		try {
-			writer = file.openForWriting();
+			return file.openForWriting();
 		} catch (DatabaseException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to DatabaseException while opening file for writing. " +
+			throw new TestException(
+					"DatabaseException while opening file for writing. " +
 					"Error message: " + e.getMessage());
 		}
 	}
 	
-//	private String updateFields() throws TestException {
-//		String result = "Updating fields: ";
-//
-//		getFile(result);
-//		Date modificationDate = new Date(0);
-//		file.setModificationTime(modificationDate);
-//		saveFile(result);
-//		
-//		getFile(result);
-//		if (!modificationDate.equals(file.getModificationTime())) {
-//			throw new TestException(result + Test.FAILED + 
-//					" - file field hasn't changed");
-//		}
-//		
-//		return result + Test.PASSED;
-//	}
-	
-	private String deleteFile() throws TestException {
-		String result = "Deleting file: ";
-		
-		deleteFile(result);
-		
-		try {
-			getFile("");
-		} catch (TestException e) {
-			return result + Test.PASSED;
-		}
-		
-		return result + Test.FAILED + " - file wasn't deleted";
-	}
 
-	private void deleteFile(String result) throws TestException {
+	private void deleteFile(String key) throws TestException {
 		try {
 			Database.delete(StoringType.SOURCE_FILE, key);
 		} catch (DatabaseException e) {
-			throw new TestException(result + Test.FAILED + 
-					" due to DatabaseException while deleting file. " +
+			throw new TestException(
+					"DatabaseException while deleting file. " +
 					"Error message: " + e.getMessage());
 		}
 	}
 
-	@Override
-	public List<String> test() {
-		List<String> result = new ArrayList<String>();
-		try {
-			result.add(createNewFile());
-			result.add(writeAndRead());
-//			result.add(updateFields());
-			result.add(deleteFile());
-		} catch (TestException e) {
-			result.add(e.getMessage());
-		}
-		
-		return result;
-	}
+	
 }
