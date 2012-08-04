@@ -16,6 +16,10 @@ import storage.PMF;
 public class ProjectHandler extends CompositeProjectItemHandler {
 
 	
+	public ProjectHandler() {
+		super(Project.class);
+	}
+
 	/**
 	 * Creates new Project object.
 	 * <br/><br/>
@@ -50,18 +54,6 @@ public class ProjectHandler extends CompositeProjectItemHandler {
 		pm.close();
 		
 		return project.getKey();
-	}
-	
-	/**
-	 * Finds project with given key.
-	 * @param key - database key of the project to get
-	 * @return project found
-	 * @throws DatabaseException if some error occurs in database or
-	 * project wasn't found
-	 */
-	@Override
-	public Object get(String key) throws DatabaseException {
-		return get(key, Project.class);
 	}
 
 }

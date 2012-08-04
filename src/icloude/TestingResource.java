@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import storage.DatabaseException;
+import storage.StoringType;
 import test.FolderTest;
 import test.PackageTest;
 import test.ProjectTest;
@@ -18,7 +19,7 @@ public class TestingResource {
 
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	public String getInfoJSON() throws IOException, DatabaseException {	
+	public String getInfoJSON() throws IOException, DatabaseException {
 		StringBuilder outputMessageBuilder = new StringBuilder();
 		outputMessageBuilder.append("Test results: <br/>");
 		
@@ -26,6 +27,8 @@ public class TestingResource {
 		projectTest(outputMessageBuilder);
 		folderTest(outputMessageBuilder);
 		packageTest(outputMessageBuilder);
+
+		System.err.println(StoringType.SOURCE_FILE.toString());
 		
 		return outputMessageBuilder.toString();
 	}

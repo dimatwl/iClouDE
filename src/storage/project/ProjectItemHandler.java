@@ -14,6 +14,16 @@ import storage.PMF;
  *
  */
 public abstract class ProjectItemHandler implements Handler {
+	
+	private final Class<?> handlingType;
+	
+	protected ProjectItemHandler(Class<?> handlingType) {
+		this.handlingType = handlingType;
+	}
+	
+	public Class<?> getHandlingType() {
+		return handlingType;
+	}
 
 	
 	/**
@@ -31,15 +41,14 @@ public abstract class ProjectItemHandler implements Handler {
 	}
 	
 	/**
-	 * Gets object of specified type with specified database key.
+	 * Gets object with specified database key.
 	 * @param key - key of the object to get
-	 * @param type - type of the object to get
 	 * @return object found
 	 * @throws DatabaseException if it's impossible to get required object
 	 */
-	protected Object get(String key, Class<?> type) throws DatabaseException {
+	public Object get(String key) throws DatabaseException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Object obj = pm.getObjectById(type, key);
+		Object obj = pm.getObjectById(getHandlingType(), key);
 		if (obj == null) {
 			throw new DatabaseException("No such entity in database");
 		}
@@ -48,5 +57,16 @@ public abstract class ProjectItemHandler implements Handler {
 		pm.close();
 		
 		return result;
+	}
+	
+	/**
+	 * Deletes object with specified key from database
+	 * @param key - key of the object to delete
+	 * @throws DatabaseException if object wasn't found
+	 */
+	public void delete(String key) throws DatabaseException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		pm.deletePersistent(pm.getObjectById(getHandlingType(), key));
+		pm.close();
 	}
 }

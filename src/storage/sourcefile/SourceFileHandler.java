@@ -18,6 +18,10 @@ import storage.project.ProjectItemHandler;
  *
  */
 public class SourceFileHandler extends ProjectItemHandler {
+	
+	public SourceFileHandler() {
+		super(SourceFile.class);
+	}
 
 	/**
 	 * Creates new SourceFile object.
@@ -74,31 +78,6 @@ public class SourceFileHandler extends ProjectItemHandler {
 	}
 	
 	/**
-	 * Finds source file with given key.
-	 * @param key - database key of the object to get
-	 * @return source file found
-	 * @throws DatabaseException if some error occurs in database or
-	 * file wasn't found
-	 */
-	@Override
-	public Object get(String key) throws DatabaseException {
-		return get(key, SourceFile.class);
-	}
-
-	/**
-	 * Deletes source file from database.
-	 * @param key - database key of the object to delete
-	 * @throws DatabaseException if some error occurs in database or
-	 * if file wasn't found
-	 */
-	@Override
-	public void delete(String key) throws DatabaseException {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		pm.deletePersistent(pm.getObjectById(SourceFile.class, key));
-		pm.close();
-	}
-	
-	/**
 	 * Saves changes in file to database.
 	 * @param toSave - SourceFile to be saved
 	 * @throws DatabaseException if some error occurs in database
@@ -106,6 +85,10 @@ public class SourceFileHandler extends ProjectItemHandler {
 	@Override
 	public void save(Object toSave) throws DatabaseException {
 		super.save(toSave);
+		updateModificationTime(toSave);
+	}
+
+	private void updateModificationTime(Object toSave) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		SourceFile file = pm.getObjectById(SourceFile.class, ((SourceFile)toSave).getKey());
 		file.setModificationTime(new Date());

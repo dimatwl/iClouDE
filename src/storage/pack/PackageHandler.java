@@ -13,6 +13,10 @@ import storage.project.CompositeProjectItemHandler;
  *
  */
 public class PackageHandler extends CompositeProjectItemHandler {
+	
+	public PackageHandler() {
+		super(Package.class);
+	}
 
 	/**
 	 * Creates new Package object.
@@ -57,17 +61,6 @@ public class PackageHandler extends CompositeProjectItemHandler {
 		
 		return pack.getKey();
 	}
-
-	/**
-	 * Finds package with given key.
-	 * @param key - database key of the package to get
-	 * @return package found
-	 * @throws DatabaseException if some error occurs in database or
-	 * package wasn't found
-	 */
-	@Override
-	public Object get(String key) throws DatabaseException {
-		return get(key, Package.class);
-	}
+	
 	
 }

@@ -13,6 +13,10 @@ import storage.project.CompositeProjectItemHandler;
  *
  */
 public class FolderHandler extends CompositeProjectItemHandler {
+	
+	public FolderHandler() {
+		super(Folder.class);
+	}
 
 	/**
 	 * Creates new Folder object.
@@ -56,18 +60,6 @@ public class FolderHandler extends CompositeProjectItemHandler {
 		pm.close();
 		
 		return folder.getKey();
-	}
-
-	/**
-	 * Finds folder with given key.
-	 * @param key - database key of the folder to get
-	 * @return folder found
-	 * @throws DatabaseException if some error occurs in database or
-	 * folder wasn't found
-	 */
-	@Override
-	public Object get(String key) throws DatabaseException {
-		return get(key, Folder.class);
 	}
 
 }
