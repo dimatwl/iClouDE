@@ -22,9 +22,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import storage.Database;
 import storage.DatabaseException;
-import storage.StoringType;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
