@@ -22,7 +22,7 @@ import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
 import storage.project.Project;
-import storage.project.ProjectItem;
+import storage.projectitem.ProjectItem;
 import storage.sourcefile.SourceFile;
 import storage.sourcefile.SourceFileReader;
 

@@ -11,7 +11,7 @@ import storage.DatabaseException;
 import storage.StoringType;
 import storage.sourcefile.SourceFile;
 
-public class SourceFileTest implements Test {
+public class SourceFileTest extends Test {
 	
 	private static final String testString = "hello world";
 	
@@ -108,28 +108,8 @@ public class SourceFileTest implements Test {
 	
 	
 	// utility methods
-	
-	private String createFile(String filename, String projectKey, String parentKey) throws TestException {
-		try {
-			String key = Database.create(StoringType.SOURCE_FILE, filename, projectKey, parentKey);
-			return key;
-		} catch (DatabaseException e) {
-			throw new TestException( 
-					"DatabaseException while creating file. " +
-					"Error message: " + e.getMessage());
-		}
-	}
 
-	private SourceFile getFile(String key) throws TestException {
-		try {
-			SourceFile file = (SourceFile) Database.get(StoringType.SOURCE_FILE, key);
-			return file;
-		} catch (DatabaseException e) {
-			throw new TestException( 
-					"DatabaseException while getting file from database. " +
-					"Error message: " + e.getMessage());
-		}
-	}
+	
 	
 
 	private void closeReader(Reader reader) throws TestException {

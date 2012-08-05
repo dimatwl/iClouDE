@@ -1,4 +1,4 @@
-package storage.project;
+package storage.projectitem;
 
 import java.util.Map;
 
@@ -6,6 +6,7 @@ import javax.jdo.PersistenceManager;
 
 import storage.DatabaseException;
 import storage.PMF;
+import storage.project.Project;
 
 /**
  * Class for handlig composite project items such as project, folder, package.
@@ -29,16 +30,20 @@ public abstract class CompositeProjectItemHandler extends ProjectItemHandler {
 	public void delete(String key) throws DatabaseException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		ProjectItem toDelete = (ProjectItem) pm.getObjectById(getHandlingType(), key);
-		String projectKey = toDelete.getProjectKey();
+		String projectKey = null;
+		if (toDelete instanceof Project) {
+			projectKey = key;
+		} else {
+			projectKey = toDelete.getProjectKey();
+		}
 		Project project = pm.getObjectById(Project.class, projectKey);
 		
 		Map<String, ProjectItem> map = project.getContent();
 		for (ProjectItem item: map.values()) {
 			
-			ProjectItem pi = item;
 			String currentKey = item.getKey();
 			while (!currentKey.equals(key) && !currentKey.equals(projectKey)) {
-				pi = map.get(pi.getParentKey());
+				currentKey = map.get(currentKey).getParentKey();
 			}
 			
 			if (currentKey.equals(key)) {

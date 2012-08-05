@@ -6,6 +6,7 @@ import javax.jdo.PersistenceManager;
 
 import storage.DatabaseException;
 import storage.PMF;
+import storage.projectitem.CompositeProjectItemHandler;
 
 /**
  * This class provides implementations of all database operations

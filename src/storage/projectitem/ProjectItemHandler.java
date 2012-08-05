@@ -1,4 +1,4 @@
-package storage.project;
+package storage.projectitem;
 
 import javax.jdo.PersistenceManager;
 

@@ -8,7 +8,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import storage.DatabaseException;
-import storage.project.SimpleProjectItem;
+import storage.projectitem.SimpleProjectItem;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;

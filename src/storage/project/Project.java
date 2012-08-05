@@ -15,6 +15,8 @@ import storage.DatabaseException;
 import storage.PMF;
 import storage.folder.Folder;
 import storage.pack.Package;
+import storage.projectitem.CompositeProjectItem;
+import storage.projectitem.ProjectItem;
 import storage.sourcefile.SourceFile;
 
 /**
@@ -95,6 +97,7 @@ public class Project extends CompositeProjectItem {
 		result.addAll(getObjectsOfType(getKey(), SourceFile.class));
 		result.addAll(getObjectsOfType(getKey(), Folder.class));
 		result.addAll(getObjectsOfType(getKey(), Package.class));
+		result.add(this);
 		
 		
 		Map<String, ProjectItem> map = new HashMap<String, ProjectItem>();

@@ -4,7 +4,7 @@ import javax.jdo.PersistenceManager;
 
 import storage.DatabaseException;
 import storage.PMF;
-import storage.project.CompositeProjectItemHandler;
+import storage.projectitem.CompositeProjectItemHandler;
 
 /**
  * This class provides implementations of all database operations
@@ -53,7 +53,7 @@ public class FolderHandler extends CompositeProjectItemHandler {
 		
 		String name = (String)params[0];
 		String projectKey = (String)params[1];
-		String parentKey = projectKey;
+		String parentKey = (String) params[2];
 		
 		Folder folder = new Folder(name, projectKey, parentKey);
 		pm.makePersistent(folder);

@@ -2,7 +2,7 @@ package storage.folder;
 
 import javax.jdo.annotations.PersistenceCapable;
 
-import storage.project.CompositeProjectItem;
+import storage.projectitem.CompositeProjectItem;
 
 /**
  * Class representing folders in database.

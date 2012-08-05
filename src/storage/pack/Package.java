@@ -2,7 +2,7 @@ package storage.pack;
 
 import javax.jdo.annotations.PersistenceCapable;
 
-import storage.project.CompositeProjectItem;
+import storage.projectitem.CompositeProjectItem;
 
 /**
  * Class representing package in database.

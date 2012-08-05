@@ -9,7 +9,7 @@ import storage.Database;
 import storage.DatabaseException;
 import storage.PMF;
 import storage.StoringType;
-import storage.project.SimpleProjectItemHandler;
+import storage.projectitem.SimpleProjectItemHandler;
 
 /**
  * This class provides implementations of all database operations
@@ -58,7 +58,7 @@ public class SourceFileHandler extends SimpleProjectItemHandler {
 		
 		String name = (String)params[0];
 		String projectKey = (String)params[1];
-		String parentKey = projectKey;
+		String parentKey = (String)params[2];
 		
 		SourceFile sourceFile = new SourceFile(name, projectKey, parentKey,
 				new Date());
