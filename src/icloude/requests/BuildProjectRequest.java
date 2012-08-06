@@ -26,16 +26,20 @@ public class BuildProjectRequest extends BaseRequest {
 	}
 
 	/**
+	 * @param protocolVersion
 	 * @param requestID
 	 * @param requestType
 	 * @param userID
 	 * @param projectID
 	 * @param parameters
 	 */
-	public BuildProjectRequest(String requestID, String requestType,
-			String userID, String projectID, String parameters) {
-		super(requestID, requestType, userID);
+	public BuildProjectRequest(Integer protocolVersion, String requestID,
+			String requestType, String userID, String projectID,
+			String parameters) {
+		super(protocolVersion, requestID, requestType, userID);
 		this.projectID = projectID;
 		this.parameters = parameters;
 	}
+
+
 }

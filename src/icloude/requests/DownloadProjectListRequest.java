@@ -10,14 +10,17 @@ public class DownloadProjectListRequest extends BaseRequest {
 	}
 
 	/**
+	 * @param protocolVersion
 	 * @param requestID
 	 * @param requestType
 	 * @param userID
 	 */
-	public DownloadProjectListRequest(String requestID, String requestType,
-			String userID) {
-		super(requestID, requestType, userID);
+	public DownloadProjectListRequest(Integer protocolVersion,
+			String requestID, String requestType, String userID) {
+		super(protocolVersion, requestID, requestType, userID);
 		// TODO Auto-generated constructor stub
 	}
+
+
 
 }

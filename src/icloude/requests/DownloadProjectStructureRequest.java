@@ -19,14 +19,18 @@ public class DownloadProjectStructureRequest extends BaseRequest {
 	}
 
 	/**
+	 * @param protocolVersion
 	 * @param requestID
 	 * @param requestType
 	 * @param userID
 	 * @param projectID
 	 */
-	public DownloadProjectStructureRequest(String requestID,
-			String requestType, String userID, String projectID) {
-		super(requestID, requestType, userID);
+	public DownloadProjectStructureRequest(Integer protocolVersion,
+			String requestID, String requestType, String userID,
+			String projectID) {
+		super(protocolVersion, requestID, requestType, userID);
 		this.projectID = projectID;
 	}
+
+
 }

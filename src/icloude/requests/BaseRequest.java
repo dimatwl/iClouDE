@@ -4,9 +4,17 @@ package icloude.requests;
  * @author DimaTWL This class describes general part of request from protocol.
  */
 public abstract class BaseRequest {
+	private Integer protocolVersion;
 	private String requestID;
 	private String requestType;
 	private String userID;
+	
+	/**
+	 * @return the protocolVersion
+	 */
+	public Integer getProtocolVersion() {
+		return protocolVersion;
+	}
 
 	/**
 	 * @return the requestID
@@ -29,22 +37,26 @@ public abstract class BaseRequest {
 		return userID;
 	}
 
-	/**
-	 * @param requestID
-	 * @param requestType
-	 * @param userID
-	 */
-	public BaseRequest(String requestID, String requestType, String userID) {
-		super();
-		this.requestID = requestID;
-		this.requestType = requestType;
-		this.userID = userID;
-	}
 
 	/**
 	 * 
 	 */
 	protected BaseRequest() {
 		super();
+	}
+
+	/**
+	 * @param protocolVersion
+	 * @param requestID
+	 * @param requestType
+	 * @param userID
+	 */
+	protected BaseRequest(Integer protocolVersion, String requestID,
+			String requestType, String userID) {
+		super();
+		this.protocolVersion = protocolVersion;
+		this.requestID = requestID;
+		this.requestType = requestType;
+		this.userID = userID;
 	}
 }

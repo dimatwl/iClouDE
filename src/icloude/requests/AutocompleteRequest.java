@@ -37,6 +37,7 @@ public class AutocompleteRequest extends BaseRequest {
 	}
 
 	/**
+	 * @param protocolVersion
 	 * @param requestID
 	 * @param requestType
 	 * @param userID
@@ -44,13 +45,15 @@ public class AutocompleteRequest extends BaseRequest {
 	 * @param content
 	 * @param caretPosition
 	 */
-	public AutocompleteRequest(String requestID, String requestType,
-			String userID, String projectID, FileContent content,
-			Long caretPosition) {
-		super(requestID, requestType, userID);
+	public AutocompleteRequest(Integer protocolVersion, String requestID,
+			String requestType, String userID, String projectID,
+			FileContent content, Long caretPosition) {
+		super(protocolVersion, requestID, requestType, userID);
 		this.projectID = projectID;
 		this.content = content;
 		this.caretPosition = caretPosition;
 	}
+
+
 
 }

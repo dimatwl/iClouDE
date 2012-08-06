@@ -41,6 +41,7 @@ public class NewFileRequest extends BaseRequest {
 	}
 
 	/**
+	 * @param protocolVersion
 	 * @param requestID
 	 * @param requestType
 	 * @param userID
@@ -49,14 +50,17 @@ public class NewFileRequest extends BaseRequest {
 	 * @param fileName
 	 * @param fileType
 	 */
-	public NewFileRequest(String requestID, String requestType, String userID,
-			String projectID, String parentID, String fileName, String fileType) {
-		super(requestID, requestType, userID);
+	public NewFileRequest(Integer protocolVersion, String requestID,
+			String requestType, String userID, String projectID,
+			String parentID, String fileName, String fileType) {
+		super(protocolVersion, requestID, requestType, userID);
 		this.projectID = projectID;
 		this.parentID = parentID;
 		this.fileName = fileName;
 		this.fileType = fileType;
 	}
+
+
 
 
 }

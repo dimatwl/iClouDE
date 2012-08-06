@@ -97,7 +97,7 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 		try {
 			project = (Project) Database.get(StoringType.PROJECT,
 					castedRequest.getProjectID());
-			byte[] buf = zipProject(project.getContent(), castedRequest.getProjectID(), project.getName());
+			byte[] buf = zipProject(project.getContent());
 			response = new ByteArrayInputStream(buf);
 		} catch (DatabaseException e) {
 			response = null;
@@ -108,16 +108,17 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 	}
 	
 	
-	private byte[] zipProject(Map<String, ProjectItem> project, String projectKey, String projectName) throws IOException, DatabaseException {
+	private byte[] zipProject(Map<String, ProjectItem> project) throws IOException, DatabaseException {
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);
 		ZipOutputStream zipOut = new ZipOutputStream(outStream);
 		
 		for (String key : project.keySet()) {
 			System.err.println(key + " : " + project.get(key));
 		} 
+		System.err.println(GSON.toJson(project));
 		
 		for (String key : project.keySet()) {
-			addToZip(key, project, zipOut, projectKey, projectName);
+			addToZip(key, project, zipOut);
 		} 
 		zipOut.flush();
 		zipOut.close();
@@ -125,9 +126,9 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 		return outStream.toByteArray();
 	}
 
-	private void addToZip(String key, Map<String, ProjectItem> project, ZipOutputStream zipOut, String projectKey, String projectName) throws IOException, DatabaseException {
+	private void addToZip(String key, Map<String, ProjectItem> project, ZipOutputStream zipOut) throws IOException, DatabaseException {
 		ProjectItem currentItem = project.get(key);
-		String fullPath = getFullPath(key, project, projectKey, projectName);
+		String fullPath = getFullPath(key, project);
 		zipOut.putNextEntry(new ZipEntry(fullPath));
 		if (currentItem instanceof SourceFile) {
 			SourceFileReader reader = ((SourceFile)currentItem).openForReading();
@@ -141,22 +142,20 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 
 	}
 	
-	private String getFullPath(String key, Map<String, ProjectItem> project, String projectKey, String projectName) {
+	private String getFullPath(String key, Map<String, ProjectItem> project) {
 		String currentItemKey = key;
 		ProjectItem currentItem = project.get(currentItemKey);
 		StringBuilder fullPath = new StringBuilder();
 		if (! (currentItem instanceof SourceFile)) {
 			fullPath.insert(0, '/');
 		}
-		while (! currentItem.getParentKey().equals(projectKey)) {
+		while (currentItem.getParentKey() != null) {
 			fullPath.insert(0, currentItem.getName());
 			fullPath.insert(0, '/');
 			currentItemKey = currentItem.getParentKey();
 			currentItem = project.get(currentItemKey);
 		}
 		fullPath.insert(0, currentItem.getName());
-		fullPath.insert(0, '/');
-		fullPath.insert(0, projectName);
 		fullPath.insert(0, '/');
 		return fullPath.toString();
 	}
