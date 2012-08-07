@@ -5,7 +5,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import test.FolderTest;
+import test.CompositeProjectItemTest;
 import test.PackageTest;
 import test.ProjectTest;
 import test.SourceFileTest;
@@ -21,7 +21,7 @@ public class TestingResource {
 			
 		sourceFileTest(outputMessageBuilder);
 		projectTest(outputMessageBuilder);
-//		folderTest(outputMessageBuilder);
+		compositeProjectItemTest(outputMessageBuilder);
 //		packageTest(outputMessageBuilder);
 	
 		return outputMessageBuilder.toString();
@@ -35,10 +35,10 @@ public class TestingResource {
 		}
 	}
 
-	private void folderTest(StringBuilder outputMessageBuilder) {
-		outputMessageBuilder.append("<br/>FolderTest<br/>");
-		FolderTest folderTest = new FolderTest();
-		for (String s: folderTest.test()) {
+	private void compositeProjectItemTest(StringBuilder outputMessageBuilder) {
+		outputMessageBuilder.append("<br/>CompositeProjectItemTest<br/>");
+		CompositeProjectItemTest compositeProjectItemTest = new CompositeProjectItemTest();
+		for (String s: compositeProjectItemTest.test()) {
 			outputMessageBuilder.append(s + "<br/>");
 		}
 	}
