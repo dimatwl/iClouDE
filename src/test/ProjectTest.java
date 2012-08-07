@@ -29,6 +29,10 @@ public class ProjectTest extends Test {
 	
 	// test methods
 	
+	/**
+	 * Creates project. Checks its availability in database and
+	 * if it has root directory
+	 */
 	private String testProjectCreating() {
 		String result = "Creating new project: ";
 		
@@ -69,7 +73,8 @@ public class ProjectTest extends Test {
 	 *       file4<br/>
 	 *       file5<br/>
 	 *   
-	 * and deletes folder1
+	 * Then deletes project. Checks that none of created objects is
+	 * available in database.
 	 */
 	private String testProjectDeleting() {
 		String result = "Deleting project: ";
@@ -165,7 +170,8 @@ public class ProjectTest extends Test {
 	 *       file4<br/>
 	 *       file5<br/>
 	 *   
-	 * and deletes folder1
+	 * Then gets project content and checks that all created objects
+	 * are in given map.
 	 */
 	private String testProjectContent() {
 		String result = "Getting project content: ";

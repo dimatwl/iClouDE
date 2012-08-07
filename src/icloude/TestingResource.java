@@ -6,7 +6,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import test.CompositeProjectItemTest;
-import test.PackageTest;
 import test.ProjectTest;
 import test.SourceFileTest;
 
@@ -22,17 +21,8 @@ public class TestingResource {
 		sourceFileTest(outputMessageBuilder);
 		projectTest(outputMessageBuilder);
 		compositeProjectItemTest(outputMessageBuilder);
-//		packageTest(outputMessageBuilder);
 	
 		return outputMessageBuilder.toString();
-	}
-
-	private void packageTest(StringBuilder outputMessageBuilder) {
-		outputMessageBuilder.append("<br/>PackageTest<br/>");
-		PackageTest packageTest = new PackageTest();
-		for (String s: packageTest.test()) {
-			outputMessageBuilder.append(s + "<br/>");
-		}
 	}
 
 	private void compositeProjectItemTest(StringBuilder outputMessageBuilder) {

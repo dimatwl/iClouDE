@@ -24,6 +24,9 @@ public class CompositeProjectItemTest extends Test {
 	
 	// test methods
 	
+	/**
+	 * Creates project item and check its availability in database.
+	 */
 	private String testCompositeProjectItemCreating() {
 		String result = "Creating new composite project item: ";
 		
@@ -64,7 +67,9 @@ public class CompositeProjectItemTest extends Test {
 	 *     file5<br/>
 	 *   file6<br/><br/>
 	 *   
-	 * and deletes folder1
+	 * Then deletes folder1 and checks that all project items which
+	 * were inside folder1 aren't available in database, and that all
+	 * other project items are available.
 	 */
 	private String testCompositeProjectItemDeleting() {
 		String result = "Deleting composite project item: ";
