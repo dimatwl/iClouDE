@@ -29,7 +29,7 @@ public class TestingResource {
 		outputMessageBuilder.append("<br/>CompositeProjectItemTest<br/>");
 		CompositeProjectItemTest compositeProjectItemTest = new CompositeProjectItemTest();
 		for (String s: compositeProjectItemTest.test()) {
-			outputMessageBuilder.append(s + "<br/>");
+			outputMessageBuilder.append(s + "</font><br/>");
 		}
 	}
 
@@ -37,7 +37,7 @@ public class TestingResource {
 		outputMessageBuilder.append("<br/>ProjectTest<br/>");
 		ProjectTest projectTest = new ProjectTest();
 		for (String s: projectTest.test()) {
-			outputMessageBuilder.append(s + "<br/>");
+			outputMessageBuilder.append(s + "</font><br/>");
 		}
 	}
 
@@ -45,7 +45,7 @@ public class TestingResource {
 		outputMessageBuilder.append("<br/>SourceFileTest<br/>");
 		SourceFileTest SourceFileTest = new SourceFileTest();
 		for (String s: SourceFileTest.test()) {
-			outputMessageBuilder.append(s + "<br/>");
+			outputMessageBuilder.append(s + "</font><br/>");
 		}
 	}
 

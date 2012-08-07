@@ -12,8 +12,8 @@ import storage.sourcefile.SourceFile;
 
 public abstract class Test {
 	
-	public static final String PASSED = "passed";
-	public static final String FAILED = "failed";
+	public static final String PASSED = "<font color=\"green\">passed";
+	public static final String FAILED = "<font color=\"red\">failed";
 
 	public abstract List<String> test();
 	
