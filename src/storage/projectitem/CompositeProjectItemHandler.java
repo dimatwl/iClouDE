@@ -33,7 +33,7 @@ public class CompositeProjectItemHandler extends AbstractHandler {
 	 * String name - name of the item to create<br/>
 	 * String projectKey - database key of the project where this item should be created<br/>
 	 * String parentKey - database key of the project item in which this item should be created
-	 * ProjectItemType itemType - type of the item to create (folder, package, project)
+	 * ComopsiteProjectItemType itemType - type of the item to create (folder, package, project)
 	 */
 	@Override
 	public String create(Object... params) throws DatabaseException {

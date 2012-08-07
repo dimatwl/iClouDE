@@ -8,6 +8,12 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 
+/**
+ * Class representing child item in project ites tree.
+ * Contains database key and type of child project item.
+ * @author Sergey
+ *
+ */
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Child {
 	
