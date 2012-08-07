@@ -12,9 +12,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import storage.DatabaseException;
+import storage.DatabaseObject;
 import storage.PMF;
-import storage.folder.Folder;
-import storage.pack.Package;
 import storage.projectitem.CompositeProjectItem;
 import storage.projectitem.ProjectItem;
 import storage.sourcefile.SourceFile;
@@ -28,10 +27,10 @@ import storage.sourcefile.SourceFile;
  *
  */
 @PersistenceCapable(detachable="true")
-public class Project extends CompositeProjectItem {
+public class Project extends DatabaseObject {
 
 	public Project(String name, Date creationTime, String type) {
-		super(name, null, null);
+		super(name);
 		this.creationTime = creationTime;
 		this.type = type;
 	}
@@ -40,36 +39,29 @@ public class Project extends CompositeProjectItem {
 	private Date creationTime;
 	
 	@Persistent
-	private Date modificationTime;
+	private String type;
 	
 	@Persistent
-	private String type;
+	private String rootKey;
 	
 
 	public String getProjectType() {
 		return type;
 	}
 
-	public void setProjectType(String projectType) {
-		this.type = projectType;
-	}
-
 	public Date getCreationTime() {
 		return creationTime;
 	}
-
-	public void setCreationTime(Date creationTime) {
-		this.creationTime = creationTime;
-	}
-
-	public Date getModificationTime() {
-		return modificationTime;
-	}
-
-	public void setModificationTime(Date modificationTime) {
-		this.modificationTime = modificationTime;
-	}
 	
+	public String getRootKey() {
+		return rootKey;
+	}
+
+	// uses only by ProjectHandler
+	protected void setRootKey(String rootKey) {
+		this.rootKey = rootKey;
+	}
+
 	private List<ProjectItem> getObjectsOfType(String projectKey, Class<?> type) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -95,9 +87,7 @@ public class Project extends CompositeProjectItem {
 	public Map<String, ProjectItem> getContent() throws DatabaseException {
 		List<ProjectItem> result = new ArrayList<ProjectItem>();
 		result.addAll(getObjectsOfType(getKey(), SourceFile.class));
-		result.addAll(getObjectsOfType(getKey(), Folder.class));
-		result.addAll(getObjectsOfType(getKey(), Package.class));
-		result.add(this);
+		result.addAll(getObjectsOfType(getKey(), CompositeProjectItem.class));
 		
 		
 		Map<String, ProjectItem> map = new HashMap<String, ProjectItem>();
@@ -106,5 +96,6 @@ public class Project extends CompositeProjectItem {
 		}
 		return map;
 	}
+
 
 }

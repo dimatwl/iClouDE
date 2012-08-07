@@ -1,7 +1,6 @@
 package storage;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -14,7 +13,7 @@ import javax.jdo.annotations.PrimaryKey;
  * @author Sergey
  *
  */
-@PersistenceCapable(identityType = IdentityType.DATASTORE, detachable = "true")
+@PersistenceCapable(detachable = "true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class DatabaseObject {
 	

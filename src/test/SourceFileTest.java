@@ -9,6 +9,7 @@ import java.util.List;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
+import storage.project.Project;
 import storage.sourcefile.SourceFile;
 
 public class SourceFileTest extends Test {
@@ -34,16 +35,21 @@ public class SourceFileTest extends Test {
 	private String testNewFileCreating() {
 		String result = "Creating new file: ";
 		
-		String key = null;
+		String projectKey = null;
+		String rootKey = null;
+		String fileKey = null;
 		SourceFile file = null;
 		try {
-			key = createFile("Filename", "ProjectKey", "ParentKey");
-			file = getFile(key);
+			projectKey = createProject("ProjectName", "ProjectType");
+			Project project = getProject(projectKey);
+			rootKey = project.getRootKey();
+			fileKey = createFile("file", projectKey, rootKey);
+			file = getFile(fileKey);
 		} catch (TestException e) {
 			return result + Test.FAILED + " - " + e.getMessage();
 		}
 		
-		if (!file.getKey().equals(key)) {
+		if (!file.getKey().equals(fileKey)) {
 			return (result + Test.FAILED + 
 					" - file wasn't created or it's " +
 					"impossible to get it from database");
@@ -57,15 +63,18 @@ public class SourceFileTest extends Test {
 		
 		String fileContent = null;
 		try {
-			String key = createFile("Filename", "ProjectKey", "ParentKey");
-			SourceFile file = getFile(key);
+			String projectKey = createProject("ProjectName", "ProjectType");
+			Project project = getProject(projectKey);
+			String rootKey = project.getRootKey();
+			String fileKey = createFile("file", projectKey, rootKey);
+			SourceFile file = getFile(fileKey);
 			
 			Writer writer = openFileForWriting(file);
 			writeToFile(writer);
 			closeWriter(writer);
 			saveFile(file);
 			
-			file = getFile(key);
+			file = getFile(fileKey);
 			Reader reader = openFileForReading(file);
 			fileContent = readFile(reader);
 			closeReader(reader);
@@ -85,17 +94,21 @@ public class SourceFileTest extends Test {
 	private String testFileDeleting() {
 		String result = "Deleting file: ";
 		
-		String key = null;
+		String fileKey = null;
 		try {
-			key = createFile("Filename", "ProjectKey", "ParentKey");
-			getFile(key);
-			deleteFile(key);
+			String projectKey = createProject("ProjectName", "ProjectType");
+			Project project = getProject(projectKey);
+			String rootKey = project.getRootKey();
+			fileKey = createFile("file", projectKey, rootKey);
+			getFile(fileKey);
+			
+			deleteFile(fileKey);
 		} catch (TestException e) {
 			return (result + Test.FAILED + " - " + e.getMessage());
 		}
 
 		try {
-			getFile(key);
+			getFile(fileKey);
 		} catch (TestException e) {
 			return result + Test.PASSED;
 		}
