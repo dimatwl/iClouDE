@@ -1,35 +1,29 @@
 package icloude;
 
-import java.io.IOException;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import storage.DatabaseException;
-import storage.StoringType;
 import test.FolderTest;
 import test.PackageTest;
 import test.ProjectTest;
 import test.SourceFileTest;
 
-@Path("/testing/sergey")
+@Path("/testing/database")
 public class TestingResource {
 
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	public String getInfoJSON() throws IOException, DatabaseException {
+	public String getInfoJSON() {
 		StringBuilder outputMessageBuilder = new StringBuilder();
 		outputMessageBuilder.append("Test results: <br/>");
-		
+			
 		sourceFileTest(outputMessageBuilder);
 		projectTest(outputMessageBuilder);
-		folderTest(outputMessageBuilder);
-		packageTest(outputMessageBuilder);
-
-		System.err.println(StoringType.SOURCE_FILE.toString());
-		
+//		folderTest(outputMessageBuilder);
+//		packageTest(outputMessageBuilder);
+	
 		return outputMessageBuilder.toString();
 	}
 

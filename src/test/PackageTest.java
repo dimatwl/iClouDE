@@ -27,7 +27,7 @@ public class PackageTest extends Test {
 		Package pack = null;
 		try {
 			key = createPackage("PackageName", "ProjectKey", "ParentKey");
-			pack = getPackage(key);
+			pack = getCompositeProjectItem(key);
 		} catch (TestException e) {
 			return result + Test.FAILED + " - " + e.getMessage();
 		}
@@ -77,7 +77,7 @@ public class PackageTest extends Test {
 			file4Key = createFile("file4", projectKey, package2Key);
 
 			deletePackage(package1Key);
-			getPackage(package2Key);
+			getCompositeProjectItem(package2Key);
 			getFile(file3Key);
 			getFile(file4Key);
 			getFolder(folder1Key);
@@ -86,7 +86,7 @@ public class PackageTest extends Test {
 		}
 		
 		try {
-			getPackage(package1Key);
+			getCompositeProjectItem(package1Key);
 			return result + Test.FAILED + " - package1 wasn't deleted";
 		} catch (TestException e) {
 		}

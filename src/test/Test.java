@@ -5,8 +5,9 @@ import java.util.List;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
-import storage.folder.Folder;
-import storage.pack.Package;
+import storage.project.Project;
+import storage.projectitem.CompositeProjectItemType;
+import storage.projectitem.CompositeProjectItem;
 import storage.sourcefile.SourceFile;
 
 public abstract class Test {
@@ -18,13 +19,15 @@ public abstract class Test {
 	
 	
 	
-	protected String createFolder(String folderName, String projectKey, String parentKey) throws TestException {
+	protected String createCompositeProjectItemType(String folderName, String projectKey,
+			String parentKey, CompositeProjectItemType type) throws TestException {
 		try {
-			String key = Database.create(StoringType.FOLDER, folderName, projectKey, parentKey);
+			String key = Database.create(StoringType.COMPOSITE_PROJECT_ITEM,
+					folderName, projectKey, parentKey, type);
 			return key;
 		} catch (DatabaseException e) {
 			throw new TestException(
-					"DatabaseException while creating folder. " +
+					"DatabaseException while creating project item. " +
 					"Error message: " + e.getMessage());
 		}
 	}
@@ -51,35 +54,35 @@ public abstract class Test {
 		}
 	}
 	
-	protected String createPackage(String packageName, String projectKey, String parentKey) throws TestException {
+//	protected String createPackage(String packageName, String projectKey, String parentKey) throws TestException {
+//		try {
+//			String key =  Database.create(StoringType.PACKAGE, packageName, projectKey, parentKey);
+//			return key;
+//		} catch (DatabaseException e) {
+//			throw new TestException(
+//					"DatabaseException while creating package. " +
+//					"Error message: " + e.getMessage());
+//		}
+//	}
+//	
+//	
+//	
+//	protected Folder getFolder(String key) throws TestException {
+//		try {
+//			return (Folder) Database.get(StoringType.FOLDER, key);
+//		} catch (DatabaseException e) {
+//			throw new TestException(
+//					"DatabaseException while getting folder from database. " +
+//					"Error message: " + e.getMessage());
+//		}
+//	}
+//	
+	protected CompositeProjectItem getCompositeProjectItem(String key) throws TestException {
 		try {
-			String key =  Database.create(StoringType.PACKAGE, packageName, projectKey, parentKey);
-			return key;
+			return (CompositeProjectItem) Database.get(StoringType.COMPOSITE_PROJECT_ITEM, key);
 		} catch (DatabaseException e) {
 			throw new TestException(
-					"DatabaseException while creating package. " +
-					"Error message: " + e.getMessage());
-		}
-	}
-	
-	
-	
-	protected Folder getFolder(String key) throws TestException {
-		try {
-			return (Folder) Database.get(StoringType.FOLDER, key);
-		} catch (DatabaseException e) {
-			throw new TestException(
-					"DatabaseException while getting folder from database. " +
-					"Error message: " + e.getMessage());
-		}
-	}
-	
-	protected Package getPackage(String key) throws TestException {
-		try {
-			return (Package) Database.get(StoringType.PACKAGE, key);
-		} catch (DatabaseException e) {
-			throw new TestException(
-					"DatabaseException while getting package from database. " +
+					"DatabaseException while getting project item from database. " +
 					"Error message: " + e.getMessage());
 		}
 	}
@@ -91,6 +94,16 @@ public abstract class Test {
 		} catch (DatabaseException e) {
 			throw new TestException( 
 					"DatabaseException while getting file from database. " +
+					"Error message: " + e.getMessage());
+		}
+	}
+	
+	protected Project getProject(String key) throws TestException {
+		try {
+			return (Project) Database.get(StoringType.PROJECT, key);
+		} catch (DatabaseException e) {
+			throw new TestException( 
+					"DatabaseException while getting project from database. " +
 					"Error message: " + e.getMessage());
 		}
 	}
