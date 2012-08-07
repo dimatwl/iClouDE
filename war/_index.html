@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>jQuery UI Resizable - Synchronous resize</title>
+	<link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.22.custom.css">
+	<link rel="stylesheet" href="css/main.css">
+	<script src="javascript/libs/jquery/jquery-1.7.2.js"></script>
+	<script src="javascript/libs/jquery/jquery-ui-1.8.22.custom.min.js"></script>
+	<script src="javascript/libs/jquery/jquery-ui-alsoResizeReverse.js"></script>
+<script>
+
+	$(document).ready(sizeContent);
+	$(window).resize(sizeContent);
+
+	function sizeContent() {
+		var newHeight = $("html").height() - $("#header").height() - $("#footer").height() + "px";
+		$("#content").css("height", newHeight);
+		$("#sidebar").css("height", newHeight);
+		var newHeight = $("#content").height() - $("#statusArea").height() - 5 + "px";
+		$("#textArea").css("height", newHeight);
+	}
+
+	$(function() {
+		$( "#textArea" ).resizable({
+			handles: "n, s",
+			minHeight: 150,
+			alsoResizeReverse: "#statusArea"
+		});
+		$( "#sidebar" ).resizable({
+			handles: "w, e",
+			alsoResizeReverse: "#content"
+		});
+	});
+	</script>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="header">Header</div>
+    <div id="sidebar">Test1</div>
+    <div id="content">
+		<div id="textArea" class="ui-widget-content">
+			Resize
+			aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+		</div>
+		<div id="statusArea" class="ui-widget-content">
+			will also resize
+		</div>
+	</div>
+</div>
+</body>
+</html>
