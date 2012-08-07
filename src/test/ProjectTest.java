@@ -9,6 +9,8 @@ import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
 import storage.project.Project;
+import storage.projectitem.CompositeProjectItemType;
+import storage.projectitem.CompositeProjectItem;
 import storage.projectitem.ProjectItem;
 
 public class ProjectTest extends Test {
@@ -27,14 +29,20 @@ public class ProjectTest extends Test {
 	
 	// test methods
 	
+	/**
+	 * Creates project. Checks its availability in database and
+	 * if it has root directory
+	 */
 	private String testProjectCreating() {
 		String result = "Creating new project: ";
 		
 		String key = null;
 		Project project = null;
+		CompositeProjectItem root = null;
 		try {
 			key = createProject("ProjectName", "ProjectType");
 			project = getProject(key);
+			root = getCompositeProjectItem(project.getRootKey());
 		} catch (TestException e) {
 			return (result + Test.FAILED + e.getMessage());
 		}
@@ -43,6 +51,11 @@ public class ProjectTest extends Test {
 			return (result + Test.FAILED + 
 					" - project wasn't created or it's " +
 					"impossible to get it from database");
+		}
+		
+		if (!root.getItemType().equals(CompositeProjectItemType.PROJECT)) {
+			return (result + Test.FAILED +
+					" - root proejct directory has invalid type " + root.getItemType());
 		}
 		
 		return result + Test.PASSED;
@@ -60,7 +73,8 @@ public class ProjectTest extends Test {
 	 *       file4<br/>
 	 *       file5<br/>
 	 *   
-	 * and deletes folder1
+	 * Then deletes project. Checks that none of created objects is
+	 * available in database.
 	 */
 	private String testProjectDeleting() {
 		String result = "Deleting project: ";
@@ -73,11 +87,18 @@ public class ProjectTest extends Test {
 		String file2Key = null;
 		String file3Key = null;
 		String file4Key = null;
+		String rootKey = null;
 		try {
 			projectKey = createProject("ProjectName", "ProjectType");
-			folder1Key = createFolder("folder1", projectKey, projectKey);
-			package1Key = createPackage("package1", projectKey, folder1Key);
-			package2Key = createPackage("package2", projectKey, folder1Key);
+			Project project = getProject(projectKey);
+			rootKey = project.getRootKey();
+			
+			folder1Key = createCompositeProjectItemType("folder1", projectKey,
+					rootKey, CompositeProjectItemType.FOLDER);
+			package1Key = createCompositeProjectItemType("package1", projectKey,
+					rootKey, CompositeProjectItemType.PACKAGE);
+			package2Key = createCompositeProjectItemType("package2", projectKey,
+					rootKey, CompositeProjectItemType.PACKAGE);
 			file1Key = createFile("file1", projectKey, package1Key);
 			file2Key = createFile("file2", projectKey, package1Key);
 			file3Key = createFile("file3", projectKey, package2Key);
@@ -89,7 +110,7 @@ public class ProjectTest extends Test {
 		}
 
 		try {
-			getPackage(package1Key);
+			getCompositeProjectItem(package1Key);
 			return result + Test.FAILED + " - package1 wasn't deleted";
 		} catch (TestException e) {
 		}
@@ -104,7 +125,7 @@ public class ProjectTest extends Test {
 		} catch (TestException e) {
 		}
 		try {
-			getPackage(package2Key);
+			getCompositeProjectItem(package2Key);
 			return result + Test.FAILED + " - package2 wasn't deleted";
 		} catch (TestException e) {
 		}
@@ -119,8 +140,13 @@ public class ProjectTest extends Test {
 		} catch (TestException e) {
 		}
 		try {
-			getFolder(folder1Key);
+			getCompositeProjectItem(folder1Key);
 			return result + Test.FAILED + " - folder1 wasn't deleted";
+		} catch (TestException e) {
+		}
+		try {
+			getCompositeProjectItem(rootKey);
+			return result + Test.FAILED + " - root folder wasn't deleted";
 		} catch (TestException e) {
 		}
 		try {
@@ -144,7 +170,8 @@ public class ProjectTest extends Test {
 	 *       file4<br/>
 	 *       file5<br/>
 	 *   
-	 * and deletes folder1
+	 * Then gets project content and checks that all created objects
+	 * are in given map.
 	 */
 	private String testProjectContent() {
 		String result = "Getting project content: ";
@@ -157,18 +184,25 @@ public class ProjectTest extends Test {
 		String file2Key = null;
 		String file3Key = null;
 		String file4Key = null;
+		String rootKey = null;
 		Map<String, ProjectItem> map = null;
 		try {
 			projectKey = createProject("ProjectName", "ProjectType");
-			folder1Key = createFolder("folder1", projectKey, projectKey);
-			package1Key = createPackage("package1", projectKey, folder1Key);
-			package2Key = createPackage("package2", projectKey, folder1Key);
+			Project project = getProject(projectKey);
+			rootKey = project.getRootKey();
+			
+			folder1Key = createCompositeProjectItemType("folder1", projectKey,
+					rootKey, CompositeProjectItemType.FOLDER);
+			package1Key = createCompositeProjectItemType("package1", projectKey,
+					rootKey, CompositeProjectItemType.PACKAGE);
+			package2Key = createCompositeProjectItemType("package2", projectKey,
+					rootKey, CompositeProjectItemType.PACKAGE);
 			file1Key = createFile("file1", projectKey, package1Key);
 			file2Key = createFile("file2", projectKey, package1Key);
 			file3Key = createFile("file3", projectKey, package2Key);
 			file4Key = createFile("file4", projectKey, package2Key);
-
-			Project project = getProject(projectKey);
+			
+			project = getProject(projectKey);
 			map = getProjectContent(project);
 		} catch (TestException e) {
 			return result + Test.FAILED + " - " + e.getMessage();
@@ -196,6 +230,9 @@ public class ProjectTest extends Test {
 		}
 		if (!set.contains(folder1Key)) {
 			return result + Test.FAILED + " - folder1 not in project content"; 
+		}
+		if (!set.contains(rootKey)) {
+			return result + Test.FAILED + " - root folder not in project content"; 
 		}
 		
 		return result + Test.PASSED;
@@ -228,15 +265,4 @@ public class ProjectTest extends Test {
 		}
 	}
 	
-	
-	private Project getProject(String key) throws TestException {
-		try {
-			return (Project) Database.get(StoringType.PROJECT, key);
-		} catch (DatabaseException e) {
-			throw new TestException( 
-					"DatabaseException while getting project from database. " +
-					"Error message: " + e.getMessage());
-		}
-	}
-
 }

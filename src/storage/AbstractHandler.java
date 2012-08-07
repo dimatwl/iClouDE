@@ -1,23 +1,20 @@
-package storage.projectitem;
+package storage;
 
 import javax.jdo.PersistenceManager;
 
-import storage.DatabaseException;
-import storage.Handler;
-import storage.PMF;
 
 
 /**
  * This class provides implementations of common database
- * operations for all project items. 
+ * operations for project items.
  * @author Sergey
  *
  */
-public abstract class ProjectItemHandler implements Handler {
+public abstract class AbstractHandler implements Handler {
 	
 	private final Class<?> handlingType;
 	
-	protected ProjectItemHandler(Class<?> handlingType) {
+	protected AbstractHandler(Class<?> handlingType) {
 		this.handlingType = handlingType;
 	}
 	

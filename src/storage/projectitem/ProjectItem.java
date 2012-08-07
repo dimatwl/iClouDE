@@ -18,7 +18,7 @@ import storage.DatabaseObject;
  */
 @PersistenceCapable(detachable = "true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
-public abstract class ProjectItem extends DatabaseObject {
+public class ProjectItem extends DatabaseObject {
 	
 	public ProjectItem(String name, String projectKey, String parentKey) {
 		super(name);
@@ -26,6 +26,8 @@ public abstract class ProjectItem extends DatabaseObject {
 		this.parentKey = parentKey;
 	}
 	
+	
+
 	@Persistent
 	private String projectKey;
 	

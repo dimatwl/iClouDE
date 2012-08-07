@@ -1,6 +1,7 @@
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
+import icloude.requests.ChangeFileTypeRequest;
 import icloude.requests.DeleteFileRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
@@ -69,5 +70,21 @@ public class DeleteFileRequestHandler extends BaseRequestHandler {
 	protected BaseResponse handleRequest(BaseRequest request) {
 		return new StandartResponse(request.getRequestID(), true,
 				"Request 'Delete file' recieved.");
+	}
+	
+	/**
+	 * Realization of this method expected to check all specific fields
+	 * in concrete request for not null. Check of BaseRequest field is redundant. 
+	 * 
+	 * @param request
+	 *            is concrete request object.
+	 * @return True if ALL specific fields != null
+	 * 		   False otherwise.
+	 */
+	@Override
+	protected Boolean concreteRequestNullCheck(BaseRequest request){
+		DeleteFileRequest castedRequest = (DeleteFileRequest) request;
+		return (null != castedRequest.getProjectID()) &&
+				(null != castedRequest.getFileID());
 	}
 }

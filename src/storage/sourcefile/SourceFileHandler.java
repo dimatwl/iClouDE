@@ -5,11 +5,12 @@ import java.util.Date;
 
 import javax.jdo.PersistenceManager;
 
-import storage.Database;
+import storage.AbstractHandler;
+import storage.Child;
 import storage.DatabaseException;
 import storage.PMF;
 import storage.StoringType;
-import storage.projectitem.SimpleProjectItemHandler;
+import storage.projectitem.CompositeProjectItem;
 
 /**
  * This class provides implementations of all database operations
@@ -17,7 +18,7 @@ import storage.projectitem.SimpleProjectItemHandler;
  * @author Sergey
  *
  */
-public class SourceFileHandler extends SimpleProjectItemHandler {
+public class SourceFileHandler extends AbstractHandler {
 	
 	public SourceFileHandler() {
 		super(SourceFile.class);
@@ -63,16 +64,30 @@ public class SourceFileHandler extends SimpleProjectItemHandler {
 		SourceFile sourceFile = new SourceFile(name, projectKey, parentKey,
 				new Date());
 		pm.makePersistent(sourceFile);
-		SourceFile tmp = pm.detachCopy(sourceFile);
-		pm.close();
 		
-		SourceFileWriter writer = tmp.openForWriting();
+		CompositeProjectItem parent = pm.getObjectById(
+				CompositeProjectItem.class, parentKey);
+		parent.addChild(new Child(sourceFile.getKey(), StoringType.SOURCE_FILE));
+		
+		SourceFileWriter writer = sourceFile.openForWriting();
 		try {
 			writer.close();
 		} catch (IOException e) {
 			throw new DatabaseException(e.getMessage());
 		}
-		Database.update(StoringType.SOURCE_FILE, tmp);
+		
+//		SourceFile tmp = pm.detachCopy(sourceFile);
+		
+		
+		pm.close();
+		
+//		SourceFileWriter writer = tmp.openForWriting();
+//		try {
+//			writer.close();
+//		} catch (IOException e) {
+//			throw new DatabaseException(e.getMessage());
+//		}
+//		Database.update(StoringType.SOURCE_FILE, tmp);
 		
 		return sourceFile.getKey();
 	}
@@ -92,6 +107,25 @@ public class SourceFileHandler extends SimpleProjectItemHandler {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		SourceFile file = pm.getObjectById(SourceFile.class, ((SourceFile)toSave).getKey());
 		file.setModificationTime(new Date());
+		pm.close();
+	}
+	
+	
+	/**
+	 * Deletes object with specified key from database
+	 * @param key - key of the object to delete
+	 * @throws DatabaseException if object wasn't found
+	 */
+	public void delete(String key) throws DatabaseException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		SourceFile sourceFile = pm.getObjectById(SourceFile.class, key);
+		
+		CompositeProjectItem parent = pm.getObjectById(
+				CompositeProjectItem.class, sourceFile.getParentKey());
+		parent.removeChild(new Child(key, StoringType.SOURCE_FILE));
+		
+		pm.deletePersistent(sourceFile);
 		pm.close();
 	}
 

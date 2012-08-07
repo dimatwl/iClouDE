@@ -1,6 +1,7 @@
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
+import icloude.requests.DeleteFileRequest;
 import icloude.requests.DownloadCodeRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
@@ -158,6 +159,21 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 		fullPath.insert(0, currentItem.getName());
 		fullPath.insert(0, '/');
 		return fullPath.toString();
+	}
+	
+	/**
+	 * Realization of this method expected to check all specific fields
+	 * in concrete request for not null. Check of BaseRequest field is redundant. 
+	 * 
+	 * @param request
+	 *            is concrete request object.
+	 * @return True if ALL specific fields != null
+	 * 		   False otherwise.
+	 */
+	@Override
+	protected Boolean concreteRequestNullCheck(BaseRequest request){
+		DownloadCodeRequest castedRequest = (DownloadCodeRequest) request;
+		return (null != castedRequest.getProjectID());
 	}
 
 }

@@ -11,6 +11,5 @@ public enum StoringType {
 
 	SOURCE_FILE,
 	PROJECT,
-	FOLDER,
-	PACKAGE
+	COMPOSITE_PROJECT_ITEM
 }

@@ -3,9 +3,8 @@ package storage;
 import java.util.HashMap;
 import java.util.Map;
 
-import storage.folder.FolderHandler;
-import storage.pack.PackageHandler;
 import storage.project.ProjectHandler;
+import storage.projectitem.CompositeProjectItemHandler;
 import storage.sourcefile.SourceFileHandler;
 
 
@@ -37,8 +36,7 @@ public class Database {
 	static {
 		handlers.put(StoringType.SOURCE_FILE, new SourceFileHandler());
 		handlers.put(StoringType.PROJECT, new ProjectHandler());
-		handlers.put(StoringType.FOLDER, new FolderHandler());
-		handlers.put(StoringType.PACKAGE, new PackageHandler());
+		handlers.put(StoringType.COMPOSITE_PROJECT_ITEM, new CompositeProjectItemHandler());
 	}
 
 	
