@@ -32,6 +32,10 @@ public class SourceFileTest extends Test {
 	
 	// test methods
 
+	/**
+	 * Creates project and file and checks if it's possible to
+	 * get file from database.
+	 */
 	private String testNewFileCreating() {
 		String result = "Creating new file: ";
 		
@@ -58,6 +62,11 @@ public class SourceFileTest extends Test {
 		return result + Test.PASSED;
 	}
 
+	/**
+	 * Creates file, writes some text to this file, saves it to database.
+	 * Then gets file from database, reads it, and checks if text in the
+	 * file is the same as text written before.
+	 */
 	private String testWritingAndReading() {
 		String result = "Writing and reading source file: ";
 		
@@ -91,6 +100,10 @@ public class SourceFileTest extends Test {
 		return result + Test.PASSED;
 	}
 	
+	/**
+	 * Creates file and deletes it from database. Then checks if it's
+	 * impossible to get file from database.
+	 */
 	private String testFileDeleting() {
 		String result = "Deleting file: ";
 		
