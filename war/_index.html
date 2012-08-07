@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>jQuery UI Resizable - Synchronous resize</title>
+	<title></title>
 	<link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.22.custom.css">
 	<link rel="stylesheet" href="css/main.css">
 	<script src="javascript/libs/jquery/jquery-1.7.2.js"></script>
@@ -17,18 +17,24 @@
 		var newHeight = $("html").height() - $("#header").height() - $("#footer").height() + "px";
 		$("#content").css("height", newHeight);
 		$("#sidebar").css("height", newHeight);
-		var newHeight = $("#content").height() - $("#statusArea").height() - 5 + "px";
+		var newHeight = $("#content").height() - $("#statusArea").height() + "px";
 		$("#textArea").css("height", newHeight);
+		$("#textArea").resizable( "option", "maxHeight", $("#content").height() -50);
 	}
 
 	$(function() {
 		$( "#textArea" ).resizable({
 			handles: "n, s",
 			minHeight: 150,
-			alsoResizeReverse: "#statusArea"
+			alsoResizeReverse: "#statusArea",
+			stop: function(h, ui) {
+				$("#textArea").css("width", "100%");
+				$("#statusArea").css("width", "100%");
+			}
 		});
 		$( "#sidebar" ).resizable({
 			handles: "w, e",
+			maxWidth: 300,
 			alsoResizeReverse: "#content"
 		});
 	});

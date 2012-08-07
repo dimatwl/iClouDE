@@ -21,6 +21,12 @@ html, body
 	float:left;
 	background-color: Red;
 }
+
+#textArea, #statusArea {
+	width: 100%;
+	border: 0px;
+}
+
 #statusArea {
 	height: 120px;
 }
