@@ -23,7 +23,7 @@ public abstract class BaseRequestHandler {
 	/**
 	 * This field used to determine current protocol version.
 	 */
-	protected final static Integer PROTOCOL_VERSION = 1;
+	protected final static Integer PROTOCOL_VERSION = 2;
 	
 	/**
 	 * This field used to determine size for all buffers.

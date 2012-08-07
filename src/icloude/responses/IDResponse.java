@@ -6,29 +6,47 @@ package icloude.responses;
  */
 public class IDResponse extends BaseResponse {
 
-	private String id;
+	private String projectID;
+	private String entityID;
 
-	/**
-	 * @param requestID
-	 * @param result
-	 * @param description
-	 * @param id
-	 */
-	public IDResponse(String requestID, Boolean result, String description, String id) {
-		super(requestID, result, description);
-		this.id = id;
-	}
 	
 
 	private IDResponse() {
 	}
 
 
+
 	/**
-	 * @return the id
+	 * @return the projectID
 	 */
-	public String getId() {
-		return id;
+	public String getProjectID() {
+		return projectID;
 	}
+
+
+
+	/**
+	 * @return the entityID
+	 */
+	public String getEntityID() {
+		return entityID;
+	}
+
+
+
+	/**
+	 * @param requestID
+	 * @param result
+	 * @param description
+	 * @param projectID
+	 * @param entityID
+	 */
+	public IDResponse(String requestID, Boolean result, String description,
+			String projectID, String entityID) {
+		super(requestID, result, description);
+		this.projectID = projectID;
+		this.entityID = entityID;
+	}
+
 
 }

@@ -64,14 +64,14 @@ public class DownloadCodeTest extends Test {
 			NewProjectRequest npr = new NewProjectRequest(1, "NewProjectRequest", "newproject", "userIDZIP", "projectZIP", "typeZIP");
 			json = nprh.post(GSON.toJson(npr));
 			IDResponse idrProj = GSON.fromJson(json, IDResponse.class);
-			NewFileRequest nfr = new NewFileRequest(1, "NewFileRequest", "newfile", "userIDZIP", idrProj.getId(), idrProj.getId(), "fileZIP", "typeZIP");
+			NewFileRequest nfr = new NewFileRequest(1, "NewFileRequest", "newfile", "userIDZIP", idrProj.getProjectID(), idrProj.getEntityID(), "fileZIP", "typeZIP");
 			json = nfrh.post(GSON.toJson(nfr));
 			IDResponse idrFile = GSON.fromJson(json, IDResponse.class);
-			FileContent content = new FileContent("file", idrFile.getId(), "Hello, I am text of this file!!!", "textFile", "userIDZIP", "ZIPRevision", (new Date()).getTime(), (new Date()).getTime());
-			UploadFileRequest ufr = new UploadFileRequest(1, "UploadFileRequest", "uploadfile", "userIDZIP", idrProj.getId(), content);
+			FileContent content = new FileContent("file", idrFile.getEntityID(), "Hello, I am text of this file!!!", "textFile", "userIDZIP", "ZIPRevision", (new Date()).getTime(), (new Date()).getTime());
+			UploadFileRequest ufr = new UploadFileRequest(1, "UploadFileRequest", "uploadfile", "userIDZIP", idrProj.getProjectID(), content);
 			json = ufrh.post(GSON.toJson(ufr));
 			
-			return idrProj.getId();
+			return idrProj.getProjectID();
 		}
 	}
 	

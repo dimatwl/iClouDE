@@ -3,6 +3,7 @@ package icloude.request_handlers;
 import icloude.requests.AutocompleteRequest;
 import icloude.requests.BaseRequest;
 import icloude.requests.NewFileRequest;
+import icloude.requests.UploadFileRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.IDResponse;
 import icloude.responses.StandartResponse;
@@ -74,13 +75,14 @@ public class NewFileRequestHandler extends BaseRequestHandler {
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
 		BaseResponse response;
+		NewFileRequest castedRequest = (NewFileRequest) request;
 		try {
 			String key = Database.create(StoringType.SOURCE_FILE,
-					((NewFileRequest) request).getFileName(),
-					((NewFileRequest) request).getProjectID(),
-					((NewFileRequest) request).getParentID());
+					castedRequest.getFileName(),
+					castedRequest.getProjectID(),
+					castedRequest.getParentID());
 			response = new IDResponse(request.getRequestID(), true,
-					"New file created.", key);
+					"New file created.",castedRequest.getProjectID(), key);
 		} catch (DatabaseException e) {
 			response = new StandartResponse(request.getRequestID(), false,
 					"DB error. " + e.getMessage());
