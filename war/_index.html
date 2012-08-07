@@ -24,7 +24,7 @@
 
 	$(function() {
 		$( "#textArea" ).resizable({
-			handles: "n, s",
+			handles: "s",
 			minHeight: 150,
 			alsoResizeReverse: "#statusArea",
 			stop: function(h, ui) {
@@ -33,7 +33,7 @@
 			}
 		});
 		$( "#sidebar" ).resizable({
-			handles: "w, e",
+			handles: "e",
 			maxWidth: 300,
 			alsoResizeReverse: "#content"
 		});
