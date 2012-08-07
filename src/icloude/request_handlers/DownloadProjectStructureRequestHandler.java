@@ -28,7 +28,7 @@ public class DownloadProjectStructureRequestHandler extends BaseRequestHandler {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String post(@QueryParam("json") String json) {
+	public String get(@QueryParam("json") String json) {
 		return getResponce(json);
 	}
 
