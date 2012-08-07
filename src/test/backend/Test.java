@@ -1,7 +1,5 @@
 package test.backend;
 
-import java.util.List;
-
 import com.google.gson.Gson;
 
 public abstract class Test {

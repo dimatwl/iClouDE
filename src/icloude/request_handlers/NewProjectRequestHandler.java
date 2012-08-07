@@ -1,5 +1,6 @@
 package icloude.request_handlers;
 
+import icloude.requests.AutocompleteRequest;
 import icloude.requests.BaseRequest;
 import icloude.requests.NewProjectRequest;
 import icloude.responses.BaseResponse;
@@ -87,6 +88,22 @@ public class NewProjectRequestHandler extends BaseRequestHandler {
 					"DB error. " + e.getMessage());
 		}
 		return response;
+	}
+	
+	/**
+	 * Realization of this method expected to check all specific fields
+	 * in concrete request for not null. Check of BaseRequest field is redundant. 
+	 * 
+	 * @param request
+	 *            is concrete request object.
+	 * @return True if ALL specific fields != null
+	 * 		   False otherwise.
+	 */
+	@Override
+	protected Boolean concreteRequestNullCheck(BaseRequest request){
+		NewProjectRequest castedRequest = (NewProjectRequest) request;
+		return (null != castedRequest.getProjectName()) &&
+				(null != castedRequest.getProjectType());
 	}
 
 }

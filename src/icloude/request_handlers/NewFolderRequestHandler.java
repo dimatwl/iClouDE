@@ -1,5 +1,6 @@
 package icloude.request_handlers;
 
+import icloude.requests.AutocompleteRequest;
 import icloude.requests.BaseRequest;
 import icloude.requests.NewFolderRequest;
 import icloude.responses.BaseResponse;
@@ -69,6 +70,23 @@ public class NewFolderRequestHandler extends BaseRequestHandler {
 	protected BaseResponse handleRequest(BaseRequest request) {
 		return new StandartResponse(request.getRequestID(), true,
 				"Request 'New folder' recieved.");
+	}
+	
+	/**
+	 * Realization of this method expected to check all specific fields
+	 * in concrete request for not null. Check of BaseRequest field is redundant. 
+	 * 
+	 * @param request
+	 *            is concrete request object.
+	 * @return True if ALL specific fields != null
+	 * 		   False otherwise.
+	 */
+	@Override
+	protected Boolean concreteRequestNullCheck(BaseRequest request){
+		NewFolderRequest castedRequest = (NewFolderRequest) request;
+		return (null != castedRequest.getProjectID()) &&
+				(null != castedRequest.getParentID()) &&
+				(null != castedRequest.getFolderName());
 	}
 
 }
