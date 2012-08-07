@@ -12,13 +12,15 @@ var testAndAdd = function(namespace, name, handler) {
 	
     namespace.request.setResponseHandler(function(data) {
         if (data.result) {
+        	request = "OK";
         	var res = Protocol.checkResponse.call(namespace, data);
         	if (res.correct) {
         		response = "OK";
         	    handler(data);
         	}
-        	else
-        		response = data.description;
+        	else {
+        	    response = data.description;
+        	}
         }
         else {
             response = data.description;
@@ -31,66 +33,33 @@ var testAndAdd = function(namespace, name, handler) {
     namespace.request.setErrorHandler(function() {
         response = "REQUEST FUCKED UP";
         
-        $('#testTable tr:last').after(name, makeRow(request, response));
+        $('#testTable tr:last').after(makeRow(name, request, response));
     });    
 }
 
 
 $(document).ready(function() {
-    /*
-	var request = "NOT CHECKED";
-	var response = "NOT CHECKED";
+    
     
 	
 	
-    Protocol.createNewProject.request.setResponseHandler(function(data) {
-        var res = Protocol.checkResponse.call(Protocol.createNewProject, data);
-		if (res.correct) {
-        	response = "OK";
-        }
-        else
-            response = res.description;
-		
-		$('#testTable tr:last').after(makeRow('Create Project', request, response));
-    });
-    
-    Protocol.createNewProject.request.setErrorHandler(function() {
-        response = "REQUEST FUCKED UP";
-        
-        $('#testTable tr:last').after(makeRow('Create Project', request, response));
-    });
-            
-    */
-    
-    var projectName = 'AAAAAA';
+	var projectName = 'AAAAAA';
     var projectType = 'BBBBBBBB';
-    
-    
+        
     
     var createNewProjectHandler = function(data) {
-        window.projectID = data.id;
+        projectID = data.id;
+        
+        var fileName = 'QUCUCU';
+        testAndAdd(Protocol.createNewFile, 'Create New File', createNewFileHandler);
+        Protocol.createNewFile.request.send(fileName, projectID, projectID);
     };
-    
-    testAndAdd(Protocol.createNewProject, 'Create New Project', createNewProjectHandler);
-    Protocol.createNewProject.request.send(projectName, projectType);
     
     
     var createNewFileHandler = function(data) {
-        window.currentFileID = data.id;
-    };
-    
-    
-    var fileName = 'QUCUCU';
-    testAndAdd(Protocol.createNewFile, 'Create New File', createNewFileHandler);
-    
-    alert("projectID " + window.projectID + " paerntID " + window.parentID);
-    
-    Protocol.createNewFile.request.send(fileName, window.projectID, window.parentID);
-    
-    
-    /*
-    testAndAdd(Protocol.uploadFile, 'Upload file');
-    Protocol.uploadFile.request.send({
+        currentFileID = data.id;
+        testAndAdd(Protocol.uploadFile, 'Upload File', uploadFileHandler);
+        Protocol.uploadFile.request.send({
     	    type: 'file',
     	    fileID: currentFileID,
     	    text: "I am a helicopter",
@@ -100,8 +69,26 @@ $(document).ready(function() {
             modificationDate: (new Date()).getTime(),
             size: '1000'
     	});
+    };
     
-    */
+    
+    var uploadFileHandler = function(data) {
+    	testAndAdd(Protocol.downloadFile, 'Download File', downloadFileHandler);
+        Protocol.downloadFile.request.send(currentFileID);    	
+    }    
+    
+    var downloadFileHandler = function(data) {
+    	alert('Download OK!');
+    }
+    
+    
+    
+    testAndAdd(Protocol.createNewProject, 'Create New Project', createNewProjectHandler);
+    Protocol.createNewProject.request.send(projectName, projectType);
+    
+    
+    
+    
     
     
     

@@ -32,16 +32,20 @@ public class UploadFileRequest extends BaseRequest {
 	}
 
 	/**
+	 * @param protocolVersion
 	 * @param requestID
 	 * @param requestType
 	 * @param userID
 	 * @param projectID
 	 * @param content
 	 */
-	public UploadFileRequest(String requestID, String requestType,
-			String userID, String projectID, FileContent content) {
-		super(requestID, requestType, userID);
+	public UploadFileRequest(Integer protocolVersion, String requestID,
+			String requestType, String userID, String projectID,
+			FileContent content) {
+		super(protocolVersion, requestID, requestType, userID);
 		this.projectID = projectID;
 		this.content = content;
-	};
+	}
+
+
 }

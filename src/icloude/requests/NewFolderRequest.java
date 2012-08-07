@@ -34,6 +34,7 @@ public class NewFolderRequest extends BaseRequest {
 	}
 
 	/**
+	 * @param protocolVersion
 	 * @param requestID
 	 * @param requestType
 	 * @param userID
@@ -41,12 +42,15 @@ public class NewFolderRequest extends BaseRequest {
 	 * @param parentID
 	 * @param folderName
 	 */
-	public NewFolderRequest(String requestID, String requestType,
-			String userID, String projectID, String parentID, String folderName) {
-		super(requestID, requestType, userID);
+	public NewFolderRequest(Integer protocolVersion, String requestID,
+			String requestType, String userID, String projectID,
+			String parentID, String folderName) {
+		super(protocolVersion, requestID, requestType, userID);
 		this.projectID = projectID;
 		this.parentID = parentID;
 		this.folderName = folderName;
 	}
+
+
 
 }

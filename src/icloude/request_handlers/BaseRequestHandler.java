@@ -19,6 +19,7 @@ public abstract class BaseRequestHandler {
 	 * This field used to do all JSON staff.
 	 */
 	protected final static Gson GSON = new Gson();
+	protected final static Integer PROTOCOL_VERSION = 1;
 	protected final static Integer DEFAULT_BUFFER_SIZE = 1000;
 
 	/**

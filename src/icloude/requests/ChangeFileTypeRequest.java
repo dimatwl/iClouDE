@@ -35,6 +35,7 @@ public class ChangeFileTypeRequest extends BaseRequest {
 	}
 
 	/**
+	 * @param protocolVersion
 	 * @param requestID
 	 * @param requestType
 	 * @param userID
@@ -42,12 +43,15 @@ public class ChangeFileTypeRequest extends BaseRequest {
 	 * @param fileID
 	 * @param newFileType
 	 */
-	public ChangeFileTypeRequest(String requestID, String requestType,
-			String userID, String projectID, String fileID, String newFileType) {
-		super(requestID, requestType, userID);
+	public ChangeFileTypeRequest(Integer protocolVersion, String requestID,
+			String requestType, String userID, String projectID, String fileID,
+			String newFileType) {
+		super(protocolVersion, requestID, requestType, userID);
 		this.projectID = projectID;
 		this.fileID = fileID;
 		this.newFileType = newFileType;
 	}
+
+
 
 }

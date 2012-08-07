@@ -26,17 +26,20 @@ public class DownloadFileRequest extends BaseRequest {
 	}
 
 	/**
+	 * @param protocolVersion
 	 * @param requestID
 	 * @param requestType
 	 * @param userID
 	 * @param projectID
 	 * @param fileID
 	 */
-	public DownloadFileRequest(String requestID, String requestType,
-			String userID, String projectID, String fileID) {
-		super(requestID, requestType, userID);
+	public DownloadFileRequest(Integer protocolVersion, String requestID,
+			String requestType, String userID, String projectID, String fileID) {
+		super(protocolVersion, requestID, requestType, userID);
 		this.projectID = projectID;
 		this.fileID = fileID;
 	}
+
+
 
 }

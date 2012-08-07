@@ -34,6 +34,7 @@ public class RunProjectRequest extends BaseRequest {
 	}
 
 	/**
+	 * @param protocolVersion
 	 * @param requestID
 	 * @param requestType
 	 * @param userID
@@ -41,12 +42,14 @@ public class RunProjectRequest extends BaseRequest {
 	 * @param entryPointID
 	 * @param inputData
 	 */
-	public RunProjectRequest(String requestID, String requestType,
-			String userID, String projectID, String entryPointID,
-			String inputData) {
-		super(requestID, requestType, userID);
+	public RunProjectRequest(Integer protocolVersion, String requestID,
+			String requestType, String userID, String projectID,
+			String entryPointID, String inputData) {
+		super(protocolVersion, requestID, requestType, userID);
 		this.projectID = projectID;
 		this.entryPointID = entryPointID;
 		this.inputData = inputData;
 	}
+
+
 }

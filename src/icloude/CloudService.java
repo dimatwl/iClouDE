@@ -50,19 +50,19 @@ public class CloudService {
 		UploadFileRequestHandler ufrh = new UploadFileRequestHandler();
 		DownloadCodeRequestHandler dcrh = new DownloadCodeRequestHandler();
 		
-		NewProjectRequest npr = new NewProjectRequest("NewProjectRequest", "newproject", "userIDZIP", "projectZIP", "typeZIP");
+		NewProjectRequest npr = new NewProjectRequest(1, "NewProjectRequest", "newproject", "userIDZIP", "projectZIP", "typeZIP");
 		json = nprh.post(gson.toJson(npr));
 		IDResponse idrProj = gson.fromJson(json, IDResponse.class);
-		NewFileRequest nfr = new NewFileRequest("NewFileRequest", "newfile", "userIDZIP", idrProj.getId(), idrProj.getId(), "fileZIP", "typeZIP");
+		NewFileRequest nfr = new NewFileRequest(1, "NewFileRequest", "newfile", "userIDZIP", idrProj.getId(), idrProj.getId(), "fileZIP", "typeZIP");
 		json = nfrh.post(gson.toJson(nfr));
 		IDResponse idrFile = gson.fromJson(json, IDResponse.class);
 		FileContent content = new FileContent("file", idrFile.getId(), "Hello, I am text of this file!!!", "textFile", "userIDZIP", "ZIPRevision", (new Date()).getTime(), (new Date()).getTime());
-		UploadFileRequest ufr = new UploadFileRequest("UploadFileRequest", "uploadfile", "userIDZIP", idrProj.getId(), content);
+		UploadFileRequest ufr = new UploadFileRequest(1, "UploadFileRequest", "uploadfile", "userIDZIP", idrProj.getId(), content);
 		json = ufrh.post(gson.toJson(ufr));
-		DownloadCodeRequest dcr = new DownloadCodeRequest("DownloadCodeRequest", "downloadcode", "UserIDZIP", idrProj.getId());
+		DownloadCodeRequest dcr = new DownloadCodeRequest(1,"DownloadCodeRequest", "downloadcode", "UserIDZIP", idrProj.getId());
 		
 		return dcrh.get(gson.toJson(dcr));
-	}
+	} 
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)

@@ -18,15 +18,17 @@ public class DownloadCodeRequest extends BaseRequest {
 		return projectID;
 	}
 
+
 	/**
+	 * @param protocolVersion
 	 * @param requestID
 	 * @param requestType
 	 * @param userID
 	 * @param projectID
 	 */
-	public DownloadCodeRequest(String requestID, String requestType,
-			String userID, String projectID) {
-		super(requestID, requestType, userID);
+	public DownloadCodeRequest(Integer protocolVersion, String requestID,
+			String requestType, String userID, String projectID) {
+		super(protocolVersion, requestID, requestType, userID);
 		this.projectID = projectID;
 	}
 }

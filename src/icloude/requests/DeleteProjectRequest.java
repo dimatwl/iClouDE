@@ -18,14 +18,17 @@ public class DeleteProjectRequest extends BaseRequest {
 	}
 
 	/**
+	 * @param protocolVersion
 	 * @param requestID
 	 * @param requestType
 	 * @param userID
 	 * @param projectID
 	 */
-	public DeleteProjectRequest(String requestID, String requestType,
-			String userID, String projectID) {
-		super(requestID, requestType, userID);
+	public DeleteProjectRequest(Integer protocolVersion, String requestID,
+			String requestType, String userID, String projectID) {
+		super(protocolVersion, requestID, requestType, userID);
 		this.projectID = projectID;
 	}
+
+
 }
