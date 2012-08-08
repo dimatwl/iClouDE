@@ -1,7 +1,6 @@
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
-import icloude.requests.ChangeFileTypeRequest;
 import icloude.requests.DeleteFileRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;

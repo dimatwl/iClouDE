@@ -1,6 +1,5 @@
 package icloude.request_handlers;
 
-import icloude.requests.AutocompleteRequest;
 import icloude.requests.BaseRequest;
 import icloude.requests.ChangeFileTypeRequest;
 import icloude.responses.BaseResponse;

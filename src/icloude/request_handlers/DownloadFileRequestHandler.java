@@ -1,7 +1,6 @@
 package icloude.request_handlers;
 
 import icloude.contents.FileContent;
-import icloude.requests.AutocompleteRequest;
 import icloude.requests.BaseRequest;
 import icloude.requests.DownloadFileRequest;
 import icloude.responses.BaseResponse;
@@ -41,7 +40,7 @@ public class DownloadFileRequestHandler extends BaseRequestHandler {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String post(@QueryParam("json") String json) {
+	public String get(@QueryParam("json") String json) {
 		return getResponce(json);
 	}
 

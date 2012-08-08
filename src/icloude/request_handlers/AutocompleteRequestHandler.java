@@ -2,7 +2,6 @@ package icloude.request_handlers;
 
 import icloude.requests.AutocompleteRequest;
 import icloude.requests.BaseRequest;
-import icloude.requests.DownloadCodeRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
 

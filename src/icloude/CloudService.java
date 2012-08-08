@@ -1,12 +1,10 @@
 package icloude;
 
 import icloude.contents.FileContent;
-import icloude.request_handlers.DownloadCodeRequestHandler;
 import icloude.request_handlers.DownloadProjectStructureRequestHandler;
 import icloude.request_handlers.NewFileRequestHandler;
 import icloude.request_handlers.NewProjectRequestHandler;
 import icloude.request_handlers.UploadFileRequestHandler;
-import icloude.requests.DownloadCodeRequest;
 import icloude.requests.DownloadProjectStructureRequest;
 import icloude.requests.NewFileRequest;
 import icloude.requests.NewProjectRequest;
@@ -14,7 +12,6 @@ import icloude.requests.UploadFileRequest;
 import icloude.responses.IDResponse;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 
 import javax.ws.rs.FormParam;
