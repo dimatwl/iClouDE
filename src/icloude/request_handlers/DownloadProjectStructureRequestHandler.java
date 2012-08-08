@@ -90,7 +90,7 @@ public class DownloadProjectStructureRequestHandler extends BaseRequestHandler {
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
 		BaseResponse response;
-		DownloadFileRequest castedRequest = (DownloadFileRequest) request;
+		DownloadProjectStructureRequest castedRequest = (DownloadProjectStructureRequest) request;
 		try {
 			Project project = (Project) Database.get(StoringType.PROJECT,
 					castedRequest.getProjectID());
