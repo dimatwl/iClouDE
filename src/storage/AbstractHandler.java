@@ -43,7 +43,15 @@ public abstract class AbstractHandler implements Handler {
 	 * @return object found
 	 * @throws DatabaseException if it's impossible to get required object
 	 */
-	public Object get(String key) throws DatabaseException {
+	public Object get(Object... params) throws DatabaseException {
+		if (params.length != 1) {
+			throw new DatabaseException("Incorrent number of parameters for " +
+					"getting " + getHandlingType().getName() + ". Should be 1 parameter," +
+							" but " + params.length + " given");
+		}
+		
+		String key = (String) params[0];
+		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Object obj = pm.getObjectById(getHandlingType(), key);
 		if (obj == null) {

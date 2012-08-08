@@ -13,7 +13,7 @@ import storage.projectitem.CompositeProjectItemType;
 import storage.projectitem.CompositeProjectItem;
 
 /**
- * This class provides implementations of all database operations
+ * This class provides implementations of database operations
  * with Project objects (create, get, update, delete).
  * @author Sergey
  *
@@ -68,6 +68,12 @@ public class ProjectHandler extends AbstractHandler {
 		return project.getKey();
 	}
 
+	/**
+	 * Deletes project from dababase.
+	 * @param key - database key of the project to delete
+	 * @throws DatabaseException if some error occurs while
+	 * deleting project
+	 */
 	@Override
 	public void delete(String key) throws DatabaseException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();

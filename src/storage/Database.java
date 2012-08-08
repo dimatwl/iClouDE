@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import storage.project.ProjectHandler;
+import storage.project.ProjectsListHandler;
 import storage.projectitem.CompositeProjectItemHandler;
 import storage.sourcefile.SourceFileHandler;
 
@@ -37,6 +38,7 @@ public class Database {
 		handlers.put(StoringType.SOURCE_FILE, new SourceFileHandler());
 		handlers.put(StoringType.PROJECT, new ProjectHandler());
 		handlers.put(StoringType.COMPOSITE_PROJECT_ITEM, new CompositeProjectItemHandler());
+		handlers.put(StoringType.PROJECTS_LIST, new ProjectsListHandler());
 	}
 
 	
@@ -63,9 +65,9 @@ public class Database {
 	 * @return object of required type according to specified parameters
 	 * @throws DatabaseException if parameters are incorrect
 	 */
-	public static Object get(StoringType type, String key) throws DatabaseException {
+	public static Object get(StoringType type, Object... params) throws DatabaseException {
 		try {
-			return handlers.get(type).get(key);
+			return handlers.get(type).get(params);
 		} catch (Exception e) {
 			throw new DatabaseException(e.getMessage());
 		}

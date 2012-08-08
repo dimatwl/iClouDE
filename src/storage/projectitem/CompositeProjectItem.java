@@ -18,7 +18,6 @@ import storage.Child;
  *
  */
 @PersistenceCapable(detachable = "true")
-//@Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public class CompositeProjectItem extends ProjectItem {
 	
 	@Persistent
@@ -39,10 +38,18 @@ public class CompositeProjectItem extends ProjectItem {
 		return Collections.unmodifiableList(children);
 	}
 
+	/**
+	 * Adds child to the list of children of this project item.
+	 * @param child - child to add.
+	 */
 	public void addChild(Child child) {
 		children.add(child);
 	}
 
+	/**
+	 * Removes give child from list of children of this project item.
+	 * @param child - child to remove.
+	 */
 	public void removeChild(Child child) {
 		children.remove(child);
 	}

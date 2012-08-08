@@ -1,6 +1,7 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -9,8 +10,8 @@ import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
 import storage.project.Project;
-import storage.projectitem.CompositeProjectItemType;
 import storage.projectitem.CompositeProjectItem;
+import storage.projectitem.CompositeProjectItemType;
 import storage.projectitem.ProjectItem;
 
 public class ProjectTest extends Test {
@@ -21,6 +22,7 @@ public class ProjectTest extends Test {
 		result.add(testProjectCreating());
 		result.add(testProjectDeleting());
 		result.add(testProjectContent());
+		result.add(testProjectsList());
 		
 		return result;
 	}
@@ -237,11 +239,57 @@ public class ProjectTest extends Test {
 		
 		return result + Test.PASSED;
 	}
+	
+	
+	/**
+	 * Creates several projects and then gets projects list from
+	 * database. Checks if this list contains all created projects
+	 * and only them.
+	 */
+	private String testProjectsList() {
+		String result = "Testing project list: ";
+		
+		Set<String> projectKeys = new HashSet<String>();
+		List<Project> projects = null;
+		try {
+			for (int i = 0; i < 10; i++) {
+				projectKeys.add(createProject(Integer.toString(i), "type"));
+			}
+			
+			projects = getProjectsList(); 
+		} catch (TestException e) {
+			return result + Test.FAILED + " - " + e.getMessage();
+		}
+		
+		for (Project p: projects) {
+			projectKeys.remove(p.getKey());
+		}
+		
+		if (!projectKeys.isEmpty()) {
+			return result + Test.FAILED + " - some created projects aren't" +
+					" in projects list";
+		}
+		
+		
+		return result + Test.PASSED;
+	}
 
 	
 	
 	
 	// utility methods
+	
+	
+	@SuppressWarnings("unchecked")
+	private List<Project> getProjectsList() throws TestException {
+		try {
+			return (List<Project>) Database.get(StoringType.PROJECTS_LIST);
+		} catch (DatabaseException e) {
+			throw new TestException("Database exception while extracting " +
+					"projcts list. " +
+					"Error message: " + e.getMessage());
+		}
+	}
 
 	
 	private Map<String, ProjectItem> getProjectContent(Project project) throws TestException {
