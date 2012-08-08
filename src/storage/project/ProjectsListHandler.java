@@ -10,6 +10,13 @@ import storage.AbstractHandler;
 import storage.DatabaseException;
 import storage.PMF;
 
+/**
+ * Allows to get list of projects from database.
+ * All other database operations are forbidden and will cause an
+ * exception.
+ * @author Sergey
+ *
+ */
 public class ProjectsListHandler extends AbstractHandler {
 
 	public ProjectsListHandler() {
@@ -34,6 +41,10 @@ public class ProjectsListHandler extends AbstractHandler {
 				"Impossible to update projects list");
 	}
 
+	/**
+	 * Gets list of all projects from database. 
+	 * @return Returns list of all projects from database.
+	 */
 	@Override
 	public List<Project> get(Object... params) throws DatabaseException {
 		if (params.length != 0) {
