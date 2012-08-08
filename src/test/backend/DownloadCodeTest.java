@@ -11,13 +11,18 @@ import icloude.requests.NewFileRequest;
 import icloude.requests.NewProjectRequest;
 import icloude.requests.UploadFileRequest;
 import icloude.responses.IDResponse;
+import icloude.responses.StandartResponse;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -61,42 +66,118 @@ public class DownloadCodeTest extends Test {
 		}
 		
 		protected Boolean compareZIP(InputStream zip, String projectID){
-			Boolean passed = false;
-			ZipInputStream zin = new ZipInputStream(zip);
+			Boolean passed = true;
+			ZipInputStream zin = null;
 			ZipEntry entry;
 			try {
+				zin = new ZipInputStream(zip);
 				Project project = (Project) Database.get(StoringType.PROJECT, projectID);
 				Map<String, ProjectItem> projectStructure = project.getContent();
-				while((entry = zin.getNextEntry()) != null) {
-					System.err.println(entry.getName());
+				Map<String, String> pathsFromDB = new HashMap<String, String>();
+				for (String key : projectStructure.keySet()) {
+					pathsFromDB.put(getFullPath(key, projectStructure), key);
 				}
+				List<String> pathsFromZIP = new ArrayList<String>();
+				while((entry = zin.getNextEntry()) != null) {
+					if (! entry.isDirectory()) {
+						if (pathsFromDB.containsKey(entry.getName())) {
+							Reader zipReader = new InputStreamReader(zin);
+							Reader fileReader = ((SourceFile)(projectStructure.get(pathsFromDB.get(entry.getName())))).openForReading();
+							if (! isSame(zipReader, fileReader)) {
+								passed = false;
+								break;
+							}
+						} else {
+							passed = false;
+							break;
+						}
+					}
+					pathsFromZIP.add(entry.getName());
+				}
+				//All keys in pathsFromDB MUST be presented in pathsFromZIP
 			} catch (IOException e) {
 				passed = false;
 			} catch (DatabaseException e) {
 				passed = false;
+			} catch (Exception e) {
+				passed = false;
+			} finally {
+				if (zin != null) {
+					try {
+						zin.close();
+					} catch (IOException e) {
+						passed = false;
+					}
+				}
 			}
 			return passed;
 		}
 		
 		
-		private String getFullPath(String key, Map<String, ProjectItem> project, String projectKey, String projectName) {
+		/**
+		   * Compare two input stream
+		   * 
+		   * @param input1 the first stream
+		   * @param input2 the second stream
+		   * @return true if the streams contain the same content, or false otherwise
+		   * @throws IOException
+		   * @throws IllegalArgumentException if the stream is null
+		   */
+		  private Boolean isSame( Reader input1,
+		                                Reader input2 ) throws IOException {
+		      boolean error = false;
+		      try {
+		          char[] buffer1 = new char[DEFAULT_BUFFER_SIZE];
+		          char[] buffer2 = new char[DEFAULT_BUFFER_SIZE];
+		          try {
+		              int numRead1 = 0;
+		              int numRead2 = 0;
+		              while (true) {
+		                  numRead1 = input1.read(buffer1);
+		                  numRead2 = input2.read(buffer2);
+		                  if (numRead1 > -1) {
+		                      if (numRead2 != numRead1) return false;
+		                      // Otherwise same number of bytes read
+		                      if (!Arrays.equals(buffer1, buffer2)) return false;
+		                      // Otherwise same bytes read, so continue ...
+		                  } else {
+		                      // Nothing more in stream 1 ...
+		                      return numRead2 < 0;
+		                  }
+		              }
+		          } finally {
+		              //input1.close();
+		          }
+		      } catch (IOException e) {
+		          error = true; // this error should be thrown, even if there is an error closing stream 2
+		          throw e;
+		      } catch (RuntimeException e) {
+		          error = true; // this error should be thrown, even if there is an error closing stream 2
+		          throw e;
+		      } finally {
+		          try {
+		              input2.close();
+		          } catch (IOException e) {
+		              if (!error) throw e;
+		          }
+		      }
+		  }
+		
+		
+		private String getFullPath(String key, Map<String, ProjectItem> project) {
 	 		String currentItemKey = key;
 	 		ProjectItem currentItem = project.get(currentItemKey);
 	 		StringBuilder fullPath = new StringBuilder();
 	 		if (! (currentItem instanceof SourceFile)) {
 	 			fullPath.insert(0, '/');
 	 		}
-
-			while (! currentItem.getParentKey().equals(projectKey)) {
+			while (currentItem.getParentKey() != null) {
 	 			fullPath.insert(0, currentItem.getName());
 	 			fullPath.insert(0, '/');
 	 			currentItemKey = currentItem.getParentKey();
 	 			currentItem = project.get(currentItemKey);
 	 		}
 	 		fullPath.insert(0, currentItem.getName());
-	 		fullPath.insert(0, '/');
-			fullPath.insert(0, projectName);
-			fullPath.insert(0, '/');
 	 		return fullPath.toString();
 	 	}
 
