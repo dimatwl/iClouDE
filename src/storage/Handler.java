@@ -23,7 +23,7 @@ public interface Handler {
 	 * @return - object from database
 	 * @throws DatabaseException if it's impossible to get required object
 	 */
-	public Object get(String key) throws DatabaseException;
+	public Object get(Object... params) throws DatabaseException;
 	
 	/**
 	 * Saves object to database

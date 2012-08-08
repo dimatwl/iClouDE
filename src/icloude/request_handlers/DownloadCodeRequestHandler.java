@@ -1,7 +1,6 @@
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
-import icloude.requests.DeleteFileRequest;
 import icloude.requests.DownloadCodeRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
@@ -10,7 +9,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -26,7 +24,6 @@ import storage.StoringType;
 import storage.project.Project;
 import storage.projectitem.CompositeProjectItem;
 import storage.projectitem.CompositeProjectItemType;
-import storage.projectitem.ProjectItem;
 import storage.sourcefile.SourceFile;
 import storage.sourcefile.SourceFileReader;
 
@@ -51,7 +48,25 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 	@GET
 	@Produces("application/x-zip-compressed")
 	public InputStream get(@QueryParam("json") String json) {
-		return doZip(jsonToRequest(json));
+		System.err.println("From:" + json);
+		if (null == json) {
+			return null;
+		} else
+			try {
+				BaseRequest fromJSON = jsonToRequest(json);
+				if (! requestNullCheck(fromJSON)){
+					return null;
+				} else if (! protocolVersionCheck(fromJSON.getProtocolVersion())){
+					return null;
+				} else if (! requestTypeCheck(fromJSON.getRequestType())) {
+					return null;
+				} else {
+					return doZip(jsonToRequest(json));
+				}
+			} catch (JsonSyntaxException e) {
+				return null;
+			}
+		
 	}
 
 	/**
