@@ -1,6 +1,7 @@
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
+import icloude.requests.DeleteFileRequest;
 import icloude.requests.DownloadCodeRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
@@ -18,10 +19,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import storage.Child;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
 import storage.project.Project;
+import storage.projectitem.CompositeProjectItem;
+import storage.projectitem.CompositeProjectItemType;
 import storage.projectitem.ProjectItem;
 import storage.sourcefile.SourceFile;
 import storage.sourcefile.SourceFileReader;
@@ -97,7 +101,7 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 		try {
 			project = (Project) Database.get(StoringType.PROJECT,
 					castedRequest.getProjectID());
-			byte[] buf = zipProject(project.getContent());
+			byte[] buf = zipProject(project);
 			response = new ByteArrayInputStream(buf);
 		} catch (DatabaseException e) {
 			response = null;
@@ -106,58 +110,74 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 		}
 		return response;
 	}
-	
-	
-	private byte[] zipProject(Map<String, ProjectItem> project) throws IOException, DatabaseException {
-		ByteArrayOutputStream outStream = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);
+
+	private byte[] zipProject(Project project) throws IOException,
+			DatabaseException {
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream(
+				DEFAULT_BUFFER_SIZE);
 		ZipOutputStream zipOut = new ZipOutputStream(outStream);
-		
-		for (String key : project.keySet()) {
-			System.err.println(key + " : " + project.get(key));
-		} 
-		System.err.println(GSON.toJson(project));
-		
-		for (String key : project.keySet()) {
-			addToZip(key, project, zipOut);
-		} 
+
+		CompositeProjectItem root = (CompositeProjectItem) Database.get(
+				StoringType.COMPOSITE_PROJECT_ITEM, project.getRootKey());
+		StringBuilder path = new StringBuilder('/');
+		addToZip(root, path, zipOut);
+
 		zipOut.flush();
 		zipOut.close();
 
 		return outStream.toByteArray();
 	}
 
-	private void addToZip(String key, Map<String, ProjectItem> project, ZipOutputStream zipOut) throws IOException, DatabaseException {
-		ProjectItem currentItem = project.get(key);
-		String fullPath = getFullPath(key, project);
-		zipOut.putNextEntry(new ZipEntry(fullPath));
-		if (currentItem instanceof SourceFile) {
-			SourceFileReader reader = ((SourceFile)currentItem).openForReading();
-			char[] buf = new char[DEFAULT_BUFFER_SIZE];
-			int charsReaded;
-			while ((charsReaded = reader.read(buf)) >= 0) {
-				zipOut.write(new String(buf).getBytes(), 0, charsReaded);
-			}
-			reader.close();
+	private void addToZip(CompositeProjectItem item, StringBuilder path,
+			ZipOutputStream zipOut) throws IOException, DatabaseException {
+		if (item.getItemType().equals(CompositeProjectItemType.PACKAGE)) {
+			path.append(item.getName().replace('.', '/'));
+		} else {
+			path.append(item.getName());
 		}
+		path.append('/');
+		zipOut.putNextEntry(new ZipEntry(path.toString()));
+		for (Child child : item.getChildren()) {
+			if (child.getType().equals(StoringType.COMPOSITE_PROJECT_ITEM)) {
+				CompositeProjectItem compositeItem = (CompositeProjectItem) Database
+						.get(StoringType.COMPOSITE_PROJECT_ITEM, child.getKey());
+				addToZip(compositeItem, new StringBuilder(path.toString()),
+						zipOut);
+			} else {
+				SourceFile file = (SourceFile) Database.get(
+						StoringType.SOURCE_FILE, child.getKey());
+				addToZip(file, new StringBuilder(path.toString()), zipOut);
+			}
+		}
+	}
 
+	private void addToZip(SourceFile file, StringBuilder path,
+			ZipOutputStream zipOut) throws IOException, DatabaseException {
+		path.append(file.getName());
+		zipOut.putNextEntry(new ZipEntry(path.toString()));
+		SourceFileReader reader = ((SourceFile) file).openForReading();
+		char[] buf = new char[DEFAULT_BUFFER_SIZE];
+		int charsReaded;
+		while ((charsReaded = reader.read(buf)) >= 0) {
+			zipOut.write(new String(buf).getBytes(), 0, charsReaded);
+		}
+		reader.close();
 	}
 	
-	private String getFullPath(String key, Map<String, ProjectItem> project) {
-		String currentItemKey = key;
-		ProjectItem currentItem = project.get(currentItemKey);
-		StringBuilder fullPath = new StringBuilder();
-		if (! (currentItem instanceof SourceFile)) {
-			fullPath.insert(0, '/');
-		}
-		while (currentItem.getParentKey() != null) {
-			fullPath.insert(0, currentItem.getName());
-			fullPath.insert(0, '/');
-			currentItemKey = currentItem.getParentKey();
-			currentItem = project.get(currentItemKey);
-		}
-		fullPath.insert(0, currentItem.getName());
-		fullPath.insert(0, '/');
-		return fullPath.toString();
+	
+	/**
+	 * Realization of this method expected to check all specific fields
+	 * in concrete request for not null. Check of BaseRequest field is redundant. 
+	 * 
+	 * @param request
+	 *            is concrete request object.
+	 * @return True if ALL specific fields != null
+	 * 		   False otherwise.
+	 */
+	@Override
+	protected Boolean concreteRequestNullCheck(BaseRequest request){
+		DownloadCodeRequest castedRequest = (DownloadCodeRequest) request;
+		return (null != castedRequest.getProjectID());
 	}
 
 }

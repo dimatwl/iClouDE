@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package icloude.contents;
 
 import java.util.Date;
@@ -10,71 +8,47 @@ import java.util.List;
  * @author DimaTWL This class represents "FileTree" entity from protocol
  */
 public class FileTree {
-	private String rootName;
-	private String rootType;
+	private String itemName;
+	private String itemType;
+	private String itemID;
+	private String parentID;
 	private String revisionID;
 	private Date creationDate;
 	private Date modificationDate;
+	private Long size;
 	private List<FileTree> children;
-
+	
 	/**
-	 * @param rootName
-	 * @param rootType
+	 * @param itemName
+	 * @param itemType
+	 * @param itemID
+	 * @param parentID
 	 * @param revisionID
 	 * @param creationDate
 	 * @param modificationDate
+	 * @param size
 	 * @param children
 	 */
-	public FileTree(String rootName, String rootType, String revisionID,
-			Date creationDate, Date modificationDate, List<FileTree> children) {
-		this.rootName = rootName;
-		this.rootType = rootType;
+	public FileTree(String itemName, String itemType, String itemID,
+			String parentID, String revisionID, Date creationDate,
+			Date modificationDate, Long size, List<FileTree> children) {
+		super();
+		this.itemName = itemName;
+		this.itemType = itemType;
+		this.itemID = itemID;
+		this.parentID = parentID;
 		this.revisionID = revisionID;
 		this.creationDate = creationDate;
 		this.modificationDate = modificationDate;
+		this.size = size;
 		this.children = children;
 	}
 
 	/**
-	 * @return the rootName
+	 * @param children the children to set
 	 */
-	public String getRootName() {
-		return rootName;
-	}
-
-	/**
-	 * @return the rootType
-	 */
-	public String getRootType() {
-		return rootType;
-	}
-
-	/**
-	 * @return the revisionID
-	 */
-	public String getRevisionID() {
-		return revisionID;
-	}
-
-	/**
-	 * @return the creationDate
-	 */
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	/**
-	 * @return the modificationDate
-	 */
-	public Date getModificationDate() {
-		return modificationDate;
-	}
-
-	/**
-	 * @return the children
-	 */
-	public List<FileTree> getChildren() {
-		return children;
+	public void setChildren(List<FileTree> children) {
+		this.children = children;
 	}
 
 }

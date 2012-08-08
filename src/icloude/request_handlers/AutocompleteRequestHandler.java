@@ -2,6 +2,7 @@ package icloude.request_handlers;
 
 import icloude.requests.AutocompleteRequest;
 import icloude.requests.BaseRequest;
+import icloude.requests.DownloadCodeRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
 
@@ -69,5 +70,22 @@ public class AutocompleteRequestHandler extends BaseRequestHandler {
 	protected BaseResponse handleRequest(BaseRequest request) {
 		return new StandartResponse(request.getRequestID(), true,
 				"Request 'Autocomplete' recieved.");
+	}
+	
+	/**
+	 * Realization of this method expected to check all specific fields
+	 * in concrete request for not null. Check of BaseRequest field is redundant. 
+	 * 
+	 * @param request
+	 *            is concrete request object.
+	 * @return True if ALL specific fields != null
+	 * 		   False otherwise.
+	 */
+	@Override
+	protected Boolean concreteRequestNullCheck(BaseRequest request){
+		AutocompleteRequest castedRequest = (AutocompleteRequest) request;
+		return (null != castedRequest.getProjectID()) &&
+				(null != castedRequest.getContent()) &&
+				(null != castedRequest.getCaretPosition());
 	}
 }

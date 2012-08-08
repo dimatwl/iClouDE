@@ -1,5 +1,6 @@
 package icloude.request_handlers;
 
+import icloude.requests.AutocompleteRequest;
 import icloude.requests.BaseRequest;
 import icloude.requests.NewProjectRequest;
 import icloude.responses.BaseResponse;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
+import storage.project.Project;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -77,16 +79,33 @@ public class NewProjectRequestHandler extends BaseRequestHandler {
 			String key = Database.create(StoringType.PROJECT,
 					((NewProjectRequest) request).getProjectName(),
 					((NewProjectRequest) request).getProjectType());
+			Project project = (Project) Database.get(StoringType.PROJECT, key);
 			response = new IDResponse(
 					request.getRequestID(),
 					true,
 					"New project created. Here is your ID. Please do not use it for evil.",
-					key);
+					project.getKey(), project.getRootKey());
 		} catch (DatabaseException e) {
 			response = new StandartResponse(request.getRequestID(), false,
 					"DB error. " + e.getMessage());
 		}
 		return response;
+	}
+	
+	/**
+	 * Realization of this method expected to check all specific fields
+	 * in concrete request for not null. Check of BaseRequest field is redundant. 
+	 * 
+	 * @param request
+	 *            is concrete request object.
+	 * @return True if ALL specific fields != null
+	 * 		   False otherwise.
+	 */
+	@Override
+	protected Boolean concreteRequestNullCheck(BaseRequest request){
+		NewProjectRequest castedRequest = (NewProjectRequest) request;
+		return (null != castedRequest.getProjectName()) &&
+				(null != castedRequest.getProjectType());
 	}
 
 }

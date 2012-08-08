@@ -2,10 +2,12 @@ package icloude;
 
 import icloude.contents.FileContent;
 import icloude.request_handlers.DownloadCodeRequestHandler;
+import icloude.request_handlers.DownloadProjectStructureRequestHandler;
 import icloude.request_handlers.NewFileRequestHandler;
 import icloude.request_handlers.NewProjectRequestHandler;
 import icloude.request_handlers.UploadFileRequestHandler;
 import icloude.requests.DownloadCodeRequest;
+import icloude.requests.DownloadProjectStructureRequest;
 import icloude.requests.NewFileRequest;
 import icloude.requests.NewProjectRequest;
 import icloude.requests.UploadFileRequest;
@@ -41,27 +43,27 @@ public class CloudService {
 	}
 
 	@GET
-	@Produces("application/x-zip-compressed")
-	public InputStream getInfoJSON() throws IOException, DatabaseException {
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getInfoJSON() throws IOException, DatabaseException {
 		String json;
 		
 		NewProjectRequestHandler nprh = new NewProjectRequestHandler();
 		NewFileRequestHandler nfrh = new NewFileRequestHandler();
 		UploadFileRequestHandler ufrh = new UploadFileRequestHandler();
-		DownloadCodeRequestHandler dcrh = new DownloadCodeRequestHandler();
+		DownloadProjectStructureRequestHandler dpsrh = new DownloadProjectStructureRequestHandler();
 		
-		NewProjectRequest npr = new NewProjectRequest(1, "NewProjectRequest", "newproject", "userIDZIP", "projectZIP", "typeZIP");
+		NewProjectRequest npr = new NewProjectRequest(2, "NewProjectRequest", "newproject", "userIDZIP", "projectZIP", "typeZIP");
 		json = nprh.post(gson.toJson(npr));
 		IDResponse idrProj = gson.fromJson(json, IDResponse.class);
-		NewFileRequest nfr = new NewFileRequest(1, "NewFileRequest", "newfile", "userIDZIP", idrProj.getId(), idrProj.getId(), "fileZIP", "typeZIP");
+		NewFileRequest nfr = new NewFileRequest(2, "NewFileRequest", "newfile", "userIDZIP", idrProj.getProjectID(), idrProj.getEntityID(), "fileZIP", "typeZIP");
 		json = nfrh.post(gson.toJson(nfr));
 		IDResponse idrFile = gson.fromJson(json, IDResponse.class);
-		FileContent content = new FileContent("file", idrFile.getId(), "Hello, I am text of this file!!!", "textFile", "userIDZIP", "ZIPRevision", (new Date()).getTime(), (new Date()).getTime());
-		UploadFileRequest ufr = new UploadFileRequest(1, "UploadFileRequest", "uploadfile", "userIDZIP", idrProj.getId(), content);
+		FileContent content = new FileContent("file", idrFile.getEntityID(), "Hello, I am text of this file!!!", "textFile", "userIDZIP", "ZIPRevision", (new Date()).getTime(), (new Date()).getTime());
+		UploadFileRequest ufr = new UploadFileRequest(2, "UploadFileRequest", "uploadfile", "userIDZIP", idrProj.getProjectID(), content);
 		json = ufrh.post(gson.toJson(ufr));
-		DownloadCodeRequest dcr = new DownloadCodeRequest(1,"DownloadCodeRequest", "downloadcode", "UserIDZIP", idrProj.getId());
+		DownloadProjectStructureRequest dpsr = new DownloadProjectStructureRequest(2,"DownloadProjectStructureRequest", "downloadprojectstructure", "UserIDZIP", idrProj.getProjectID());
 		
-		return dcrh.get(gson.toJson(dcr));
+		return dpsrh.get(gson.toJson(dpsr));
 	} 
 
 	@POST

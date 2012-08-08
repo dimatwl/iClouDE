@@ -10,7 +10,7 @@ import test.ProjectTest;
 import test.SourceFileTest;
 
 @Path("/testing/database")
-public class TestingResource {
+public class TestingDB {
 
 	@GET
 	@Produces(MediaType.TEXT_HTML)
