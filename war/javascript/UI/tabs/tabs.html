@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>jQuery UI Tabs - Simple manipulation</title>
+    <link rel="stylesheet" href="themes/base/jquery.ui.all.css">
+    <script src="../libs/jquery-1.7.2.js"></script>
+    <script src="ui/jquery.ui.position.js"></script>
+    <script src="ui/jquery.ui.core.js"></script>
+    <script src="ui/jquery.ui.widget.js"></script>
+    <script src="ui/jquery.ui.button.js"></script>
+    <script src="ui/jquery.ui.tabs.js"></script>
+    <script src="ui/jquery.ui.dialog.js"></script>
+    <link rel="stylesheet" href="demos.css">
+
+
+
+    <script type="text/javascript" src="../libs/codemirror/codemirror.js"></script>
+    <link rel="stylesheet" href="../libs/codemirror/codemirror.css">
+    <script type="text/javascript" src="../libs/codemirror/clike.js"></script>
+    <script type="text/javascript" src="tabs.js"></script>
+    
+    <style>
+        #dialog label, #dialog input { display:block; }
+        #dialog label { margin-top: 0.5em; }
+        #dialog input, #dialog textarea { width: 95%; }
+        #tabs { margin-top: 1em; }
+        #tabs li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer; }
+        #add_tab { cursor: pointer; }
+    </style>
+
+</head>
+<body>
+
+<div class="demo">
+
+    <div id="dialog" title="Tab data">
+        <form>
+            <fieldset class="ui-helper-reset">
+                <label for="tab_title">Title</label>
+                <input type="text" name="tab_title" id="tab_title" value="" class="ui-widget-content ui-corner-all" />
+                <label for="tab_content">Content</label>
+                <textarea name="tab_content" id="tab_content" class="ui-widget-content ui-corner-all"></textarea>
+            </fieldset>
+        </form>
+    </div>
+
+    <button id="add_tab">Add Tab</button>
+
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabs-1">bams!!!</a> <span class="ui-icon ui-icon-close">Remove Tab</span></li>
+        </ul>
+        <div id="tabs-1">
+            <textarea id="codeArea">
+public class AAA {
+    public static void main(String[] args) {
+        System.out.println("Hello world!");
+    }
+}</textarea>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("codeArea"), {
+        mode: "text/x-java",
+        lineNumbers: true,
+        lineWrapping: true,
+        onCursorActivity: function() {
+            editor.setLineClass(hlLine, null, null);
+            hlLine = editor.setLineClass(editor.getCursor().line, null, "activeline");
+        }
+        });
+
+        var hlLine = editor.setLineClass(0, "activeline");
+    });
+    </script>
+
+
+
+</div><!-- End demo -->
+
+
+</body>
+</html>
