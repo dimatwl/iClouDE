@@ -8,7 +8,6 @@ html, body
 #header {
  height: 50px;
  width: 100%;
- background:#f99;
 }
 
 #sidebar {
@@ -28,5 +27,6 @@ html, body
 }
 
 #statusArea {
-	height: 120px;
+	height: 80px;
+    background: #FFC0CB;
 }

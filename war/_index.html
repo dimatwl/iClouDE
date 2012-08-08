@@ -3,51 +3,82 @@
 <head>
 	<meta charset="utf-8">
 	<title></title>
+    
+    <!--RESISABLE-->	
 	<link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.22.custom.css">
 	<link rel="stylesheet" href="css/main.css">
+	
 	<script src="javascript/libs/jquery/jquery-1.7.2.js"></script>
 	<script src="javascript/libs/jquery/jquery-ui-1.8.22.custom.min.js"></script>
 	<script src="javascript/libs/jquery/jquery-ui-alsoResizeReverse.js"></script>
-<script>
+    <script src="javascript/UI/resisable.js"></script>
+    <!--RESISABLE END-->
+    
+    <!--BUTTONS-->
+    <script src="javascript/UI/buttons/ui/jquery.ui.core.js"></script>
+    <script src="javascript/UI/buttons/ui/jquery.ui.widget.js"></script>
+    <script src="javascript/UI/buttons/ui/jquery.ui.button.js"></script>
+    <link rel="stylesheet" href="javascript/UI/buttons/ui/base/jquery.ui.all.css">
+    <script src="javascript/UI/buttons/buttons.js"></script>
+    <!--BUTTONS END--> 
+    
+    
+    <!--SYNTAX HIGHLIGHT-->
+    <script type="text/javascript" src="javascript/libs/codemirror/codemirror.js"></script>
+    <link rel="stylesheet" href="javascript/libs/codemirror/codemirror.css">
+    <script type="text/javascript" src="javascript/libs/codemirror/clike.js"></script>
+    <script type="text/javascript" src="javascript/UI/highlight.js"></script>
+    <!--SYNTAX HIGHLIGHT END-->
+    
+    
+    <!--TREE STRUCTURE-->
+    <script type="text/javascript" src="javascript/libs/jstree/_lib/jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="javascript/libs/jstree/jquery.jstree.js"></script>
+    <script src="javascript/UI/tree_viewer.js"></script>
+    <!--TREE STRUCTURE END-->   
+	
+	<!--TABS-->
+	<!--
+	<script src="javascript/UI/tabs/ui/jquery.ui.position.js"></script>
+    <script src="javascript/UI/tabs/ui/jquery.ui.core.js"></script>
+    <script src="javascript/UI/tabs/ui/jquery.ui.widget.js"></script>
+    <script src="javascript/UI/tabs/ui/jquery.ui.button.js"></script>
+    <script src="javascript/UI/tabs/ui/jquery.ui.tabs.js"></script>
+    <script src="javascript/UI/tabs/ui/jquery.ui.dialog.js"></script>
+    <link rel="stylesheet" href="javascript/UI/tabs/demos.css">
+    <script src="javascript/UI/tabs/tabs.js"></script>
+	-->
+	<!--END TABS-->
 
-	$(document).ready(sizeContent);
-	$(window).resize(sizeContent);
-
-	function sizeContent() {
-		var newHeight = $("html").height() - $("#header").height() - $("#footer").height() + "px";
-		$("#content").css("height", newHeight);
-		$("#sidebar").css("height", newHeight);
-		var newHeight = $("#content").height() - $("#statusArea").height() + "px";
-		$("#textArea").css("height", newHeight);
-		$("#textArea").resizable( "option", "maxHeight", $("#content").height() -50);
-	}
-
-	$(function() {
-		$( "#textArea" ).resizable({
-			handles: "s",
-			minHeight: 150,
-			alsoResizeReverse: "#statusArea",
-			stop: function(h, ui) {
-				$("#textArea").css("width", "100%");
-				$("#statusArea").css("width", "100%");
-			}
-		});
-		$( "#sidebar" ).resizable({
-			handles: "e",
-			maxWidth: 300,
-			alsoResizeReverse: "#content"
-		});
-	});
-	</script>
 </head>
 <body>
   <div id="wrapper">
-    <div id="header">Header</div>
-    <div id="sidebar">Test1</div>
+    
+    
+    <div id="header">
+        <span id="toolbar">
+	        <button id="new_project">New Project</button>
+            <button id="open_project">Open Project</button>
+            <button id="new_file">New File</button>
+	        <button id="save_file">Save File</button>
+	        <button id="import_file">Import File</button>
+	        <button id="run">Run</button>
+	        <button id="build">Build</button>
+            <button id="logout">Logout</button>
+        </span>       
+    </div>
+    
+    
+    <div id="sidebar"></div>
     <div id="content">
 		<div id="textArea" class="ui-widget-content">
-			Resize
-			aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            <textarea id="codeArea">
+public class AAA {
+    public static void main(String[] args) {
+        System.out.println("Hello world!");
+    } 
+}
+            </textarea>        			
 		</div>
 		<div id="statusArea" class="ui-widget-content">
 			will also resize

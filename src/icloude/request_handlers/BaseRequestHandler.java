@@ -110,7 +110,7 @@ public abstract class BaseRequestHandler {
 	}
 	
 	
-	private Boolean protocolVersionCheck(Integer version) {
+	protected Boolean protocolVersionCheck(Integer version) {
 		return PROTOCOL_VERSION.equals(version);
 	}
 	
@@ -121,7 +121,7 @@ public abstract class BaseRequestHandler {
 				(null != request.getUserID());
 	}
 	
-	private Boolean requestNullCheck(BaseRequest request) {
+	protected Boolean requestNullCheck(BaseRequest request) {
 		return baseRequestNullCheck(request) && 
 				concreteRequestNullCheck(request);
 	}

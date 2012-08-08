@@ -8,7 +8,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import test.SourceFileTest;
 import test.backend.DownloadCodeTest;
 import test.backend.Test;
 import test.backend.Test.TestResult;

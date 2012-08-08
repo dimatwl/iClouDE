@@ -1,21 +1,16 @@
 package icloude.request_handlers;
 
-import java.io.IOException;
+import icloude.contents.FileTree;
+import icloude.contents.ProjectContent;
+import icloude.requests.BaseRequest;
+import icloude.requests.DownloadProjectStructureRequest;
+import icloude.responses.BaseResponse;
+import icloude.responses.ProjectResponse;
+import icloude.responses.StandartResponse;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import icloude.contents.FileContent;
-import icloude.contents.FileTree;
-import icloude.contents.ProjectContent;
-import icloude.requests.AutocompleteRequest;
-import icloude.requests.BaseRequest;
-import icloude.requests.DownloadFileRequest;
-import icloude.requests.DownloadProjectStructureRequest;
-import icloude.responses.BaseResponse;
-import icloude.responses.FileResponse;
-import icloude.responses.ProjectResponse;
-import icloude.responses.StandartResponse;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -30,7 +25,6 @@ import storage.StoringType;
 import storage.project.Project;
 import storage.projectitem.CompositeProjectItem;
 import storage.sourcefile.SourceFile;
-import storage.sourcefile.SourceFileReader;
 
 import com.google.gson.JsonSyntaxException;
 
