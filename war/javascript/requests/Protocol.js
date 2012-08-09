@@ -7,7 +7,7 @@ var Protocol = {};
 
 Protocol.response = {
     STANDART: ['requestID', 'result', 'description'],
-    ID: ['requestID', 'result', 'description', 'id'],
+    ID: ['requestID', 'result', 'description', 'entityID', 'projectID'],
     FILE: ['requestID', 'result', 'description', 'content'],
     PROJECT: ['requestID', 'result', 'description', 'content']
 };
@@ -19,7 +19,7 @@ Protocol.makeBasicRequestInfo = function (requestID, method, userID, pojectID) {
     	requestType: method,
     	userID: userID,
     	projectID: projectID,    
-    	protocolVersion : 3
+    	protocolVersion : 2
     };	
 }
 

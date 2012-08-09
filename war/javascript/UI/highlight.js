@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	var editor = CodeMirror.fromTextArea(document.getElementById("codeArea"), {
+	editor = CodeMirror.fromTextArea(document.getElementById("codeArea"), {
 		  mode: "text/x-java",
 		  lineNumbers: true,
 		  lineWrapping: true,
@@ -9,5 +9,5 @@ $(document).ready(function() {
 		  }
     });
     
-	var hlLine = editor.setLineClass(0, "activeline");
+	hlLine = editor.setLineClass(0, "activeline");
 });

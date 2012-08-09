@@ -1,18 +1,17 @@
 var createNewFileActivity = function(node) {
-	var fileName = prompt('Enter name: ', '');
+	var folderName = prompt('Enter name: ', '');
     
 	
-	Protocol.createNewFile.request.setResponseHandler(function(resp) {
-		alert('Response ok!!!');
+	Protocol.createNewFolder.request.setResponseHandler(function(resp) {
 		if (resp.result) {
 			$("#tree").jstree("create", node, "inside",  { 
-				data: fileName,
+				data: folderName,
 				attr: {
 				    projectID: resp.projectID,
 				    parentID: node.attr('entityID'),
 				    entityID: resp.entityID				 
 			    },
-			    type: 'file'
+			    type: 'folder'
 			});
 		} else {
 		    alert("request was bad!");
@@ -20,5 +19,5 @@ var createNewFileActivity = function(node) {
 		
 	});
 	
-	Protocol.createNewFile.request.send(fileName, "type", node.attr('projectID'), node.attr('entityID'));	
+	Protocol.createNewFolder.request.send(folderName, "type", node.attr('projectID'), node.attr('entityID'));	
 };

@@ -15,12 +15,12 @@ createRequest.request = new Request(createRequest.method, createRequest.URL, cre
 
 createRequest.request.setResponseHandler(function(resp) {
 	if (Protocol.checkResponse.call(createRequest, resp).correct) {
-        currentFileID = resp.id;
+        currentFileID = resp.entityID;
 	}
 	
 });
 
-createRequest.request.send = function (fileName, projectID, parentID) {
+createRequest.request.send = function (fileName, fileType, projectID, parentID) {
 	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, projectID);
 	
 	/**
@@ -37,6 +37,7 @@ createRequest.request.send = function (fileName, projectID, parentID) {
     info['parentID'] = parentID;
     info['projectID'] = projectID;
     info['fileName'] = fileName;
+    info['fileType'] = fileType;
     
     createRequest.request.sendMap(info);    	
 }

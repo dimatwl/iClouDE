@@ -1,7 +1,8 @@
 var userID = "Yarik";
 var projectID;
 var currentFileID;
-
+var rootProjectDirectory;
+var projectName;
 
 var scriptsPath = "javascript/activities/";
 

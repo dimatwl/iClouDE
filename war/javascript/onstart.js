@@ -1,15 +1,15 @@
-var userID = "yarik";
-var projectID;
+//var userID = "yarik";
+//var projectID;
 
-var currentFileID;
+//var currentFileID;
 
-//var editor = CodeMirror.fromTextArea(document.getElementById("#codeArea"));
-
+var editor;
+var h1Line;
 
 
 $(document).ready(function() {
     
-	var editor = CodeMirror.fromTextArea(document.getElementById("codeArea"), {
+	editor = CodeMirror.fromTextArea(document.getElementById("codeArea"), {
 		  mode: "text/x-java",
 		  lineNumbers: true,
 		  lineWrapping: true,
@@ -19,7 +19,7 @@ $(document).ready(function() {
 		  }
     });
     
-	var hlLine = editor.setLineClass(0, "activeline");
+	hlLine = editor.setLineClass(0, "activeline");
 	
 	
 	$('#CreateNewFileBtn').click(function() {

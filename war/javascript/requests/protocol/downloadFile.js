@@ -15,7 +15,8 @@ downloadFile.request = new Request(downloadFile.method, downloadFile.URL, downlo
 
 downloadFile.request.setResponseHandler(function(resp) {
 	if (Protocol.checkResponse.call(downloadFile, resp).correct) {
-		$('#status').text(resp.content.text);		
+		alert(resp.content.text);
+		//$('#status').text(resp.content.text);		
 	}
 });
 

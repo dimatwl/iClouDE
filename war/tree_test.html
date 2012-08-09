@@ -1,0 +1,41 @@
+<html>
+<head>
+<script type="text/javascript" src="http://static.jstree.com/v.1.0rc2/jquery.js"></script>
+<script type="text/javascript" src="http://static.jstree.com/v.1.0rc2/jquery.jstree.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $(function () {
+        $("#tree").jstree({ 
+            "json_data" : {
+                "data" : [
+                    { 
+                        "data" : "parent", 
+                        "attr" : { "id" : "root.id" }, 
+                        "children" : [ { "data" : "child1",
+                                         "attr" : { "id" : "child1.id" },
+                                         "children" : [ ] }
+                                     ]
+                    },
+                ]
+            },
+            "plugins" : [ "themes", "json_data", "crrm" ]
+        });
+    });
+    
+    
+    $("#add").click(function() {
+        $("#tree").jstree("create", $("#child1.id"), "inside",  { "data" : "child2" },
+                          function() { alert("added"); }, true);
+    });
+});
+</script>
+</head>
+
+<body>
+
+<div id="tree" name="tree"></div>
+
+<input type="button" id="add" value="add" />
+</body>
+</html>

@@ -15,7 +15,8 @@ createNewProject.request = new Request(createNewProject.method, createNewProject
 
 createNewProject.request.setResponseHandler(function(resp) {
 	if (Protocol.checkResponse.call(createNewProject, resp).correct) {
-		projectID = resp.id;
+		projectID = resp.projectID;
+		rootProjectDirectory = resp.entityID;
 	}
 });
 

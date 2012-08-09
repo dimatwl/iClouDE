@@ -1,3 +1,6 @@
+
+alert("pTest");
+
 var makeRow = function(name, request, response) {
     return '<tr><td>' + name + '</td><td>'+ request + '</td><td>' + response + '</td></tr>';
 }
@@ -19,7 +22,8 @@ var testAndAdd = function(namespace, name, handler) {
         	    handler(data);
         	}
         	else {
-        	    response = data.description;
+        		
+        	    response = res.description;
         	}
         }
         else {
@@ -48,16 +52,17 @@ $(document).ready(function() {
         
     
     var createNewProjectHandler = function(data) {
-        projectID = data.id;
+        projectID = data.projectID;
+        rootFolderID = data.entityID;
         
         var fileName = 'QUCUCU';
         testAndAdd(Protocol.createNewFile, 'Create New File', createNewFileHandler);
-        Protocol.createNewFile.request.send(fileName, projectID, projectID);
+        Protocol.createNewFile.request.send(fileName, "type", projectID, rootFolderID);
     };
     
     
     var createNewFileHandler = function(data) {
-        currentFileID = data.id;
+        currentFileID = data.entityID;
         testAndAdd(Protocol.uploadFile, 'Upload File', uploadFileHandler);
         Protocol.uploadFile.request.send({
     	    type: 'file',
@@ -78,23 +83,17 @@ $(document).ready(function() {
     }    
     
     var downloadFileHandler = function(data) {
-    	alert('Download OK!');
+    	testAndAdd(Protocol.createNewFolder, 'Create New Folder', createNewFolderHandler);
+        Protocol.createNewFolder.request.send("NEW FOLDER", projectID, rootFolderID);
+    	
     }
     
+    var createNewFolderHandler = function(data) {
+    	alert("Done!");    	
+    }
     
-    
-    testAndAdd(Protocol.createNewProject, 'Create New Project', createNewProjectHandler);
+   
+	testAndAdd(Protocol.createNewProject, 'Create New Project', createNewProjectHandler);
     Protocol.createNewProject.request.send(projectName, projectType);
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-});
+}); 
