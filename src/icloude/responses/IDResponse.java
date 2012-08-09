@@ -1,20 +1,15 @@
 package icloude.responses;
 
 /**
- * @author DimaTWL 
- * This class describes 'ID' response from protocol.
+ * @author DimaTWL This class describes 'ID' response from protocol.
  */
 public class IDResponse extends BaseResponse {
 
 	private String projectID;
 	private String entityID;
 
-	
-
 	private IDResponse() {
 	}
-
-
 
 	/**
 	 * @return the projectID
@@ -23,16 +18,12 @@ public class IDResponse extends BaseResponse {
 		return projectID;
 	}
 
-
-
 	/**
 	 * @return the entityID
 	 */
 	public String getEntityID() {
 		return entityID;
 	}
-
-
 
 	/**
 	 * @param requestID
@@ -47,6 +38,5 @@ public class IDResponse extends BaseResponse {
 		this.projectID = projectID;
 		this.entityID = entityID;
 	}
-
 
 }

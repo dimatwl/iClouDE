@@ -1,9 +1,15 @@
 package test;
 
+import java.util.Iterator;
 import java.util.List;
+
+import javax.jdo.Extent;
+import javax.jdo.PersistenceManager;
 
 import storage.Database;
 import storage.DatabaseException;
+import storage.DatabaseObject;
+import storage.PMF;
 import storage.StoringType;
 import storage.project.Project;
 import storage.projectitem.CompositeProjectItemType;
@@ -19,7 +25,7 @@ public abstract class Test {
 	
 	
 	
-	protected String createCompositeProjectItemType(String folderName, String projectKey,
+	protected String createCompositeProjectItem(String folderName, String projectKey,
 			String parentKey, CompositeProjectItemType type) throws TestException {
 		try {
 			String key = Database.create(StoringType.COMPOSITE_PROJECT_ITEM,
@@ -54,29 +60,6 @@ public abstract class Test {
 		}
 	}
 	
-//	protected String createPackage(String packageName, String projectKey, String parentKey) throws TestException {
-//		try {
-//			String key =  Database.create(StoringType.PACKAGE, packageName, projectKey, parentKey);
-//			return key;
-//		} catch (DatabaseException e) {
-//			throw new TestException(
-//					"DatabaseException while creating package. " +
-//					"Error message: " + e.getMessage());
-//		}
-//	}
-//	
-//	
-//	
-//	protected Folder getFolder(String key) throws TestException {
-//		try {
-//			return (Folder) Database.get(StoringType.FOLDER, key);
-//		} catch (DatabaseException e) {
-//			throw new TestException(
-//					"DatabaseException while getting folder from database. " +
-//					"Error message: " + e.getMessage());
-//		}
-//	}
-//	
 	protected CompositeProjectItem getCompositeProjectItem(String key) throws TestException {
 		try {
 			return (CompositeProjectItem) Database.get(StoringType.COMPOSITE_PROJECT_ITEM, key);
@@ -106,5 +89,17 @@ public abstract class Test {
 					"DatabaseException while getting project from database. " +
 					"Error message: " + e.getMessage());
 		}
+	}
+	
+	protected void clearDatabase() {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Extent<DatabaseObject> extent = pm.getExtent(DatabaseObject.class);
+		Iterator<DatabaseObject> i = extent.iterator();
+		while (i.hasNext()) {
+			DatabaseObject obj = i.next();
+			System.err.println(obj.getName());
+			pm.deletePersistent(obj);
+		}
+		pm.close();
 	}
 }

@@ -27,20 +27,29 @@ public abstract class TaskHandler extends AbstractHandler {
 	 */
 	@Override
 	public Task get(Object... params) throws DatabaseException {
-		if (params.length != 0) {
-			throw new DatabaseException("There should be no parameters to get " +
-					"task, but " + params.length + " parameters given");
+		if (params.length != 1) {
+			throw new DatabaseException("Incorrect number of parameters to get " +
+					"task. There should be 1 parameter, but " + params.length + " parameters given");
+			
 		}
 		
+		if (!(params[0] instanceof TaskStatus)) {
+			throw new DatabaseException("Incorrect first parameter type for getting " +
+					"task from database. It must has type TaskStatus");
+		}
+
+		TaskStatus status = (TaskStatus) params[0];
 		Task result = null;
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		Query q = pm.newQuery("select key from " + getHandlingType().getName());
 		q.setOrdering("modificationTime asc");
+		q.setFilter("status == statusParam");
+		q.declareParameters("storage.taskqueue.TaskStatus statusParam");
 		
 		@SuppressWarnings("unchecked")
-		List<String> resultKeys = (List<String>)q.execute();
+		List<String> resultKeys = (List<String>)q.execute(status);
 		if (!resultKeys.isEmpty()) {
 			result = (Task) pm.getObjectById(getHandlingType(), resultKeys.get(0));
 		}

@@ -6,7 +6,6 @@ import javax.jdo.PersistenceManager;
 
 import storage.AbstractHandler;
 import storage.Child;
-import storage.Database;
 import storage.DatabaseException;
 import storage.PMF;
 import storage.StoringType;
@@ -66,21 +65,48 @@ public class CompositeProjectItemHandler extends AbstractHandler {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		String name = (String) params[0];
+		if ("".equals(name)) {
+			throw new DatabaseException("Empty item name");
+		}
+		
+		
 		String projectKey = (String) params[1];
 		String parentKey = (String) params[2];
 		CompositeProjectItemType itemType = (CompositeProjectItemType) params[3];
 		
-		CompositeProjectItem item = new CompositeProjectItem(name, projectKey, parentKey, itemType);
-		pm.makePersistent(item);
-		pm.close();
 		
+		CompositeProjectItem item;
 		if (parentKey != null) {
-			CompositeProjectItem parent = (CompositeProjectItem)
-					Database.get(StoringType.COMPOSITE_PROJECT_ITEM, parentKey);
+			CompositeProjectItem parent = pm.getObjectById(CompositeProjectItem.class, parentKey);
+			if (!parent.getProjectKey().equals(projectKey)) {
+				throw new DatabaseException("Different projectKey and parent.projectKey");
+			}
+			
+			for (Child child: parent.getChildren()) {
+				ProjectItem pi = null;
+				if (child.getType().equals(StoringType.SOURCE_FILE)) {
+					pi = pm.getObjectById(SourceFile.class, child.getKey());
+				} else if (child.getType().equals(StoringType.COMPOSITE_PROJECT_ITEM)) {
+					pi = pm.getObjectById(CompositeProjectItem.class, child.getKey());
+				} else {
+					throw new DatabaseException("Unsupported child type");
+				}
+				
+				if (pi.getName().equals(name)) {
+					pm.close();
+					throw new DatabaseException("Trying to create item with duplicate name");
+				}
+			}
+			
+			item = new CompositeProjectItem(name, projectKey, parentKey, itemType);
+			pm.makePersistent(item);
 			parent.addChild(new Child(item.getKey(), StoringType.COMPOSITE_PROJECT_ITEM));
-			Database.update(StoringType.COMPOSITE_PROJECT_ITEM, parent);
+		} else {
+			item = new CompositeProjectItem(name, projectKey, parentKey, itemType);
+			pm.makePersistent(item);
 		}
 		
+		pm.close();
 		return item.getKey();
 	}
 	

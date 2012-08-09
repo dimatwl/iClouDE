@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import test.CompositeProjectItemTest;
 import test.ProjectTest;
 import test.SourceFileTest;
+import test.TaskTest;
 
 @Path("/testing/database")
 public class TestingDB {
@@ -21,6 +22,7 @@ public class TestingDB {
 		sourceFileTest(outputMessageBuilder);
 		projectTest(outputMessageBuilder);
 		compositeProjectItemTest(outputMessageBuilder);
+		taskTest(outputMessageBuilder);
 	
 		return outputMessageBuilder.toString();
 	}
@@ -43,10 +45,17 @@ public class TestingDB {
 
 	private void sourceFileTest(StringBuilder outputMessageBuilder) {
 		outputMessageBuilder.append("<br/>SourceFileTest<br/>");
-		SourceFileTest SourceFileTest = new SourceFileTest();
-		for (String s: SourceFileTest.test()) {
+		SourceFileTest sourceFileTest = new SourceFileTest();
+		for (String s: sourceFileTest.test()) {
 			outputMessageBuilder.append(s + "</font><br/>");
 		}
 	}
 
+	private void taskTest(StringBuilder outputMessageBuilder) {
+		outputMessageBuilder.append("<br/>TaskTest<br/>");
+		TaskTest taskTest = new TaskTest();
+		for (String s: taskTest.test()) {
+			outputMessageBuilder.append(s + "</font><br/>");
+		}
+	}
 }

@@ -7,6 +7,7 @@ import storage.project.ProjectHandler;
 import storage.project.ProjectsListHandler;
 import storage.projectitem.CompositeProjectItemHandler;
 import storage.sourcefile.SourceFileHandler;
+import storage.taskqueue.BuildAndRunTaskHandler;
 
 
 /**
@@ -39,6 +40,7 @@ public class Database {
 		handlers.put(StoringType.PROJECT, new ProjectHandler());
 		handlers.put(StoringType.COMPOSITE_PROJECT_ITEM, new CompositeProjectItemHandler());
 		handlers.put(StoringType.PROJECTS_LIST, new ProjectsListHandler());
+		handlers.put(StoringType.BUILD_AND_RUN_TASK, new BuildAndRunTaskHandler());
 	}
 
 	
