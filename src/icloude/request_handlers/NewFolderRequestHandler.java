@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
+import storage.projectitem.CompositeProjectItemType;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -79,7 +80,8 @@ public class NewFolderRequestHandler extends BaseRequestHandler {
 			String key = Database.create(StoringType.COMPOSITE_PROJECT_ITEM,
 					castedRequest.getFolderName(),
 					castedRequest.getProjectID(),
-					castedRequest.getParentID());
+					castedRequest.getParentID(),
+					CompositeProjectItemType.FOLDER);
 			response = new IDResponse(request.getRequestID(), true,
 					"New folder created.",castedRequest.getProjectID(), key);
 		} catch (DatabaseException e) {
