@@ -249,6 +249,9 @@ public class ProjectTest extends Test {
 	private String testProjectsList() {
 		String result = "Testing project list: ";
 		
+		System.err.println();
+		System.err.println();
+		System.err.println();
 		Set<String> projectKeys = new HashSet<String>();
 		List<Project> projects = null;
 		try {
@@ -256,7 +259,7 @@ public class ProjectTest extends Test {
 				projectKeys.add(createProject(Integer.toString(i), "type"));
 			}
 			
-			projects = getProjectsList(); 
+			projects = getProjectsList();
 		} catch (TestException e) {
 			return result + Test.FAILED + " - " + e.getMessage();
 		}

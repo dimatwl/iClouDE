@@ -1,9 +1,15 @@
 package test;
 
+import java.util.Iterator;
 import java.util.List;
+
+import javax.jdo.Extent;
+import javax.jdo.PersistenceManager;
 
 import storage.Database;
 import storage.DatabaseException;
+import storage.DatabaseObject;
+import storage.PMF;
 import storage.StoringType;
 import storage.project.Project;
 import storage.projectitem.CompositeProjectItemType;
@@ -106,5 +112,17 @@ public abstract class Test {
 					"DatabaseException while getting project from database. " +
 					"Error message: " + e.getMessage());
 		}
+	}
+	
+	protected void clearDatabase() {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Extent<DatabaseObject> extent = pm.getExtent(DatabaseObject.class);
+		Iterator<DatabaseObject> i = extent.iterator();
+		while (i.hasNext()) {
+			DatabaseObject obj = i.next();
+			System.err.println(obj.getName());
+			pm.deletePersistent(obj);
+		}
+		pm.close();
 	}
 }

@@ -12,7 +12,7 @@ import storage.PMF;
  */
 public class BuildAndRunTaskHandler extends TaskHandler {
 
-	protected BuildAndRunTaskHandler() {
+	public BuildAndRunTaskHandler() {
 		super(BuildAndRunTask.class);
 	}
 
