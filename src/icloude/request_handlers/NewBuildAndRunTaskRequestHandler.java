@@ -1,7 +1,8 @@
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
-import icloude.requests.BuildProjectRequest;
+import icloude.requests.DownloadAvailableResultsRequest;
+import icloude.requests.NewBuildAndRunTaskRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.StandartResponse;
 
@@ -14,14 +15,17 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/buildproject" URL:
- *         rest/buildproject Method: POST Required response: Standart
+ * @author DimaTWL 
+ * Handling all requests on "rest/newbuildandruntask" 
+ * URL: rest/runproject 
+ * Method: POST 
+ * Required response: Standart
  */
-@Path("/buildproject")
-public class BuildProjectRequestHandler extends BaseRequestHandler {
+@Path("/newbuildandruntask")
+public class NewBuildAndRunTaskRequestHandler extends BaseRequestHandler {
 
 	/**
-	 * This method used to handle all POST request on "rest/buildproject"
+	 * This method used to handle all POST request on "rest/newbuildandruntask"
 	 * 
 	 * @return the StandartResponse witch will be sent to client
 	 */
@@ -41,7 +45,7 @@ public class BuildProjectRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return GSON.fromJson(json, BuildProjectRequest.class);
+		return GSON.fromJson(json, DownloadAvailableResultsRequest.class);
 	}
 
 	/**
@@ -54,7 +58,7 @@ public class BuildProjectRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected Boolean requestTypeCheck(String requestType) {
-		return "buildproject".equals(requestType);
+		return "newbuildandruntask".equals(requestType);
 	}
 
 	/**
@@ -68,7 +72,7 @@ public class BuildProjectRequestHandler extends BaseRequestHandler {
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
 		return new StandartResponse(request.getRequestID(), true,
-				"Request 'Build project' recieved.");
+				"Request 'New build and run task' recieved.");
 	}
 	
 	/**
@@ -82,8 +86,11 @@ public class BuildProjectRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected Boolean concreteRequestNullCheck(BaseRequest request){
-		BuildProjectRequest castedRequest = (BuildProjectRequest) request;
+		NewBuildAndRunTaskRequest castedRequest = (NewBuildAndRunTaskRequest) request;
 		return (null != castedRequest.getProjectID()) &&
-				(null != castedRequest.getParameters());
+				(null != castedRequest.getCompileParameters()) &&
+				(null != castedRequest.getEntryPoindID()) &&
+				(null != castedRequest.getInputData());
 	}
+
 }
