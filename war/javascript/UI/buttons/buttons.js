@@ -70,6 +70,14 @@ $(function() {
     	openProjectActivity();
     });
     
+    $( "#downloadCode" ).button({
+    	text: false,
+    	icons: {
+    		primary: "ui-icon-arrowthick-1-s"
+    	}
+    }).click(function() {
+    	downloadCodeActivity();
+    });
     
     $( "#logout" ).button({
     	text: false,

@@ -41,11 +41,9 @@ var testAndAdd = function(namespace, name, handler) {
 }
 
 
+    
 $(document).ready(function() {
-    
-    
-	
-	
+
 	var projectName = 'AAAAAA';
     var projectType = 'BBBBBBBB';
         

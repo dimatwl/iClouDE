@@ -10,3 +10,4 @@ loadJS(requestsPath + "createNewProject.js");
 loadJS(requestsPath + "downloadFile.js");
 loadJS(requestsPath + "downloadProjectStructure.js");
 loadJS(requestsPath + "uploadFile.js");
+loadJS(requestsPath + "downloadCode.js");
