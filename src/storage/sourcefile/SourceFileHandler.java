@@ -58,15 +58,36 @@ public class SourceFileHandler extends AbstractHandler {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		String name = (String)params[0];
+		if ("".equals(name)) {
+			throw new DatabaseException("Empty filename");
+		}
+		
+		
 		String projectKey = (String)params[1];
 		String parentKey = (String)params[2];
+		
+		
+		CompositeProjectItem parent = pm.getObjectById(
+				CompositeProjectItem.class, parentKey);
+		
+		if (!parent.getProjectKey().equals(projectKey)) {
+			throw new DatabaseException("Different projectKey and parent.projectKey");
+		}
+
+		for (Child child: parent.getChildren()) {
+			if (child.getType().equals(StoringType.SOURCE_FILE)) {
+				SourceFile file = pm.getObjectById(SourceFile.class, child.getKey());
+				if (file.getName().equals(name)) {
+					pm.close();
+					throw new DatabaseException("Trying to create duplicate file");
+				}
+			}
+		}
+		
 		
 		SourceFile sourceFile = new SourceFile(name, projectKey, parentKey,
 				new Date());
 		pm.makePersistent(sourceFile);
-		
-		CompositeProjectItem parent = pm.getObjectById(
-				CompositeProjectItem.class, parentKey);
 		parent.addChild(new Child(sourceFile.getKey(), StoringType.SOURCE_FILE));
 		
 		SourceFileWriter writer = sourceFile.openForWriting();
@@ -76,18 +97,7 @@ public class SourceFileHandler extends AbstractHandler {
 			throw new DatabaseException(e.getMessage());
 		}
 		
-//		SourceFile tmp = pm.detachCopy(sourceFile);
-		
-		
 		pm.close();
-		
-//		SourceFileWriter writer = tmp.openForWriting();
-//		try {
-//			writer.close();
-//		} catch (IOException e) {
-//			throw new DatabaseException(e.getMessage());
-//		}
-//		Database.update(StoringType.SOURCE_FILE, tmp);
 		
 		return sourceFile.getKey();
 	}

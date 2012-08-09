@@ -23,6 +23,8 @@ public class SourceFileTest extends Test {
 		result.add(testNewFileCreating());
 		result.add(testWritingAndReading());
 		result.add(testFileDeleting());
+		result.add(testDuplicateFileCreating());
+		result.add(testFileWithEmptyNameCreating());
 		
 		return result;
 	}
@@ -60,6 +62,59 @@ public class SourceFileTest extends Test {
 		}
 
 		return result + Test.PASSED;
+	}
+	
+	
+	/**
+	 * Create two files with the same name in the same folder.
+	 */
+	private String testDuplicateFileCreating() {
+		String result = "Creating duplicate files: ";
+		
+		String projectKey = null;
+		String rootKey = null;
+		try {
+			projectKey = createProject("ProjectName", "ProjectType");
+			Project project = getProject(projectKey);
+			rootKey = project.getRootKey();
+			createFile("file", projectKey, rootKey);
+		} catch (TestException e) {
+			return result + Test.FAILED + " - " + e.getMessage();
+		}
+
+		try {
+			createFile("file", projectKey, rootKey);
+			return result + Test.FAILED + " - duplicate file created";
+		} catch (TestException e) {
+			return result + Test.PASSED;
+		}
+
+	}
+	
+	
+	/**
+	 * Creates file with empty name.
+	 */
+	private String testFileWithEmptyNameCreating() {
+		String result = "Creating file with empty name: ";
+		
+		String projectKey = null;
+		String rootKey = null;
+		try {
+			projectKey = createProject("ProjectName", "ProjectType");
+			Project project = getProject(projectKey);
+			rootKey = project.getRootKey();
+		} catch (TestException e) {
+			return result + Test.FAILED + " - " + e.getMessage();
+		}
+
+		try {
+			createFile("", projectKey, rootKey);
+			return result + Test.FAILED + " - file with empty name created";
+		} catch (TestException e) {
+			return result + Test.PASSED;
+		}
+
 	}
 
 	/**

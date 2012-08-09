@@ -17,6 +17,8 @@ public class CompositeProjectItemTest extends Test {
 		List<String> result = new ArrayList<String>();
 		result.add(testCompositeProjectItemCreating());
 		result.add(testCompositeProjectItemDeleting());
+		result.add(testDuplicatCompositeProjectItemCreating());
+		result.add(testCompositeProjectItemWithEmptyNameCreating());
 		
 		return result;
 	}
@@ -37,7 +39,7 @@ public class CompositeProjectItemTest extends Test {
 			Project project = getProject(projectKey);
 			String rootKey = project.getRootKey();
 			
-			folderKey = createCompositeProjectItemType("item", projectKey,
+			folderKey = createCompositeProjectItem("item", projectKey,
 					rootKey, CompositeProjectItemType.FOLDER);
 			folder = getCompositeProjectItem(folderKey);
 		} catch (TestException e) {
@@ -53,6 +55,61 @@ public class CompositeProjectItemTest extends Test {
 		return result + Test.PASSED;
 	}
 
+	/**
+	 * Creates two folders with the same name in the same folder.
+	 */
+	private String testDuplicatCompositeProjectItemCreating() {
+		String result = "Creating duplicate composite project item: ";
+		
+		String projectKey;
+		String rootKey;
+		try {
+			projectKey = createProject("ProjectName", "ProjectType");
+			Project project = getProject(projectKey);
+			rootKey = project.getRootKey();
+			
+			createCompositeProjectItem("item", projectKey,
+					rootKey, CompositeProjectItemType.FOLDER);
+		} catch (TestException e) {
+			return result + Test.FAILED + " - " + e.getMessage();
+		}
+		
+		try {
+			createCompositeProjectItem("item", projectKey,
+					rootKey, CompositeProjectItemType.FOLDER);
+			return result + Test.FAILED + " - duplicate composit project item created";
+		} catch (TestException e) {
+			return result + Test.PASSED;
+		}
+	}
+	
+	/**
+	 * Creates folder with empty name
+	 */
+	private String testCompositeProjectItemWithEmptyNameCreating() {
+		String result = "Creating composite project item with empty name: ";
+		
+		String projectKey;
+		String rootKey;
+		try {
+			projectKey = createProject("ProjectName", "ProjectType");
+			Project project = getProject(projectKey);
+			rootKey = project.getRootKey();
+			
+		} catch (TestException e) {
+			return result + Test.FAILED + " - " + e.getMessage();
+		}
+		
+		try {
+			createCompositeProjectItem("", projectKey,
+					rootKey, CompositeProjectItemType.FOLDER);
+			return result + Test.FAILED + " - comopsite project item with empty" +
+					" name created";
+		} catch (TestException e) {
+			return result + Test.PASSED;
+		}
+	}
+	
 	
 	/**
 	 * Creates project with structure:<br/><br/>
@@ -89,16 +146,16 @@ public class CompositeProjectItemTest extends Test {
 			Project project = getProject(projectKey);
 			String rootKey = project.getRootKey();
 			
-			folder1Key = createCompositeProjectItemType("folder1", projectKey,
+			folder1Key = createCompositeProjectItem("folder1", projectKey,
 					rootKey, CompositeProjectItemType.FOLDER);
-			package1Key = createCompositeProjectItemType("package1", projectKey,
+			package1Key = createCompositeProjectItem("package1", projectKey,
 					folder1Key, CompositeProjectItemType.PACKAGE);
 			file1Key = createFile("file1", projectKey, package1Key);
 			file2Key = createFile("file2", projectKey, package1Key);
 			file3Key = createFile("file3", projectKey, folder1Key);
 			file4Key = createFile("file4", projectKey, folder1Key);
 
-			folder2Key = createCompositeProjectItemType("folder2", projectKey,
+			folder2Key = createCompositeProjectItem("folder2", projectKey,
 					rootKey, CompositeProjectItemType.FOLDER);
 			file5Key = createFile("file5", projectKey, folder2Key);
 			file6Key = createFile("file6", projectKey, rootKey);

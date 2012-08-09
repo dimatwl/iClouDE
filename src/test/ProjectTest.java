@@ -95,11 +95,11 @@ public class ProjectTest extends Test {
 			Project project = getProject(projectKey);
 			rootKey = project.getRootKey();
 			
-			folder1Key = createCompositeProjectItemType("folder1", projectKey,
+			folder1Key = createCompositeProjectItem("folder1", projectKey,
 					rootKey, CompositeProjectItemType.FOLDER);
-			package1Key = createCompositeProjectItemType("package1", projectKey,
+			package1Key = createCompositeProjectItem("package1", projectKey,
 					rootKey, CompositeProjectItemType.PACKAGE);
-			package2Key = createCompositeProjectItemType("package2", projectKey,
+			package2Key = createCompositeProjectItem("package2", projectKey,
 					rootKey, CompositeProjectItemType.PACKAGE);
 			file1Key = createFile("file1", projectKey, package1Key);
 			file2Key = createFile("file2", projectKey, package1Key);
@@ -193,11 +193,11 @@ public class ProjectTest extends Test {
 			Project project = getProject(projectKey);
 			rootKey = project.getRootKey();
 			
-			folder1Key = createCompositeProjectItemType("folder1", projectKey,
+			folder1Key = createCompositeProjectItem("folder1", projectKey,
 					rootKey, CompositeProjectItemType.FOLDER);
-			package1Key = createCompositeProjectItemType("package1", projectKey,
+			package1Key = createCompositeProjectItem("package1", projectKey,
 					rootKey, CompositeProjectItemType.PACKAGE);
-			package2Key = createCompositeProjectItemType("package2", projectKey,
+			package2Key = createCompositeProjectItem("package2", projectKey,
 					rootKey, CompositeProjectItemType.PACKAGE);
 			file1Key = createFile("file1", projectKey, package1Key);
 			file2Key = createFile("file2", projectKey, package1Key);

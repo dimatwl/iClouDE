@@ -25,7 +25,7 @@ public abstract class Test {
 	
 	
 	
-	protected String createCompositeProjectItemType(String folderName, String projectKey,
+	protected String createCompositeProjectItem(String folderName, String projectKey,
 			String parentKey, CompositeProjectItemType type) throws TestException {
 		try {
 			String key = Database.create(StoringType.COMPOSITE_PROJECT_ITEM,
@@ -60,29 +60,6 @@ public abstract class Test {
 		}
 	}
 	
-//	protected String createPackage(String packageName, String projectKey, String parentKey) throws TestException {
-//		try {
-//			String key =  Database.create(StoringType.PACKAGE, packageName, projectKey, parentKey);
-//			return key;
-//		} catch (DatabaseException e) {
-//			throw new TestException(
-//					"DatabaseException while creating package. " +
-//					"Error message: " + e.getMessage());
-//		}
-//	}
-//	
-//	
-//	
-//	protected Folder getFolder(String key) throws TestException {
-//		try {
-//			return (Folder) Database.get(StoringType.FOLDER, key);
-//		} catch (DatabaseException e) {
-//			throw new TestException(
-//					"DatabaseException while getting folder from database. " +
-//					"Error message: " + e.getMessage());
-//		}
-//	}
-//	
 	protected CompositeProjectItem getCompositeProjectItem(String key) throws TestException {
 		try {
 			return (CompositeProjectItem) Database.get(StoringType.COMPOSITE_PROJECT_ITEM, key);
