@@ -94,7 +94,7 @@ public abstract class BaseRequestHandler {
 							false, "Some fields in request are not presented.");
 				} else if (! protocolVersionCheck(fromJSON.getProtocolVersion())){
 					response = new StandartResponse(fromJSON.getRequestID(),
-							false, "Protocol version mismatch.");
+							false, "Protocol version mismatch. Current version is " + PROTOCOL_VERSION.toString());
 				} else if (! requestTypeCheck(fromJSON.getRequestType())) {
 					response = new StandartResponse(fromJSON.getRequestID(),
 							false, "Request type mismatch.");
