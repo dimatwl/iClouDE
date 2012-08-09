@@ -1,5 +1,5 @@
 $(function () {
-    $("#sidebar").jstree({
+    $("#tree").jstree({
         "plugins" : ["themes","json_data","ui","crrm","hotkeys"],
         "json_data" : {
         	"data" : [
@@ -18,10 +18,7 @@ $(function () {
         
         .bind("select_node.jstree", function (event, data) {
         	alert(data.rslt.obj.attr("key"));
-        })
-
-        .bind("loaded.jstree", function (event, data) {
-        	alert("loaded.jstree");
         });
-
+    
+        
 });

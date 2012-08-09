@@ -13,8 +13,8 @@ html, body
 #sidebar {
  width: 20%;
  float:left;
- background:#3366CC;
 }
+
 #content {
 	width:80%;
 	float:left;

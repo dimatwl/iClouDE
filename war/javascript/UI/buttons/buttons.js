@@ -1,9 +1,14 @@
+
+
+
 $(function() {
     $( "#new_file" ).button({
         text: false,
         icons: {
             primary: "ui-icon-document"
         }
+    }).click(function() {
+    	createNewFileActivity();
     });
     
     $( "#save_file" ).button({
@@ -11,6 +16,8 @@ $(function() {
         icons: {
             primary: "ui-icon-disk"
         }
+    }).click(function() {
+    	saveFileActivity();
     });
     
     $( "#import_file" ).button({
@@ -18,11 +25,9 @@ $(function() {
     	icons: {
     		primary: "ui-icon-circle-arrow-n"
     	}
-    })
-    
-            .click(function() {
-                alert("Importing!!!");
-            });
+    }).click(function() {
+        importFileActivity();
+    });
 
     
     $( "#run" ).button({
@@ -30,10 +35,9 @@ $(function() {
     	icons: {
     		primary: "ui-icon-play"
     	}
-    })
-            .click(function() {
-                alert("Running!!!");
-            });
+    }).click(function() {
+        runActivity();
+    });
 
     
     $( "#build" ).button({
@@ -41,6 +45,8 @@ $(function() {
     	icons: {
     		primary: "ui-icon-wrench"
     	}
+    }).click(function() {
+    	buildActivity();
     });
     
     
@@ -49,6 +55,8 @@ $(function() {
     	icons: {
     		primary: "ui-icon-newwin"
     	}
+    }).click(function() {
+    	createNewProjectActivity();
     });
     
     
@@ -58,6 +66,8 @@ $(function() {
     	icons: {
     		primary: "ui-icon-folder-open"
     	}
+    }).click(function() {
+    	openProjectActivity();
     });
     
     
@@ -66,6 +76,8 @@ $(function() {
     	icons: {
     		primary: "ui-icon-power"
     	}
+    }).click(function() {
+    	logoutActivity();
     });
 
     
