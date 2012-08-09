@@ -1,8 +1,10 @@
 package icloude.request_handlers;
 
 import icloude.requests.BaseRequest;
+import icloude.requests.NewFileRequest;
 import icloude.requests.NewFolderRequest;
 import icloude.responses.BaseResponse;
+import icloude.responses.IDResponse;
 import icloude.responses.StandartResponse;
 
 import javax.ws.rs.FormParam;
@@ -10,6 +12,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import storage.Database;
+import storage.DatabaseException;
+import storage.StoringType;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -67,8 +73,20 @@ public class NewFolderRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
-		return new StandartResponse(request.getRequestID(), true,
-				"Request 'New folder' recieved.");
+		BaseResponse response;
+		NewFolderRequest castedRequest = (NewFolderRequest) request;
+		try {
+			String key = Database.create(StoringType.COMPOSITE_PROJECT_ITEM,
+					castedRequest.getFolderName(),
+					castedRequest.getProjectID(),
+					castedRequest.getParentID());
+			response = new IDResponse(request.getRequestID(), true,
+					"New folder created.",castedRequest.getProjectID(), key);
+		} catch (DatabaseException e) {
+			response = new StandartResponse(request.getRequestID(), false,
+					"DB error. " + e.getMessage());
+		}
+		return response;
 	}
 	
 	/**
