@@ -36,7 +36,7 @@ public class Database {
 			new HashMap<StoringType, Handler>();
 	
 	static {
-		handlers.put(StoringType.SOURCE_FILE, new FileHandler());
+		handlers.put(StoringType.FILE, new FileHandler());
 		handlers.put(StoringType.PROJECT, new ProjectHandler());
 		handlers.put(StoringType.COMPOSITE_PROJECT_ITEM, new CompositeProjectItemHandler());
 		handlers.put(StoringType.PROJECTS_LIST, new ProjectsListHandler());

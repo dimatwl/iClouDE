@@ -23,7 +23,7 @@ public abstract class TaskHandler extends AbstractHandler {
 	
 	
 	/**
-	 * Returns task of required type with minimal last modification time.
+	 * Returns task with required status with minimal last modification time.
 	 */
 	@Override
 	public Task get(Object... params) throws DatabaseException {

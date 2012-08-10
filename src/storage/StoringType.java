@@ -9,7 +9,7 @@ package storage;
  */
 public enum StoringType {
 
-	SOURCE_FILE,
+	FILE,
 	PROJECT,
 	COMPOSITE_PROJECT_ITEM,
 	PROJECTS_LIST,

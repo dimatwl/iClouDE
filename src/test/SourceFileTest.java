@@ -233,7 +233,7 @@ public class SourceFileTest extends Test {
 
 	private void saveFile(File file) throws TestException {
 		try {
-			Database.update(StoringType.SOURCE_FILE, file);
+			Database.update(StoringType.FILE, file);
 		} catch (DatabaseException e) {
 			throw new TestException(
 					"DatabaseException while saving file to database. " +
@@ -274,7 +274,7 @@ public class SourceFileTest extends Test {
 
 	private void deleteFile(String key) throws TestException {
 		try {
-			Database.delete(StoringType.SOURCE_FILE, key);
+			Database.delete(StoringType.FILE, key);
 		} catch (DatabaseException e) {
 			throw new TestException(
 					"DatabaseException while deleting file. " +

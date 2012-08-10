@@ -83,7 +83,7 @@ public class UploadFileRequestHandler extends BaseRequestHandler {
 		File file = null;
 		FileWriter writer = null;
 		try {
-			file = (File) Database.get(StoringType.SOURCE_FILE,
+			file = (File) Database.get(StoringType.FILE,
 					castedRequest.getContent().getFileID());
 			writer = file.openForWriting();
 			writer.write(castedRequest.getContent().getText());
@@ -99,7 +99,7 @@ public class UploadFileRequestHandler extends BaseRequestHandler {
 			if (writer != null && file != null) {
 				try {
 					writer.close();
-					Database.update(StoringType.SOURCE_FILE, file);
+					Database.update(StoringType.FILE, file);
 				} catch (IOException e) {
 					response = new StandartResponse(request.getRequestID(),
 							false, "IO error. " + e.getMessage());

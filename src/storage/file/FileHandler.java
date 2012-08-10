@@ -46,6 +46,8 @@ public class FileHandler extends AbstractHandler {
 		
 		String projectKey = (String)params[1];
 		String parentKey = (String)params[2];
+		File sourceFile = new File(name, projectKey, parentKey,
+				new Date());
 		
 		
 		CompositeProjectItem parent = pm.getObjectById(
@@ -56,7 +58,7 @@ public class FileHandler extends AbstractHandler {
 		}
 
 		for (Child child: parent.getChildren()) {
-			if (child.getType().equals(StoringType.SOURCE_FILE)) {
+			if (child.getType().equals(StoringType.FILE)) {
 				File file = pm.getObjectById(File.class, child.getKey());
 				if (file.getName().equals(name)) {
 					pm.close();
@@ -66,21 +68,23 @@ public class FileHandler extends AbstractHandler {
 		}
 		
 		
-		File sourceFile = new File(name, projectKey, parentKey,
-				new Date());
 		pm.makePersistent(sourceFile);
-		parent.addChild(new Child(sourceFile.getKey(), StoringType.SOURCE_FILE));
+		parent.addChild(new Child(sourceFile.getKey(), StoringType.FILE));
 		
+		createEmptyContent(sourceFile);
+		
+		pm.close();
+		
+		return sourceFile.getKey();
+	}
+
+	private void createEmptyContent(File sourceFile) throws DatabaseException {
 		FileWriter writer = sourceFile.openForWriting();
 		try {
 			writer.close();
 		} catch (IOException e) {
 			throw new DatabaseException(e.getMessage());
 		}
-		
-		pm.close();
-		
-		return sourceFile.getKey();
 	}
 
 	private void checkFileCreateParams(Object... params) throws DatabaseException {
@@ -137,7 +141,7 @@ public class FileHandler extends AbstractHandler {
 		
 		CompositeProjectItem parent = pm.getObjectById(
 				CompositeProjectItem.class, sourceFile.getParentKey());
-		parent.removeChild(new Child(key, StoringType.SOURCE_FILE));
+		parent.removeChild(new Child(key, StoringType.FILE));
 		
 		pm.deletePersistent(sourceFile);
 		pm.close();

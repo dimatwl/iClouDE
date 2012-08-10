@@ -85,7 +85,7 @@ public class DownloadFileRequestHandler extends BaseRequestHandler {
 		File file = null;
 		FileReader reader = null;
 		try {
-			file = (File) Database.get(StoringType.SOURCE_FILE,
+			file = (File) Database.get(StoringType.FILE,
 					castedRequest.getFileID());
 			reader = file.openForReading();
 			StringBuilder fileTextBuilder = new StringBuilder(

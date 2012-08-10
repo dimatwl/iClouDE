@@ -60,7 +60,7 @@ public class CompositeProjectItemHandler extends AbstractHandler {
 			
 			for (Child child: parent.getChildren()) {
 				ProjectItem pi = null;
-				if (child.getType().equals(StoringType.SOURCE_FILE)) {
+				if (child.getType().equals(StoringType.FILE)) {
 					pi = pm.getObjectById(File.class, child.getKey());
 				} else if (child.getType().equals(StoringType.COMPOSITE_PROJECT_ITEM)) {
 					pi = pm.getObjectById(CompositeProjectItem.class, child.getKey());
@@ -148,7 +148,7 @@ public class CompositeProjectItemHandler extends AbstractHandler {
 				delete(pm, child.getKey(), child.getType());
 			}
 			pm.deletePersistent(projectItem);
-		} else if (type.equals(StoringType.SOURCE_FILE)) {
+		} else if (type.equals(StoringType.FILE)) {
 			File file = pm.getObjectById(File.class, key);
 			pm.deletePersistent(file);
 		} else {

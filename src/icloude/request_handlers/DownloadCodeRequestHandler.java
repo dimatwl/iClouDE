@@ -160,7 +160,7 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 						zipOut);
 			} else {
 				File file = (File) Database.get(
-						StoringType.SOURCE_FILE, child.getKey());
+						StoringType.FILE, child.getKey());
 				addToZip(file, new StringBuilder(path.toString()), zipOut);
 			}
 		}

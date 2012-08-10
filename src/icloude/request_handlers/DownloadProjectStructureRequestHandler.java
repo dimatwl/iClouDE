@@ -119,7 +119,7 @@ public class DownloadProjectStructureRequestHandler extends BaseRequestHandler {
 				branch = buildTree(branch, compositeItem);
 			} else {
 				File file = (File) Database.get(
-						StoringType.SOURCE_FILE, child.getKey());
+						StoringType.FILE, child.getKey());
 				branch = new FileTree(file.getName(), "SOURCE_FILE", file.getKey(),
 						file.getParentKey(), "HARDCODED", new Date(), new Date(), new Long(667),
 						new ArrayList<FileTree>());
