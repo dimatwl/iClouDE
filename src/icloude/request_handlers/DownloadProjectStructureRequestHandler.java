@@ -22,9 +22,9 @@ import storage.Child;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
+import storage.file.File;
 import storage.project.Project;
 import storage.projectitem.CompositeProjectItem;
-import storage.sourcefile.SourceFile;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -118,7 +118,7 @@ public class DownloadProjectStructureRequestHandler extends BaseRequestHandler {
 						new ArrayList<FileTree>());
 				branch = buildTree(branch, compositeItem);
 			} else {
-				SourceFile file = (SourceFile) Database.get(
+				File file = (File) Database.get(
 						StoringType.SOURCE_FILE, child.getKey());
 				branch = new FileTree(file.getName(), "SOURCE_FILE", file.getKey(),
 						file.getParentKey(), "HARDCODED", new Date(), new Date(), new Long(667),

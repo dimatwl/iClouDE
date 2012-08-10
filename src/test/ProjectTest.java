@@ -249,9 +249,6 @@ public class ProjectTest extends Test {
 	private String testProjectsList() {
 		String result = "Testing project list: ";
 		
-		System.err.println();
-		System.err.println();
-		System.err.println();
 		Set<String> projectKeys = new HashSet<String>();
 		List<Project> projects = null;
 		try {

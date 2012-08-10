@@ -1,4 +1,4 @@
-var createNewFileActivity = function(node) {
+var createNewFolderActivity = function(node) {
 	var folderName = prompt('Enter name: ', '');
     
 	
@@ -19,5 +19,5 @@ var createNewFileActivity = function(node) {
 		
 	});
 	
-	Protocol.createNewFolder.request.send(folderName, "type", node.attr('projectID'), node.attr('entityID'));	
+	Protocol.createNewFolder.request.send(folderName, node.attr('projectID'), node.attr('entityID'));	
 };

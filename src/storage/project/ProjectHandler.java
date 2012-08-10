@@ -35,20 +35,7 @@ public class ProjectHandler extends AbstractHandler {
 	@Override
 	public String create(Object... params) throws DatabaseException {
 		
-		if (params.length != 2) {
-			throw new DatabaseException("Incorrect number of parameters to create new project." +
-					" There should be 2 parameters.");
-		}
-		
-		if (!(params[0] instanceof String)) {
-			throw new DatabaseException("Incorrect first parameter to create new project." +
-					" Type of the first paramater should be String");
-		}
-		
-		if (!(params[1] instanceof String)) {
-			throw new DatabaseException("Incorrect second parameter to create new project." +
-					" Type of the second paramater should be String");
-		}
+		checkProjectCreateParams(params);
 		
 		String name = (String)params[0];
 		String type = (String)params[1];
@@ -66,6 +53,23 @@ public class ProjectHandler extends AbstractHandler {
 		pm.close();
 		
 		return project.getKey();
+	}
+
+	private void checkProjectCreateParams(Object... params) throws DatabaseException {
+		if (params.length != 2) {
+			throw new DatabaseException("Incorrect number of parameters to create new project." +
+					" There should be 2 parameters.");
+		}
+		
+		if (!(params[0] instanceof String)) {
+			throw new DatabaseException("Incorrect first parameter to create new project." +
+					" Type of the first paramater should be String");
+		}
+		
+		if (!(params[1] instanceof String)) {
+			throw new DatabaseException("Incorrect second parameter to create new project." +
+					" Type of the second paramater should be String");
+		}
 	}
 
 	/**

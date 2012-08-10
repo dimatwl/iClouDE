@@ -9,7 +9,7 @@ function customMenu(node) {
         newFolderItem: {
             label: "New Folder",
             action: function() {
-                alert("Creating new folder!");
+                createNewFolderActivity(node);
             }
         },
         deleteItem: {

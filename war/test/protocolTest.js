@@ -1,4 +1,3 @@
-
 alert("pTest");
 
 var makeRow = function(name, request, response) {
@@ -42,11 +41,9 @@ var testAndAdd = function(namespace, name, handler) {
 }
 
 
+    
 $(document).ready(function() {
-    
-    
-	
-	
+
 	var projectName = 'AAAAAA';
     var projectType = 'BBBBBBBB';
         

@@ -16,8 +16,8 @@ import javax.ws.rs.core.MediaType;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
-import storage.sourcefile.SourceFile;
-import storage.sourcefile.SourceFileWriter;
+import storage.file.File;
+import storage.file.FileWriter;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -80,10 +80,10 @@ public class UploadFileRequestHandler extends BaseRequestHandler {
 	protected BaseResponse handleRequest(BaseRequest request) {
 		BaseResponse response;
 		UploadFileRequest castedRequest = (UploadFileRequest) request;
-		SourceFile file = null;
-		SourceFileWriter writer = null;
+		File file = null;
+		FileWriter writer = null;
 		try {
-			file = (SourceFile) Database.get(StoringType.SOURCE_FILE,
+			file = (File) Database.get(StoringType.SOURCE_FILE,
 					castedRequest.getContent().getFileID());
 			writer = file.openForWriting();
 			writer.write(castedRequest.getContent().getText());

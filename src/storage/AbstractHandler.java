@@ -27,7 +27,7 @@ public abstract class AbstractHandler implements Handler {
 	 * Saves object to database
 	 * @param toSave - object which should be saved to database
 	 * @throws DatabaseException if an error occurs while saving object to
-	 * database 
+	 * database
 	 */
 	@Override
 	public void update(Object toSave) throws DatabaseException {
@@ -44,24 +44,24 @@ public abstract class AbstractHandler implements Handler {
 	 * @throws DatabaseException if it's impossible to get required object
 	 */
 	public Object get(Object... params) throws DatabaseException {
-		if (params.length != 1) {
-			throw new DatabaseException("Incorrent number of parameters for " +
-					"getting " + getHandlingType().getName() + ". Should be 1 parameter," +
-							" but " + params.length + " given");
-		}
+		checkGetParams(params);
 		
 		String key = (String) params[0];
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Object obj = pm.getObjectById(getHandlingType(), key);
-		if (obj == null) {
-			throw new DatabaseException("No such entity in database");
-		}
-		
 		Object result = pm.detachCopy(obj);
 		pm.close();
 		
 		return result;
+	}
+
+	private void checkGetParams(Object... params) throws DatabaseException {
+		if (params.length != 1) {
+			throw new DatabaseException("Incorrent number of parameters for " +
+					"getting " + getHandlingType().getName() + ". Should be 1 parameter," +
+							" but " + params.length + " given");
+		}
 	}
 	
 }

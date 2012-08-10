@@ -32,7 +32,7 @@ function setErrorHandler(errorHandler) {
 }
 
 
-function sendMap(requestMap) {
+function sendMap(requestMap, dataTypeExpected) {
 	var jsonMsg = $.toJSON(requestMap);
 	
 	var request = {
@@ -44,9 +44,16 @@ function sendMap(requestMap) {
 	
 	
 	//if (this.requestMethod == POST) {
-	
-	request['dataType'] = 'json';
+		
 	request['data'] = {json: jsonMsg};
+	
+	if (dataTypeExpected)
+        dataType = dataTypeExpected;
+	else
+		dataType = 'json';
+	
+	request['dataType'] = dataType;
+	
 	
 	//} 
 	    
