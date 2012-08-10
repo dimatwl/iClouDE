@@ -5,8 +5,7 @@ var downloadCodeActivity = function() {
 	info['projectID'] = projectID;
     json = $.toJSON(info);
 	
-	//document.location.href = 
-    alert(Request.prototype.SERVER_URL + Protocol.downloadCode.URL + "?json=" + json);
+	document.location.href = Request.prototype.SERVER_URL + Protocol.downloadCode.URL + "?json=" + json;
 	
     //document.location.href = "http://ya.ru";
     
