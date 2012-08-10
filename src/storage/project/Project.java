@@ -14,9 +14,9 @@ import javax.jdo.annotations.Persistent;
 import storage.DatabaseException;
 import storage.DatabaseObject;
 import storage.PMF;
+import storage.file.File;
 import storage.projectitem.CompositeProjectItem;
 import storage.projectitem.ProjectItem;
-import storage.sourcefile.SourceFile;
 
 /**
  * Class representing projects in database.
@@ -86,7 +86,7 @@ public class Project extends DatabaseObject {
 	 */
 	public Map<String, ProjectItem> getContent() throws DatabaseException {
 		List<ProjectItem> result = new ArrayList<ProjectItem>();
-		result.addAll(getObjectsOfType(getKey(), SourceFile.class));
+		result.addAll(getObjectsOfType(getKey(), File.class));
 		result.addAll(getObjectsOfType(getKey(), CompositeProjectItem.class));
 		
 		

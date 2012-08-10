@@ -27,16 +27,7 @@ public abstract class TaskHandler extends AbstractHandler {
 	 */
 	@Override
 	public Task get(Object... params) throws DatabaseException {
-		if (params.length != 1) {
-			throw new DatabaseException("Incorrect number of parameters to get " +
-					"task. There should be 1 parameter, but " + params.length + " parameters given");
-			
-		}
-		
-		if (!(params[0] instanceof TaskStatus)) {
-			throw new DatabaseException("Incorrect first parameter type for getting " +
-					"task from database. It must has type TaskStatus");
-		}
+		checkTaskGetParams(params);
 
 		TaskStatus status = (TaskStatus) params[0];
 		Task result = null;
@@ -57,6 +48,20 @@ public abstract class TaskHandler extends AbstractHandler {
 		pm.close();
 		
 		return result;
+	}
+
+
+	private void checkTaskGetParams(Object... params) throws DatabaseException {
+		if (params.length != 1) {
+			throw new DatabaseException("Incorrect number of parameters to get " +
+					"task. There should be 1 parameter, but " + params.length + " parameters given");
+			
+		}
+		
+		if (!(params[0] instanceof TaskStatus)) {
+			throw new DatabaseException("Incorrect first parameter type for getting " +
+					"task from database. It must has type TaskStatus");
+		}
 	}
 
 
