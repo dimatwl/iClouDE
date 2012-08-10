@@ -1,5 +1,12 @@
 var downloadCodeActivity = function() {
-    alert("downloading!! " + projectID);
-    Protocol.downloadCode.request.send(projectID);
+	
+	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, projectID);
+    alert('projectID ' + projectID );
+	info['projectID'] = projectID;
+    json = $.toJSON(info);
+	
+	document.location.href = Request.prototype.SERVER_URL + Protocol.downloadCode.URL + "?json=" + json;
+	
+    //document.location.href = "http://ya.ru";
     
 }

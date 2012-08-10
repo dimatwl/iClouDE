@@ -24,7 +24,7 @@ Protocol.makeBasicRequestInfo = function (requestID, method, userID, pojectID) {
 }
 
 Protocol.getRequestID = function() {
-	return (new Date()).toString();
+	return (new Date()).getTime();
 }
 
 /**
