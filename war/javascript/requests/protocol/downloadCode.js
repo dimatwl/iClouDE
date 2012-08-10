@@ -21,7 +21,7 @@ downloadCode.request.send = function (projectID) {
 	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, projectID);
     info['projectID'] = projectID;
 	
-    alert($.toJSON(info));
+    alert($.toJSON(info ));
     
     //downloadCode.request.sendMap(info);
 	
