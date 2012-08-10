@@ -21,11 +21,11 @@ import storage.Child;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
+import storage.file.File;
+import storage.file.FileReader;
 import storage.project.Project;
 import storage.projectitem.CompositeProjectItem;
 import storage.projectitem.CompositeProjectItemType;
-import storage.sourcefile.SourceFile;
-import storage.sourcefile.SourceFileReader;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -159,18 +159,18 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 				addToZip(compositeItem, new StringBuilder(path.toString()),
 						zipOut);
 			} else {
-				SourceFile file = (SourceFile) Database.get(
-						StoringType.SOURCE_FILE, child.getKey());
+				File file = (File) Database.get(
+						StoringType.FILE, child.getKey());
 				addToZip(file, new StringBuilder(path.toString()), zipOut);
 			}
 		}
 	}
 
-	private void addToZip(SourceFile file, StringBuilder path,
+	private void addToZip(File file, StringBuilder path,
 			ZipOutputStream zipOut) throws IOException, DatabaseException {
 		path.append(file.getName());
 		zipOut.putNextEntry(new ZipEntry(path.toString()));
-		SourceFileReader reader = ((SourceFile) file).openForReading();
+		FileReader reader = ((File) file).openForReading();
 		char[] buf = new char[DEFAULT_BUFFER_SIZE];
 		int charsReaded;
 		while ((charsReaded = reader.read(buf)) >= 0) {

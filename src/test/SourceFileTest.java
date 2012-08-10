@@ -9,8 +9,8 @@ import java.util.List;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
+import storage.file.File;
 import storage.project.Project;
-import storage.sourcefile.SourceFile;
 
 public class SourceFileTest extends Test {
 	
@@ -44,7 +44,7 @@ public class SourceFileTest extends Test {
 		String projectKey = null;
 		String rootKey = null;
 		String fileKey = null;
-		SourceFile file = null;
+		File file = null;
 		try {
 			projectKey = createProject("ProjectName", "ProjectType");
 			Project project = getProject(projectKey);
@@ -131,7 +131,7 @@ public class SourceFileTest extends Test {
 			Project project = getProject(projectKey);
 			String rootKey = project.getRootKey();
 			String fileKey = createFile("file", projectKey, rootKey);
-			SourceFile file = getFile(fileKey);
+			File file = getFile(fileKey);
 			
 			Writer writer = openFileForWriting(file);
 			writeToFile(writer);
@@ -221,7 +221,7 @@ public class SourceFileTest extends Test {
 		return fileContent;
 	}
 
-	private Reader openFileForReading(SourceFile file) throws TestException {
+	private Reader openFileForReading(File file) throws TestException {
 		try {
 			return file.openForReading();
 		} catch (DatabaseException e) {
@@ -231,9 +231,9 @@ public class SourceFileTest extends Test {
 		}
 	}
 
-	private void saveFile(SourceFile file) throws TestException {
+	private void saveFile(File file) throws TestException {
 		try {
-			Database.update(StoringType.SOURCE_FILE, file);
+			Database.update(StoringType.FILE, file);
 		} catch (DatabaseException e) {
 			throw new TestException(
 					"DatabaseException while saving file to database. " +
@@ -261,7 +261,7 @@ public class SourceFileTest extends Test {
 		}
 	}
 
-	private Writer openFileForWriting(SourceFile file) throws TestException {
+	private Writer openFileForWriting(File file) throws TestException {
 		try {
 			return file.openForWriting();
 		} catch (DatabaseException e) {
@@ -274,7 +274,7 @@ public class SourceFileTest extends Test {
 
 	private void deleteFile(String key) throws TestException {
 		try {
-			Database.delete(StoringType.SOURCE_FILE, key);
+			Database.delete(StoringType.FILE, key);
 		} catch (DatabaseException e) {
 			throw new TestException(
 					"DatabaseException while deleting file. " +

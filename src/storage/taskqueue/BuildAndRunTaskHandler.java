@@ -24,6 +24,27 @@ public class BuildAndRunTaskHandler extends TaskHandler {
 	 */
 	@Override
 	public String create(Object... params) throws DatabaseException {
+		checkBuildAndRunTaskCreateParams(params);
+		BuildAndRunTask task = createBuildAndRunTask(params);
+		saveBuildAndRunTask(task);
+		return task.getKey();
+	}
+
+	private void saveBuildAndRunTask(BuildAndRunTask task) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		pm.makePersistent(task);
+		pm.close();
+	}
+
+	private BuildAndRunTask createBuildAndRunTask(Object... params) {
+		String projectKey = (String) params[0];
+		TaskType type = (TaskType) params[1];
+		BuildAndRunTask task = new BuildAndRunTask(projectKey, type);
+		return task;
+	}
+
+	private void checkBuildAndRunTaskCreateParams(Object... params) throws DatabaseException {
+		System.err.println();
 		if (params.length != 2) {
 			throw new DatabaseException("Incorrect number of parameters for " +
 					"creating build&run task. There should be 2 parameters, " +
@@ -39,17 +60,5 @@ public class BuildAndRunTaskHandler extends TaskHandler {
 			throw new DatabaseException("Incorrect second parameter type for " +
 					"creating build&run task.");
 		}
-		
-		String projectKey = (String) params[0];
-		TaskType type = (TaskType) params[1];
-		
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		BuildAndRunTask task = new BuildAndRunTask(projectKey, type);
-		pm.makePersistent(task);
-		
-		pm.close();
-		
-		return task.getKey();
 	}
 }

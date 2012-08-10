@@ -9,8 +9,8 @@ import storage.Child;
 import storage.DatabaseException;
 import storage.PMF;
 import storage.StoringType;
+import storage.file.File;
 import storage.project.Project;
-import storage.sourcefile.SourceFile;
 
 /**
  * Class for handlig composite project items such as folder, package.
@@ -36,6 +36,58 @@ public class CompositeProjectItemHandler extends AbstractHandler {
 	 */
 	@Override
 	public String create(Object... params) throws DatabaseException {
+		checkCreateParams(params);
+			
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		String name = (String) params[0];
+		if ("".equals(name)) {
+			throw new DatabaseException("Empty item name");
+		}
+		
+		
+		String projectKey = (String) params[1];
+		String parentKey = (String) params[2];
+		CompositeProjectItemType itemType = (CompositeProjectItemType) params[3];
+		
+		
+		CompositeProjectItem item;
+		if (parentKey != null) {
+			CompositeProjectItem parent = pm.getObjectById(CompositeProjectItem.class, parentKey);
+			if (!parent.getProjectKey().equals(projectKey)) {
+				throw new DatabaseException("Different projectKey and parent.projectKey");
+			}
+			
+			for (Child child: parent.getChildren()) {
+				ProjectItem pi = null;
+				if (child.getType().equals(StoringType.FILE)) {
+					pi = pm.getObjectById(File.class, child.getKey());
+				} else if (child.getType().equals(StoringType.COMPOSITE_PROJECT_ITEM)) {
+					pi = pm.getObjectById(CompositeProjectItem.class, child.getKey());
+				} else {
+					throw new DatabaseException("Unsupported child type");
+				}
+				
+				if (pi.getName().equals(name)) {
+					pm.close();
+					throw new DatabaseException("Trying to create item with duplicate name");
+				}
+			}
+			
+			item = new CompositeProjectItem(name, projectKey, parentKey, itemType);
+			pm.makePersistent(item);
+			parent.addChild(new Child(item.getKey(), StoringType.COMPOSITE_PROJECT_ITEM));
+		} else {
+			item = new CompositeProjectItem(name, projectKey, parentKey, itemType);
+			pm.makePersistent(item);
+		}
+		
+		pm.close();
+		return item.getKey();
+	}
+
+
+	private void checkCreateParams(Object... params) throws DatabaseException {
 		if (params.length != 4) {
 			throw new DatabaseException("Incorrent number of parameters" +
 					" for creating new CompositeProjectItem. There should be 4 parameters, but " +
@@ -61,53 +113,6 @@ public class CompositeProjectItemHandler extends AbstractHandler {
 			throw new DatabaseException("Fourth parameter should be the type of" +
 					" the CompositeProjectItem to create. Its type must be ComopsiteProjectItemType");
 		}
-			
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		String name = (String) params[0];
-		if ("".equals(name)) {
-			throw new DatabaseException("Empty item name");
-		}
-		
-		
-		String projectKey = (String) params[1];
-		String parentKey = (String) params[2];
-		CompositeProjectItemType itemType = (CompositeProjectItemType) params[3];
-		
-		
-		CompositeProjectItem item;
-		if (parentKey != null) {
-			CompositeProjectItem parent = pm.getObjectById(CompositeProjectItem.class, parentKey);
-			if (!parent.getProjectKey().equals(projectKey)) {
-				throw new DatabaseException("Different projectKey and parent.projectKey");
-			}
-			
-			for (Child child: parent.getChildren()) {
-				ProjectItem pi = null;
-				if (child.getType().equals(StoringType.SOURCE_FILE)) {
-					pi = pm.getObjectById(SourceFile.class, child.getKey());
-				} else if (child.getType().equals(StoringType.COMPOSITE_PROJECT_ITEM)) {
-					pi = pm.getObjectById(CompositeProjectItem.class, child.getKey());
-				} else {
-					throw new DatabaseException("Unsupported child type");
-				}
-				
-				if (pi.getName().equals(name)) {
-					pm.close();
-					throw new DatabaseException("Trying to create item with duplicate name");
-				}
-			}
-			
-			item = new CompositeProjectItem(name, projectKey, parentKey, itemType);
-			pm.makePersistent(item);
-			parent.addChild(new Child(item.getKey(), StoringType.COMPOSITE_PROJECT_ITEM));
-		} else {
-			item = new CompositeProjectItem(name, projectKey, parentKey, itemType);
-			pm.makePersistent(item);
-		}
-		
-		pm.close();
-		return item.getKey();
 	}
 	
 
@@ -143,8 +148,8 @@ public class CompositeProjectItemHandler extends AbstractHandler {
 				delete(pm, child.getKey(), child.getType());
 			}
 			pm.deletePersistent(projectItem);
-		} else if (type.equals(StoringType.SOURCE_FILE)) {
-			SourceFile file = pm.getObjectById(SourceFile.class, key);
+		} else if (type.equals(StoringType.FILE)) {
+			File file = pm.getObjectById(File.class, key);
 			pm.deletePersistent(file);
 		} else {
 			throw new DatabaseException("Unsupported proejct item type: " + type);

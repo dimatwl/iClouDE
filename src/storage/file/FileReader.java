@@ -1,4 +1,4 @@
-package storage.sourcefile;
+package storage.file;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,12 +14,12 @@ import com.google.appengine.api.files.FileReadChannel;
  * @author Sergey
  *
  */
-public class SourceFileReader extends Reader {
+public class FileReader extends Reader {
 	
 	private final Reader reader;
 	private final FileReadChannel readChannel;
 
-	protected SourceFileReader(FileReadChannel readChannel) {
+	protected FileReader(FileReadChannel readChannel) {
 		reader = new BufferedReader(Channels.newReader(readChannel, "UTF8"));
 		this.readChannel = readChannel;
 	}

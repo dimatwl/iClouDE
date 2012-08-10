@@ -75,7 +75,7 @@ public class NewFileRequestHandler extends BaseRequestHandler {
 		BaseResponse response;
 		NewFileRequest castedRequest = (NewFileRequest) request;
 		try {
-			String key = Database.create(StoringType.SOURCE_FILE,
+			String key = Database.create(StoringType.FILE,
 					castedRequest.getFileName(),
 					castedRequest.getProjectID(),
 					castedRequest.getParentID());

@@ -1,4 +1,4 @@
-package storage.sourcefile;
+package storage.file;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,15 +17,15 @@ import com.google.appengine.api.files.FileWriteChannel;
  * @author Sergey
  *
  */
-public class SourceFileWriter extends Writer {
+public class FileWriter extends Writer {
 	
 	private final Writer writer;
 	private final AppEngineFile file;
 	private final FileWriteChannel writeChannel;
-	private final SourceFile sourceFile;
+	private final File sourceFile;
 	
-	protected SourceFileWriter(FileWriteChannel writeChannel,
-			AppEngineFile file,	SourceFile sourceFile) {
+	protected FileWriter(FileWriteChannel writeChannel,
+			AppEngineFile file,	File sourceFile) {
 		writer = new PrintWriter(Channels.newWriter(writeChannel, "UTF8"));
 		this.file = file;
 		this.writeChannel = writeChannel;

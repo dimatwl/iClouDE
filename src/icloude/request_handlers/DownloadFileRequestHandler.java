@@ -18,8 +18,8 @@ import javax.ws.rs.core.MediaType;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
-import storage.sourcefile.SourceFile;
-import storage.sourcefile.SourceFileReader;
+import storage.file.File;
+import storage.file.FileReader;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -82,10 +82,10 @@ public class DownloadFileRequestHandler extends BaseRequestHandler {
 	protected BaseResponse handleRequest(BaseRequest request) {
 		BaseResponse response;
 		DownloadFileRequest castedRequest = (DownloadFileRequest) request;
-		SourceFile file = null;
-		SourceFileReader reader = null;
+		File file = null;
+		FileReader reader = null;
 		try {
-			file = (SourceFile) Database.get(StoringType.SOURCE_FILE,
+			file = (File) Database.get(StoringType.FILE,
 					castedRequest.getFileID());
 			reader = file.openForReading();
 			StringBuilder fileTextBuilder = new StringBuilder(

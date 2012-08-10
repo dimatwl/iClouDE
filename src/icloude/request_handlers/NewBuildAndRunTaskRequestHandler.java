@@ -3,7 +3,9 @@ package icloude.request_handlers;
 import icloude.requests.BaseRequest;
 import icloude.requests.DownloadAvailableResultsRequest;
 import icloude.requests.NewBuildAndRunTaskRequest;
+import icloude.requests.NewFileRequest;
 import icloude.responses.BaseResponse;
+import icloude.responses.IDResponse;
 import icloude.responses.StandartResponse;
 
 import javax.ws.rs.FormParam;
@@ -11,6 +13,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import storage.Database;
+import storage.DatabaseException;
+import storage.StoringType;
+import storage.taskqueue.TaskType;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -71,8 +78,19 @@ public class NewBuildAndRunTaskRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseResponse handleRequest(BaseRequest request) {
-		return new StandartResponse(request.getRequestID(), true,
-				"Request 'New build and run task' recieved.");
+		BaseResponse response;
+		NewBuildAndRunTaskRequest castedRequest = (NewBuildAndRunTaskRequest) request;
+		try {
+			String key = Database.create(StoringType.BUILD_AND_RUN_TASK,
+					castedRequest.getProjectID(),
+					TaskType.BUILD_AND_RUN);
+			response = new IDResponse(request.getRequestID(), true,
+					"New Build&Run task created.",castedRequest.getProjectID(), key);
+		} catch (DatabaseException e) {
+			response = new StandartResponse(request.getRequestID(), false,
+					"DB error. " + e.getMessage());
+		}
+		return response;
 	}
 	
 	/**

@@ -27,9 +27,9 @@ import java.util.zip.ZipInputStream;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
+import storage.file.File;
 import storage.project.Project;
 import storage.projectitem.ProjectItem;
-import storage.sourcefile.SourceFile;
 
 public class DownloadCodeTest extends Test {
 
@@ -77,7 +77,7 @@ public class DownloadCodeTest extends Test {
 					if (!entry.isDirectory()) {
 						if (pathsFromDB.containsKey(entry.getName())) {
 							Reader zipReader = new InputStreamReader(zin);
-							Reader fileReader = ((SourceFile) (projectStructure
+							Reader fileReader = ((File) (projectStructure
 									.get(pathsFromDB.get(entry.getName()))))
 									.openForReading();
 							if (!isSame(zipReader, fileReader)) {
@@ -171,7 +171,7 @@ public class DownloadCodeTest extends Test {
 			String currentItemKey = key;
 			ProjectItem currentItem = project.get(currentItemKey);
 			StringBuilder fullPath = new StringBuilder();
-			if (!(currentItem instanceof SourceFile)) {
+			if (!(currentItem instanceof File)) {
 				fullPath.insert(0, '/');
 			}
 			while (currentItem.getParentKey() != null) {

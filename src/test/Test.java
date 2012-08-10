@@ -11,10 +11,10 @@ import storage.DatabaseException;
 import storage.DatabaseObject;
 import storage.PMF;
 import storage.StoringType;
+import storage.file.File;
 import storage.project.Project;
 import storage.projectitem.CompositeProjectItemType;
 import storage.projectitem.CompositeProjectItem;
-import storage.sourcefile.SourceFile;
 
 public abstract class Test {
 	
@@ -51,7 +51,7 @@ public abstract class Test {
 
 	protected String createFile(String filename, String projectKey, String parentKey) throws TestException {
 		try {
-			String key = Database.create(StoringType.SOURCE_FILE, filename, projectKey, parentKey);
+			String key = Database.create(StoringType.FILE, filename, projectKey, parentKey);
 			return key;
 		} catch (DatabaseException e) {
 			throw new TestException( 
@@ -70,9 +70,9 @@ public abstract class Test {
 		}
 	}
 	
-	protected SourceFile getFile(String key) throws TestException {
+	protected File getFile(String key) throws TestException {
 		try {
-			SourceFile file = (SourceFile) Database.get(StoringType.SOURCE_FILE, key);
+			File file = (File) Database.get(StoringType.FILE, key);
 			return file;
 		} catch (DatabaseException e) {
 			throw new TestException( 
