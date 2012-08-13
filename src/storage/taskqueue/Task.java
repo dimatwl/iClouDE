@@ -25,6 +25,17 @@ public abstract class Task extends DatabaseObject {
 	public Task() {
 		super(null);
 	}
+	
+	@Persistent
+	private String taskID;
+
+	public String getTaskID() {
+		return taskID;
+	}
+
+	public void setTaskID(String taskID) {
+		this.taskID = taskID;
+	}
 
 	@Persistent
 	private TaskStatus status = TaskStatus.NEW;

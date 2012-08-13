@@ -11,6 +11,7 @@ import storage.DatabaseException;
 import storage.PMF;
 import storage.StoringType;
 import storage.projectitem.CompositeProjectItem;
+import storage.projectitem.ProjectItem;
 
 /**
  * This class provides implementations of all database operations
@@ -36,7 +37,6 @@ public class FileHandler extends AbstractHandler {
 	public String create(Object... params) throws DatabaseException {
 		checkFileCreateParams(params);
 		
-		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		String name = (String)params[0];
 		if ("".equals(name)) {
@@ -50,32 +50,51 @@ public class FileHandler extends AbstractHandler {
 				new Date());
 		
 		
-		CompositeProjectItem parent = pm.getObjectById(
-				CompositeProjectItem.class, parentKey);
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		CompositeProjectItem parent = getParent(pm, parentKey);
 		
 		if (!parent.getProjectKey().equals(projectKey)) {
+			pm.close();
 			throw new DatabaseException("Different projectKey and parent.projectKey");
 		}
 
+		if (checkName(pm, name, parent)) {
+			pm.makePersistent(sourceFile);
+			parent.addChild(new Child(sourceFile.getKey(), StoringType.FILE));
+			createEmptyContent(sourceFile);
+			pm.close();
+			return sourceFile.getKey();
+		} else {
+			pm.close();
+			throw new DatabaseException("Can't create file with name " + name);
+		}
+	}
+
+	private CompositeProjectItem getParent(PersistenceManager pm,
+			String parentKey) {
+		CompositeProjectItem parent = pm.getObjectById(
+				CompositeProjectItem.class, parentKey);
+		return parent;
+	}
+
+	private boolean checkName(PersistenceManager pm, String name,
+			CompositeProjectItem parent) {
+		boolean freeName = true;
 		for (Child child: parent.getChildren()) {
+			ProjectItem item = null;
+			
 			if (child.getType().equals(StoringType.FILE)) {
-				File file = pm.getObjectById(File.class, child.getKey());
-				if (file.getName().equals(name)) {
-					pm.close();
-					throw new DatabaseException("Trying to create duplicate file");
-				}
+				item = pm.getObjectById(File.class, child.getKey());
+			} else {
+				item = pm.getObjectById(CompositeProjectItem.class, child.getKey());
+			}
+
+			if (item.getName().equals(name)) {
+				freeName = false;
 			}
 		}
 		
-		
-		pm.makePersistent(sourceFile);
-		parent.addChild(new Child(sourceFile.getKey(), StoringType.FILE));
-		
-		createEmptyContent(sourceFile);
-		
-		pm.close();
-		
-		return sourceFile.getKey();
+		return freeName;
 	}
 
 	private void createEmptyContent(File sourceFile) throws DatabaseException {

@@ -44,6 +44,21 @@ public class Project extends DatabaseObject {
 	@Persistent
 	private String rootKey;
 	
+	@Persistent
+	private String buildKey;
+	
+
+	public String getBuildKey() {
+		return buildKey;
+	}
+
+	public void setBuildKey(String buildKey) {
+		this.buildKey = buildKey;
+	}
+
+	public String getType() {
+		return type;
+	}
 
 	public String getProjectType() {
 		return type;
