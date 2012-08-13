@@ -26,48 +26,86 @@ public class FileHandler extends AbstractHandler {
 	}
 
 	/**
-	 * Creates new SourceFile object.
+	 * Creates new File object.
 	 * <br/><br/>
+	 * It's possible to create two type of files:<br/><br/>
+	 * 1. File in project.<br/>
 	 * There should be 3 parameters:<br/>
 	 * String name - name of the file to create<br/>
 	 * String projectKey - database key of the project where this file should be created<br/>
-	 * String parentKey - database key of the project item in which this file should be created
+	 * String parentKey - database key of the project item in which this file should be created<br/><br/>
+	 * 2. Simple file.<br/>
+	 * There should be 1 parameter - name of the file
 	 */
 	@Override
 	public String create(Object... params) throws DatabaseException {
-		checkFileCreateParams(params);
+		if (params.length == 3 &&
+				params[0] instanceof String &&
+				params[1] instanceof String &&
+				params[2] instanceof String) {
+			
+			String name = (String) params[0];
+			String projectKey = (String) params[1];
+			String parentKey = (String) params[2];
+			return createFileInProject(name, projectKey, parentKey);
+		} else if (params.length == 1 &&
+				params[0] instanceof String) {
+			
+			String name = (String) params[0];
+			return createSimpleFile(name);
+		} else {
+			throw new DatabaseException("Incorrect parameters for creating file");
+		}
 		
-		
-		String name = (String)params[0];
-		if ("".equals(name)) {
+	}
+
+	private String createSimpleFile(String name) throws DatabaseException {
+		if (name.isEmpty()) {
 			throw new DatabaseException("Empty filename");
 		}
 		
-		
-		String projectKey = (String)params[1];
-		String parentKey = (String)params[2];
-		File sourceFile = new File(name, projectKey, parentKey,
-				new Date());
-		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		File file = new File(name, null, null, new Date());
+		pm.makePersistent(file);
+		pm.close();
+		return file.getKey();
+	}
+
+	private String createFileInProject(String name, String projectKey,
+			String parentKey) throws DatabaseException {
+		if (name.isEmpty()) {
+			throw new DatabaseException("Empty filename");
+		}
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		CompositeProjectItem parent = getParent(pm, parentKey);
-		
-		if (!parent.getProjectKey().equals(projectKey)) {
+		try {
+			CompositeProjectItem parent = getParent(pm, parentKey);
+			
+			if (!parent.getProjectKey().equals(projectKey)) {
+				throw new DatabaseException("Different projectKey and parent.projectKey");
+			}
+	
+			if (!duplicateName(pm, name, parent)) {
+				File sourceFile = createFile(name, projectKey, parentKey, pm,
+						parent);
+				return sourceFile.getKey();
+			} else {
+				throw new DatabaseException("Can't create file with name " + name);
+			}
+		} finally {
 			pm.close();
-			throw new DatabaseException("Different projectKey and parent.projectKey");
 		}
+	}
 
-		if (checkName(pm, name, parent)) {
-			pm.makePersistent(sourceFile);
-			parent.addChild(new Child(sourceFile.getKey(), StoringType.FILE));
-			createEmptyContent(sourceFile);
-			pm.close();
-			return sourceFile.getKey();
-		} else {
-			pm.close();
-			throw new DatabaseException("Can't create file with name " + name);
-		}
+	private File createFile(String name, String projectKey, String parentKey,
+			PersistenceManager pm, CompositeProjectItem parent)
+			throws DatabaseException {
+		File sourceFile = new File(name, projectKey, parentKey,
+				new Date());
+		pm.makePersistent(sourceFile);
+		parent.addChild(new Child(sourceFile.getKey(), StoringType.FILE));
+		createEmptyContent(sourceFile);
+		return sourceFile;
 	}
 
 	private CompositeProjectItem getParent(PersistenceManager pm,
@@ -77,9 +115,9 @@ public class FileHandler extends AbstractHandler {
 		return parent;
 	}
 
-	private boolean checkName(PersistenceManager pm, String name,
+	private boolean duplicateName(PersistenceManager pm, String name,
 			CompositeProjectItem parent) {
-		boolean freeName = true;
+		boolean duplicateName = false;
 		for (Child child: parent.getChildren()) {
 			ProjectItem item = null;
 			
@@ -90,11 +128,11 @@ public class FileHandler extends AbstractHandler {
 			}
 
 			if (item.getName().equals(name)) {
-				freeName = false;
+				duplicateName = true;
 			}
 		}
 		
-		return freeName;
+		return duplicateName;
 	}
 
 	private void createEmptyContent(File sourceFile) throws DatabaseException {
@@ -106,29 +144,7 @@ public class FileHandler extends AbstractHandler {
 		}
 	}
 
-	private void checkFileCreateParams(Object... params) throws DatabaseException {
-		if (params.length != 3) {
-			throw new DatabaseException("Incorrent number of parameters" +
-					" for creating new file. There should be 3 parameters, but" +
-					params.length + " parameters are given");
-		}
-		
-		if (!(params[0] instanceof String)) {
-			throw new DatabaseException("First parameter should be the name of" +
-					" the file. Its type must be String");
-		}
-		
-		if (!(params[1] instanceof String)) {
-			throw new DatabaseException("Second parameter should be the key of" +
-					" the project. Its type must be String");
-		}
-		
-		if (!(params[2] instanceof String)) {
-			throw new DatabaseException("Third parameter should be the key of" +
-					" the parent ProjectItem. Its type must be String");
-		}
-	}
-	
+
 	/**
 	 * Saves changes in file to database.
 	 * @param toSave - SourceFile to be saved
@@ -156,13 +172,15 @@ public class FileHandler extends AbstractHandler {
 	public void delete(String key) throws DatabaseException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
-		File sourceFile = pm.getObjectById(File.class, key);
+		File file = pm.getObjectById(File.class, key);
 		
-		CompositeProjectItem parent = pm.getObjectById(
-				CompositeProjectItem.class, sourceFile.getParentKey());
-		parent.removeChild(new Child(key, StoringType.FILE));
+		if (file.getParentKey() != null) {
+			CompositeProjectItem parent = pm.getObjectById(
+					CompositeProjectItem.class, file.getParentKey());
+			parent.removeChild(new Child(key, StoringType.FILE));
+		}
 		
-		pm.deletePersistent(sourceFile);
+		pm.deletePersistent(file);
 		pm.close();
 	}
 
