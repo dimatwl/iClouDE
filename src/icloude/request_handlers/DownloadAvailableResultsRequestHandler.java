@@ -1,11 +1,15 @@
 package icloude.request_handlers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import icloude.requests.BaseRequest;
 import icloude.requests.DownloadAvailableResultsRequest;
 import icloude.requests.DownloadProjectListRequest;
 import icloude.requests.NewBuildAndRunTaskRequest;
 import icloude.responses.BaseResponse;
 import icloude.responses.IDResponse;
+import icloude.responses.ResultsResponse;
 import icloude.responses.StandartResponse;
 
 import javax.ws.rs.GET;
@@ -82,14 +86,21 @@ public class DownloadAvailableResultsRequestHandler extends BaseRequestHandler {
 	protected BaseResponse handleRequest(BaseRequest request) {
 		BaseResponse response = null;
 		DownloadAvailableResultsRequest castedRequest = (DownloadAvailableResultsRequest) request;
-//		try {
-//			BuildAndRunTask task = (BuildAndRunTask) Database.get(StoringType.BUILD_AND_RUN_TASK, TaskStatus.FINISHED);
-//			response = new IDResponse(request.getRequestID(), true,
-//					"New Build&Run task created.",castedRequest.getProjectID(), key);
-//		} catch (DatabaseException e) {
-//			response = new StandartResponse(request.getRequestID(), false,
-//					"DB error. " + e.getMessage());
-//		}
+		BuildAndRunTask task = null;
+		try {
+			task = (BuildAndRunTask) Database.get(
+					StoringType.BUILD_AND_RUN_TASK, TaskStatus.FINISHED);
+			if (task != null) {
+				response = new ResultsResponse(request.getRequestID(), true,
+						"Result available.", task.getResult());
+			} else {
+				response = new ResultsResponse(request.getRequestID(), true,
+						"Result unavailable.", new ArrayList<String>());
+			}
+		} catch (DatabaseException e) {
+			response = new StandartResponse(request.getRequestID(), false,
+					"DB error. " + e.getMessage());
+		}
 		return response;
 	}
 	

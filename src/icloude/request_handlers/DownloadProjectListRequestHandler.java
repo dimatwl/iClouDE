@@ -83,7 +83,7 @@ public class DownloadProjectListRequestHandler extends BaseRequestHandler {
 			List<Project> projects = (List<Project>) Database.get(StoringType.PROJECTS_LIST);
 			List<ProjectListEntry> entries = new ArrayList<ProjectListEntry>();
 			for (Project project : projects) {
-				entries.add(new ProjectListEntry("HARDCODED", project.getKey(), project.getCreationTime(), project.getProjectType()));
+				entries.add(new ProjectListEntry(project.getName() ,"HARDCODED", project.getKey(), project.getCreationTime(), project.getProjectType()));
 			}
 			response = new ProjectListResponse(request.getRequestID(), true, "Project list downloaded.", entries);
 		} catch (DatabaseException e) {

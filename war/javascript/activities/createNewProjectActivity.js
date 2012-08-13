@@ -14,7 +14,7 @@ var createNewProjectActivity = function() {
                 	        data: projectName,
                 	        attr: {entityID: rootProjectDirectory, projectID: projectID},            	    
                             type: "folder"
-                        }       
+                        }
                     },                   
                     
                     contextmenu : {

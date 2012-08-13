@@ -9,7 +9,8 @@ Protocol.response = {
     STANDART: ['requestID', 'result', 'description'],
     ID: ['requestID', 'result', 'description', 'entityID', 'projectID'],
     FILE: ['requestID', 'result', 'description', 'content'],
-    PROJECT: ['requestID', 'result', 'description', 'content']
+    PROJECT: ['requestID', 'result', 'description', 'content'],
+    PROJECT_LIST: ['requestID', 'result', 'description', 'content']
 };
 
 

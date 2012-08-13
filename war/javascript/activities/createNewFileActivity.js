@@ -10,9 +10,9 @@ var createNewFileActivity = function(node) {
 				attr: {
 				    projectID: resp.projectID,
 				    parentID: node.attr('entityID'),
-				    entityID: resp.entityID				 
-			    },
-			    type: 'file'
+				    entityID: resp.entityID,			 
+				    type: 'file'
+				}			    
 			});
 		} else {
 		    alert("request was bad!");

@@ -9,9 +9,9 @@ var createNewFolderActivity = function(node) {
 				attr: {
 				    projectID: resp.projectID,
 				    parentID: node.attr('entityID'),
-				    entityID: resp.entityID				 
-			    },
-			    type: 'folder'
+				    entityID: resp.entityID,				 
+				    type: 'folder'
+				}			    
 			});
 		} else {
 		    alert("request was bad!");
