@@ -1,17 +1,17 @@
-var saveFileActivity = function() {
+var saveFileActivity = function(projectID, fileID) {
 	alert("saveFileActivity");
 	
     var testFileContent = {
         type: 'file',
-        fileID: currentFileID,
+        fileID: fileID,
         text: editor.getValue(),
-        fileType: 'what is filetype?',
+        fileType: 'file',
         revisionID: 'revision ID',
         creationDate: (new Date()).getTime(),
         modificationDate: (new Date()).getTime(),
-        size: '1000'
+        size: '100'
     };
 		
 
-    Protocol.uploadFile.request.send(testFileContent);
+    Protocol.uploadFile.request.send(projectID, testFileContent);
 };

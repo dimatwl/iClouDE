@@ -18,7 +18,7 @@ var createNewProjectActivity = function() {
                     },                   
                     
                     contextmenu : {
-                	    items : customMenu    
+                	    items : projectStructureMenu    
                     }
             });
             

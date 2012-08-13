@@ -1,3 +1,9 @@
+
+
+
+
+
+
 $(document).ready(function() {
     Protocol.downloadProjectsList.request.setResponseHandler(function(data) {
 	    arr = [];
@@ -11,10 +17,22 @@ $(document).ready(function() {
 	    }		
 	    
 	    $('#tree').jstree({
-		    plugins: ["themes", "json_data", "ui", "crrm", "hotkeys", "contextmenu"],
+		    plugins: ["themes", "json_data", "ui", "crrm", "hotkeys", "contextmenu", "types"],
 		    json_data: {data: arr},
 		    contextmenu: {
-		        items: customMenu    
+		        items: openProjectMenu    
+		    },
+		    types: {
+		    	types: {
+		    	    'default': {
+		    	    	icon : {
+                            image : "http://static.jstree.com/v.1.0pre/_demo/folder.png"
+                    	},
+		                select_node: function(node) {
+		                	openProjectActivity(node.attr('projectID'));	
+		                }
+		    	    }
+		    	}
 		    }
 		});
 	});
