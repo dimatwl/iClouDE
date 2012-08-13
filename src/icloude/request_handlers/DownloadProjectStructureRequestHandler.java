@@ -29,8 +29,11 @@ import storage.projectitem.CompositeProjectItem;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/downloadprojectstructure" URL:
- *         rest/downloadprojectstructure Method: GET Required response: Project
+ * @author DimaTWL 
+ * Handling all requests on "rest/downloadprojectstructure" 
+ * URL: rest/downloadprojectstructure 
+ * Method: GET 
+ * Required response: Project
  */
 @Path("/downloadprojectstructure")
 public class DownloadProjectStructureRequestHandler extends BaseRequestHandler {

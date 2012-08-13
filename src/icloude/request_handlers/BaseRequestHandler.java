@@ -11,7 +11,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Represents some base behavior and interface for all request
+ * @author DimaTWL 
+ * Represents some base behavior and interface for all request
  *         handlers
  */
 public abstract class BaseRequestHandler {

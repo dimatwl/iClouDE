@@ -20,8 +20,11 @@ import storage.project.Project;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/newproject" URL:
- *         rest/newproject Method: POST Required response: ID
+ * @author DimaTWL 
+ * Handling all requests on "rest/newproject" 
+ * URL: rest/newproject 
+ * Method: POST 
+ * Required response: ID
  */
 @Path("/newproject")
 public class NewProjectRequestHandler extends BaseRequestHandler {

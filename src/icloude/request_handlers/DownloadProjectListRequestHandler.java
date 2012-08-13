@@ -24,8 +24,11 @@ import storage.project.Project;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/downloadprojectlist" URL:
- *         rest/downloadprojectlist Method: GET Required response: Project list
+ * @author DimaTWL 
+ * Handling all requests on "rest/downloadprojectlist" 
+ * URL: rest/downloadprojectlist 
+ * Method: GET 
+ * Required response: Project list
  */
 @Path("/downloadprojectlist")
 public class DownloadProjectListRequestHandler extends BaseRequestHandler {
@@ -37,7 +40,7 @@ public class DownloadProjectListRequestHandler extends BaseRequestHandler {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String post(@QueryParam("json") String json) {
+	public String get(@QueryParam("json") String json) {
 		return getResponce(json);
 	}
 

@@ -14,8 +14,11 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/changefiletype" URL:
- *         rest/changefiletype Method: POST Required response: Standart
+ * @author DimaTWL 
+ * Handling all requests on "rest/changefiletype" 
+ * URL: rest/changefiletype 
+ * Method: POST 
+ * Required response: Standart
  */
 @Path("/changefiletype")
 public class ChangeFileTypeRequestHandler extends BaseRequestHandler {
