@@ -14,8 +14,11 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/deletefile" URL:
- *         rest/deletefile Method: DELETE Required response: Standart
+ * @author DimaTWL 
+ * Handling all requests on "rest/deletefile" 
+ * URL: rest/deletefile 
+ * Method: DELETE 
+ * Required response: Standart
  */
 @Path("/deletefile")
 public class DeleteFileRequestHandler extends BaseRequestHandler {

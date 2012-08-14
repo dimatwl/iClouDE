@@ -14,8 +14,11 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/autocomplete" URL:
- *         rest/autocomplete Method: GET Required response: Autocomplete
+ * @author DimaTWL 
+ * Handling all requests on "rest/autocomplete" 
+ * URL: rest/autocomplete 
+ * Method: GET 
+ * Required response: Autocomplete
  */
 @Path("/autocomplete")
 public class AutocompleteRequestHandler extends BaseRequestHandler {
@@ -27,7 +30,7 @@ public class AutocompleteRequestHandler extends BaseRequestHandler {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String post(@QueryParam("json") String json) {
+	public String get(@QueryParam("json") String json) {
 		return getResponce(json);
 	}
 

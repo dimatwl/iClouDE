@@ -21,8 +21,10 @@ import storage.projectitem.CompositeProjectItemType;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Handling all requests on "rest/newfolder" URL: rest/newfolder
- *         Method: POST Required response: ID
+ * @author DimaTWL 
+ * Handling all requests on "rest/newfolder" 
+ * URL: rest/newfolder
+ * Method: POST Required response: ID
  */
 @Path("/newfolder")
 public class NewFolderRequestHandler extends BaseRequestHandler {

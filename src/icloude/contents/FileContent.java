@@ -7,6 +7,7 @@ package icloude.contents;
  */
 public class FileContent {
 	private String type;
+	private String fileName;
 	private String fileID;
 	private String text;
 	private String fileType;
@@ -17,6 +18,7 @@ public class FileContent {
 	
 	/**
 	 * @param type
+	 * @param fileName
 	 * @param fileID
 	 * @param text
 	 * @param fileType
@@ -25,11 +27,12 @@ public class FileContent {
 	 * @param creationDate
 	 * @param modificationDate
 	 */
-	public FileContent(String type, String fileID, String text,
-			String fileType, String ownerID, String revisionID,
+	public FileContent(String type, String fileName, String fileID,
+			String text, String fileType, String ownerID, String revisionID,
 			Long creationDate, Long modificationDate) {
 		super();
 		this.type = type;
+		this.fileName = fileName;
 		this.fileID = fileID;
 		this.text = text;
 		this.fileType = fileType;
@@ -38,15 +41,19 @@ public class FileContent {
 		this.creationDate = creationDate;
 		this.modificationDate = modificationDate;
 	}
-	
-	private FileContent(){
-	}
 
 	/**
 	 * @return the type
 	 */
 	public String getType() {
 		return type;
+	}
+
+	/**
+	 * @return the fileName
+	 */
+	public String getFileName() {
+		return fileName;
 	}
 
 	/**
@@ -97,5 +104,7 @@ public class FileContent {
 	public Long getModificationDate() {
 		return modificationDate;
 	}
+	
+
 
 }

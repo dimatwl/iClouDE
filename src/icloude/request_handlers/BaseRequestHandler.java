@@ -11,24 +11,25 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * @author DimaTWL Represents some base behavior and interface for all request
+ * @author DimaTWL 
+ * Represents some base behavior and interface for all request
  *         handlers
  */
 public abstract class BaseRequestHandler {
 	/**
 	 * This field used to do all JSON staff.
 	 */
-	protected final static Gson GSON = new Gson();
+	public final static Gson GSON = new Gson();
 	
 	/**
 	 * This field used to determine current protocol version.
 	 */
-	protected final static Integer PROTOCOL_VERSION = 2;
+	public final static Integer PROTOCOL_VERSION = 4;
 	
 	/**
 	 * This field used to determine size for all buffers.
 	 */
-	protected final static Integer DEFAULT_BUFFER_SIZE = 1024;
+	public final static Integer DEFAULT_BUFFER_SIZE = 1024;
 
 	/**
 	 * Realization of this method expected to convert JSON representation to

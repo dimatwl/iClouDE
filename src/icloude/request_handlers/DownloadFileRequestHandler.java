@@ -96,7 +96,7 @@ public class DownloadFileRequestHandler extends BaseRequestHandler {
 				fileTextBuilder.append(buf, 0, charsReaded);
 			}
 			String fileText = fileTextBuilder.toString();
-			FileContent content = new FileContent("file", file.getKey(),
+			FileContent content = new FileContent("file", file.getName(), file.getKey(),
 					fileText, "HARDCODED", "HARDCODED",
 					"HARDCODED", file.getCreationTime().getTime(), file
 							.getModificationTime().getTime());
