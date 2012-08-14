@@ -1,4 +1,4 @@
-package icloude;
+package icloude.testing;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

@@ -55,7 +55,7 @@ public class CloudService {
 		NewFileRequest nfr = new NewFileRequest(2, "NewFileRequest", "newfile", "userIDZIP", idrProj.getProjectID(), idrProj.getEntityID(), "fileZIP", "typeZIP");
 		json = nfrh.post(gson.toJson(nfr));
 		IDResponse idrFile = gson.fromJson(json, IDResponse.class);
-		FileContent content = new FileContent("file", idrFile.getEntityID(), "Hello, I am text of this file!!!", "textFile", "userIDZIP", "ZIPRevision", (new Date()).getTime(), (new Date()).getTime());
+		FileContent content = new FileContent("file","New name", idrFile.getEntityID(), "Hello, I am text of this file!!!", "textFile", "userIDZIP", "ZIPRevision", (new Date()).getTime(), (new Date()).getTime());
 		UploadFileRequest ufr = new UploadFileRequest(2, "UploadFileRequest", "uploadfile", "userIDZIP", idrProj.getProjectID(), content);
 		json = ufrh.post(gson.toJson(ufr));
 		DownloadProjectStructureRequest dpsr = new DownloadProjectStructureRequest(2,"DownloadProjectStructureRequest", "downloadprojectstructure", "UserIDZIP", idrProj.getProjectID());

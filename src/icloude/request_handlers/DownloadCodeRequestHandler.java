@@ -1,5 +1,6 @@
 package icloude.request_handlers;
 
+import icloude.helpers.ProjectZipper;
 import icloude.requests.BaseRequest;
 import icloude.requests.DownloadCodeRequest;
 import icloude.responses.BaseResponse;
@@ -112,11 +113,10 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 	private InputStream doZip(BaseRequest request) {
 		InputStream response = null;
 		DownloadCodeRequest castedRequest = (DownloadCodeRequest) request;
-		Project project = null;
 		try {
-			project = (Project) Database.get(StoringType.PROJECT,
+			Project project = (Project) Database.get(StoringType.PROJECT,
 					castedRequest.getProjectID());
-			byte[] buf = zipProject(project);
+			byte[] buf = ProjectZipper.zipProject(project);
 			response = new ByteArrayInputStream(buf);
 		} catch (DatabaseException e) {
 			response = null;
@@ -124,59 +124,6 @@ public class DownloadCodeRequestHandler extends BaseRequestHandler {
 			response = null;
 		}
 		return response;
-	}
-
-	private byte[] zipProject(Project project) throws IOException,
-			DatabaseException {
-		ByteArrayOutputStream outStream = new ByteArrayOutputStream(
-				DEFAULT_BUFFER_SIZE);
-		ZipOutputStream zipOut = new ZipOutputStream(outStream);
-
-		CompositeProjectItem root = (CompositeProjectItem) Database.get(
-				StoringType.COMPOSITE_PROJECT_ITEM, project.getRootKey());
-		StringBuilder path = new StringBuilder('/');
-		addToZip(root, path, zipOut);
-
-		zipOut.flush();
-		zipOut.close();
-
-		return outStream.toByteArray();
-	}
-
-	private void addToZip(CompositeProjectItem item, StringBuilder path,
-			ZipOutputStream zipOut) throws IOException, DatabaseException {
-		if (item.getItemType().equals(CompositeProjectItemType.PACKAGE)) {
-			path.append(item.getName().replace('.', '/'));
-		} else {
-			path.append(item.getName());
-		}
-		path.append('/');
-		zipOut.putNextEntry(new ZipEntry(path.toString()));
-		for (Child child : item.getChildren()) {
-			if (child.getType().equals(StoringType.COMPOSITE_PROJECT_ITEM)) {
-				CompositeProjectItem compositeItem = (CompositeProjectItem) Database
-						.get(StoringType.COMPOSITE_PROJECT_ITEM, child.getKey());
-				addToZip(compositeItem, new StringBuilder(path.toString()),
-						zipOut);
-			} else {
-				File file = (File) Database.get(
-						StoringType.FILE, child.getKey());
-				addToZip(file, new StringBuilder(path.toString()), zipOut);
-			}
-		}
-	}
-
-	private void addToZip(File file, StringBuilder path,
-			ZipOutputStream zipOut) throws IOException, DatabaseException {
-		path.append(file.getName());
-		zipOut.putNextEntry(new ZipEntry(path.toString()));
-		FileReader reader = ((File) file).openForReading();
-		char[] buf = new char[DEFAULT_BUFFER_SIZE];
-		int charsReaded;
-		while ((charsReaded = reader.read(buf)) >= 0) {
-			zipOut.write(new String(buf).getBytes(), 0, charsReaded);
-		}
-		reader.close();
 	}
 	
 	
