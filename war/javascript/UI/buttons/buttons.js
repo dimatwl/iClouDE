@@ -1,6 +1,3 @@
-
-
-
 $(function() {
     $( "#new_file" ).button({
         text: false,
@@ -17,7 +14,7 @@ $(function() {
             primary: "ui-icon-disk"
         }
     }).click(function() {
-    	saveFileActivity();
+    	saveFileActivity(currentProjectID, currentFileID);
     });
     
     $( "#import_file" ).button({

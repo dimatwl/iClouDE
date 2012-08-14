@@ -17,7 +17,7 @@ uploadRequest.request.setResponseHandler(function(resp) {
 	Protocol.checkResponse.call(uploadRequest, resp).correct;
 });
 
-uploadRequest.request.send = function (content) {
+uploadRequest.request.send = function (projectID, content) {
 	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, projectID);
 	
 	info['content'] = content;

@@ -21,7 +21,7 @@ downloadFile.request.setResponseHandler(function(resp) {
 });
 
 
-downloadFile.request.send = function (fileID) {
+downloadFile.request.send = function (projectID, fileID) {
 	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, projectID);
     info['fileID'] = fileID;
 	downloadFile.request.sendMap(info);    	
