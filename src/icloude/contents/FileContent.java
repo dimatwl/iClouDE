@@ -104,6 +104,13 @@ public class FileContent {
 	public Long getModificationDate() {
 		return modificationDate;
 	}
+
+	/**
+	 * 
+	 */
+	public FileContent() {
+		super();
+	}
 	
 
 

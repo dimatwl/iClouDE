@@ -207,7 +207,7 @@ public class DownloadCodeTest extends Test {
 					"typeZIP");
 			json = nfrh.post(GSON.toJson(nfr));
 			IDResponse idrFile = GSON.fromJson(json, IDResponse.class);
-			FileContent content = new FileContent("file",
+			FileContent content = new FileContent("file", "New name",
 					idrFile.getEntityID(), "Hello, I am text of this file!!!",
 					"textFile", "userIDZIP", "ZIPRevision",
 					(new Date()).getTime(), (new Date()).getTime());
