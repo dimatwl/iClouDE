@@ -13,7 +13,7 @@ var downloadCode = Protocol.downloadCode;
 downloadCode.request = new Request(downloadCode.method, downloadCode.URL, downloadCode.requestType);
 
 downloadCode.request.setResponseHandler(function(resp) {
-	alert("OK!");
+	("OK!");
 });
 
 

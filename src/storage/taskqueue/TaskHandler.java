@@ -24,14 +24,22 @@ public abstract class TaskHandler extends AbstractHandler {
 	
 	/**
 	 * Returns task with required status with minimal last modification time.
+	 * If there is no such task returns null.
+	 * You should provide one parameter of type TaskStatus for getting task.
 	 */
 	@Override
 	public Task get(Object... params) throws DatabaseException {
-		checkTaskGetParams(params);
+		if (params.length == 1 && params[0] instanceof TaskStatus) {
+			TaskStatus status = (TaskStatus) params[0];
+			return getTask(status);
+		} else {
+			throw new DatabaseException("Incorrect parameters for getting task");
+		}
+	}
 
-		TaskStatus status = (TaskStatus) params[0];
+
+	private Task getTask(TaskStatus status) {
 		Task result = null;
-		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		Query q = pm.newQuery("select key from " + getHandlingType().getName());
@@ -46,28 +54,13 @@ public abstract class TaskHandler extends AbstractHandler {
 		}
 		
 		pm.close();
-		
 		return result;
-	}
-
-
-	private void checkTaskGetParams(Object... params) throws DatabaseException {
-		if (params.length != 1) {
-			throw new DatabaseException("Incorrect number of parameters to get " +
-					"task. There should be 1 parameter, but " + params.length + " parameters given");
-			
-		}
-		
-		if (!(params[0] instanceof TaskStatus)) {
-			throw new DatabaseException("Incorrect first parameter type for getting " +
-					"task from database. It must has type TaskStatus");
-		}
 	}
 
 
 	/**
 	 * Deletes task from database. Task should be deleted after it
-	 * has become finished and result of this task has been sent to user.
+	 * has received status FINISHED and result of this task has been sent to user.
 	 */
 	@Override
 	public void delete(String key) throws DatabaseException {

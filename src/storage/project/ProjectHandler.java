@@ -34,12 +34,21 @@ public class ProjectHandler extends AbstractHandler {
 	 */
 	@Override
 	public String create(Object... params) throws DatabaseException {
-		
-		checkProjectCreateParams(params);
-		
-		String name = (String)params[0];
-		String type = (String)params[1];
-		
+		if (params.length == 2 &&
+				params[0] instanceof String &&
+				params[1] instanceof String) {
+			
+			String name = (String)params[0];
+			String type = (String)params[1];
+			
+			return createProject(name, type);
+		} else {
+			throw new DatabaseException("Incorrect parameters for creating" +
+					" Project");
+		}
+	}
+
+	private String createProject(String name, String type) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		Project project = new Project(name, new Date(), type);
@@ -55,22 +64,6 @@ public class ProjectHandler extends AbstractHandler {
 		return project.getKey();
 	}
 
-	private void checkProjectCreateParams(Object... params) throws DatabaseException {
-		if (params.length != 2) {
-			throw new DatabaseException("Incorrect number of parameters to create new project." +
-					" There should be 2 parameters.");
-		}
-		
-		if (!(params[0] instanceof String)) {
-			throw new DatabaseException("Incorrect first parameter to create new project." +
-					" Type of the first paramater should be String");
-		}
-		
-		if (!(params[1] instanceof String)) {
-			throw new DatabaseException("Incorrect second parameter to create new project." +
-					" Type of the second paramater should be String");
-		}
-	}
 
 	/**
 	 * Deletes project from dababase.

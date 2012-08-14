@@ -3,8 +3,8 @@ var createNewFileActivity = function(node) {
     
 	
 	Protocol.createNewFile.request.setResponseHandler(function(resp) {
-		alert('Response ok!!!');
 		if (resp.result) {
+		    addToConsole('File ' + fileName + 'created');
 			$("#tree").jstree("create", node, "inside",  { 
 				data: fileName,
 				attr: {
@@ -15,9 +15,12 @@ var createNewFileActivity = function(node) {
 				}			    
 			});
 		} else {
-		    alert("request was bad!");
-		}
-		
+		    addToConsole('File was not created. Description: ' + resp.description);
+		}		
+	});
+	
+	Protocol.createNewFile.request.setErrorHandler(function() {
+		addToConsole('Error while requesting server!');
 	});
 	
 	Protocol.createNewFile.request.send(fileName, "type", node.attr('projectID'), node.attr('entityID'));	

@@ -31,26 +31,41 @@ public class CompositeProjectItemHandler extends AbstractHandler {
 	 * There should be 4 parameters:<br/>
 	 * String name - name of the item to create<br/>
 	 * String projectKey - database key of the project where this item should be created<br/>
-	 * String parentKey - database key of the project item in which this item should be created
+	 * String parentKey - database key of the project item in which this item should be created. 
+	 * It can be null if this project item doesn't have parent.<br/>
 	 * ComopsiteProjectItemType itemType - type of the item to create (folder, package, project)
 	 */
 	@Override
 	public String create(Object... params) throws DatabaseException {
-		checkCreateParams(params);
+		if (params.length == 4 &&
+				params[0] instanceof String &&
+				params[1] instanceof String &&
+				(params[2] == null || params[2] instanceof String) &&
+				params[3] instanceof CompositeProjectItemType) {
 			
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		String name = (String) params[0];
-		if ("".equals(name)) {
-			throw new DatabaseException("Empty item name");
+			String name = (String) params[0];
+			if ("".equals(name)) {
+				throw new DatabaseException("Empty item name");
+			}
+			
+			String projectKey = (String) params[1];
+			String parentKey = (String) params[2];
+			CompositeProjectItemType itemType = (CompositeProjectItemType) params[3];
+			
+			return createCompositeProjectItem(name, projectKey, parentKey,
+					itemType);
+		} else {
+			throw new DatabaseException("Incorrect parameter for creating" +
+					" CompositeProjectItem.");
 		}
-		
-		
-		String projectKey = (String) params[1];
-		String parentKey = (String) params[2];
-		CompositeProjectItemType itemType = (CompositeProjectItemType) params[3];
-		
-		
+			
+	}
+
+
+	private String createCompositeProjectItem(
+			String name, String projectKey, String parentKey,
+			CompositeProjectItemType itemType) throws DatabaseException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 		CompositeProjectItem item;
 		if (parentKey != null) {
 			CompositeProjectItem parent = pm.getObjectById(CompositeProjectItem.class, parentKey);
@@ -86,35 +101,6 @@ public class CompositeProjectItemHandler extends AbstractHandler {
 		return item.getKey();
 	}
 
-
-	private void checkCreateParams(Object... params) throws DatabaseException {
-		if (params.length != 4) {
-			throw new DatabaseException("Incorrent number of parameters" +
-					" for creating new CompositeProjectItem. There should be 4 parameters, but " +
-					params.length + " parameters are given");
-		}
-		
-		if (!(params[0] instanceof String)) {
-			throw new DatabaseException("First parameter should be the name of" +
-					" the CompositeProjectItem. Its type must be String");
-		}
-		
-		if (!(params[1] instanceof String)) {
-			throw new DatabaseException("Second parameter should be the key of" +
-					" the project. Its type must be String");
-		}
-
-		if (params[2] != null && !(params[2] instanceof String)) {
-			throw new DatabaseException("Third parameter should be the key of" +
-					" the parent CompositeProjectItem. Its type must be String");
-		}
-		
-		if (!(params[3] instanceof CompositeProjectItemType)) {
-			throw new DatabaseException("Fourth parameter should be the type of" +
-					" the CompositeProjectItem to create. Its type must be ComopsiteProjectItemType");
-		}
-	}
-	
 
 	/**
 	 * Deletes project item with given key. Also deletes all its subitems.
