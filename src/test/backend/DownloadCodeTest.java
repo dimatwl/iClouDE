@@ -1,15 +1,15 @@
 package test.backend;
 
-import icloude.frontend_backend_contents.FileContent;
-import icloude.frontend_backend_request_handlers.DownloadCodeRequestHandler;
-import icloude.frontend_backend_request_handlers.NewFileRequestHandler;
-import icloude.frontend_backend_request_handlers.NewProjectRequestHandler;
-import icloude.frontend_backend_request_handlers.UploadFileRequestHandler;
-import icloude.frontend_backend_requests.DownloadCodeRequest;
-import icloude.frontend_backend_requests.NewFileRequest;
-import icloude.frontend_backend_requests.NewProjectRequest;
-import icloude.frontend_backend_requests.UploadFileRequest;
-import icloude.frontend_backend_responses.IDResponse;
+import icloude.frontend_backend.contents.FileContent;
+import icloude.frontend_backend.request_handlers.DownloadCodeRequestHandler;
+import icloude.frontend_backend.request_handlers.NewFileRequestHandler;
+import icloude.frontend_backend.request_handlers.NewProjectRequestHandler;
+import icloude.frontend_backend.request_handlers.UploadFileRequestHandler;
+import icloude.frontend_backend.requests.DownloadCodeRequest;
+import icloude.frontend_backend.requests.NewFileRequest;
+import icloude.frontend_backend.requests.NewProjectRequest;
+import icloude.frontend_backend.requests.UploadFileRequest;
+import icloude.frontend_backend.responses.IDResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
