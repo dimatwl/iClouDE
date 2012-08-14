@@ -3,9 +3,9 @@ var createNewProjectActivity = function() {
 	projectName = prompt('Enter project name', '');
 	
 	Protocol.createNewProject.request.setResponseHandler(function(resp) {
-	    alert("NEw response!");
-		if (resp.result) {
-	        projectID = resp.projectID;
+	    if (resp.result) {
+	        addToConsole('New project ' + projectName + ' was succesfully created!');    
+			projectID = resp.projectID;
 	        rootProjectDirectory = resp.entityID;	    
             $('#tree').jstree({
             		plugins : ["themes", "json_data", "ui", "crrm", "hotkeys", "contextmenu"],
@@ -23,7 +23,7 @@ var createNewProjectActivity = function() {
             });
             
         } else {
-	    	alert("Response result gone sadly!");
+	    	addToConsole('New project was not created. Description: ' + resp.description);
 	    }
 	
 	});

@@ -20,7 +20,7 @@ Protocol.makeBasicRequestInfo = function (requestID, method, userID, projectID) 
     	requestType: method,
     	userID: userID,
     	projectID: projectID,    
-    	protocolVersion : 2
+    	protocolVersion : 4
     };	
 }
 
