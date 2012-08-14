@@ -4,6 +4,7 @@ var createNewFolderActivity = function(node) {
 	
 	Protocol.createNewFolder.request.setResponseHandler(function(resp) {
 		if (resp.result) {
+			addToConsole('New folder ' + folderName + ' created');
 			$("#tree").jstree("create", node, "inside",  { 
 				data: folderName,
 				attr: {
@@ -14,9 +15,13 @@ var createNewFolderActivity = function(node) {
 				}			    
 			});
 		} else {
-		    alert("request was bad!");
+		    addToConsole('New folder ' + folderName + ' was not created. Description: ' + resp.description);
 		}
 		
+	});
+
+	Protocol.createNewFolder.request.setErrorHandler(function() {
+        addToConsole('Error while requesting server!');	    	
 	});
 	
 	Protocol.createNewFolder.request.send(folderName, node.attr('projectID'), node.attr('entityID'));	

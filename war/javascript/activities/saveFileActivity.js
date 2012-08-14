@@ -12,6 +12,13 @@ var saveFileActivity = function(projectID, fileID) {
         size: '100'
     };
 		
-
+    Protocol.uploadFile.request.setResponseHandler(function(response) {
+    	if (response.result) {
+    	    addToConsole('File saved.');	
+    	} else {
+    		addToConsole('File not saved. Description: ' + response.description);
+    	}
+    });
+    
     Protocol.uploadFile.request.send(projectID, testFileContent);
 };

@@ -4,6 +4,7 @@ var openProjectActivity = function(openingProjectID) {
 	
 	Protocol.downloadProjectStructure.request.setResponseHandler(function(response) {
 	    if (response.result) {
+	    	addToConsole('Project ' + response.content.projectName + ' opened.');
 	    	
 	    	var makeTree = function(item) {
 	        	var childrenNodes = [];
