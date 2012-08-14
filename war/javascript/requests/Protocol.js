@@ -14,7 +14,7 @@ Protocol.response = {
 };
 
 
-Protocol.makeBasicRequestInfo = function (requestID, method, userID, pojectID) {
+Protocol.makeBasicRequestInfo = function (requestID, method, userID, projectID) {
     return {
     	requestID: requestID,
     	requestType: method,
