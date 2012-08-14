@@ -47,8 +47,15 @@ public class ProjectsListHandler extends AbstractHandler {
 	 */
 	@Override
 	public List<Project> get(Object... params) throws DatabaseException {
-		checkProjectsListGetParams(params);
-		
+		if (params.length == 0) {
+			return getProjectsList();
+		} else {
+			throw new DatabaseException("Incorrect parameters for getting " +
+					"projects list");
+		}
+	}
+
+	private List<Project> getProjectsList() {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query q = pm.newQuery(Project.class);
 		@SuppressWarnings("unchecked")
@@ -58,11 +65,4 @@ public class ProjectsListHandler extends AbstractHandler {
 		return result;
 	}
 
-	private void checkProjectsListGetParams(Object... params) throws DatabaseException {
-		if (params.length != 0) {
-			throw new DatabaseException("There should be no parameters to get " +
-					"projects list, but " + params.length + " parameters given");
-		}
-	}
-	
 }

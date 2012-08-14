@@ -72,7 +72,7 @@ public class Project extends DatabaseObject {
 		return rootKey;
 	}
 
-	// uses only by ProjectHandler
+	// used only by ProjectHandler
 	protected void setRootKey(String rootKey) {
 		this.rootKey = rootKey;
 	}
