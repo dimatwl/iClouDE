@@ -1,6 +1,6 @@
 package icloude.helpers;
 
-import icloude.request_handlers.BaseRequestHandler;
+import icloude.frontend_backend_request_handlers.BaseRequestHandler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

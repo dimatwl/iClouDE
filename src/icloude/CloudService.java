@@ -1,15 +1,15 @@
 package icloude;
 
-import icloude.contents.FileContent;
-import icloude.request_handlers.DownloadProjectStructureRequestHandler;
-import icloude.request_handlers.NewFileRequestHandler;
-import icloude.request_handlers.NewProjectRequestHandler;
-import icloude.request_handlers.UploadFileRequestHandler;
-import icloude.requests.DownloadProjectStructureRequest;
-import icloude.requests.NewFileRequest;
-import icloude.requests.NewProjectRequest;
-import icloude.requests.UploadFileRequest;
-import icloude.responses.IDResponse;
+import icloude.frontend_backend_contents.FileContent;
+import icloude.frontend_backend_request_handlers.DownloadProjectStructureRequestHandler;
+import icloude.frontend_backend_request_handlers.NewFileRequestHandler;
+import icloude.frontend_backend_request_handlers.NewProjectRequestHandler;
+import icloude.frontend_backend_request_handlers.UploadFileRequestHandler;
+import icloude.frontend_backend_requests.DownloadProjectStructureRequest;
+import icloude.frontend_backend_requests.NewFileRequest;
+import icloude.frontend_backend_requests.NewProjectRequest;
+import icloude.frontend_backend_requests.UploadFileRequest;
+import icloude.frontend_backend_responses.IDResponse;
 
 import java.io.IOException;
 import java.util.Date;
