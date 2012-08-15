@@ -18,6 +18,12 @@ function projectStructureMenu(node) {
         		downloadFileActivity(node.attr('projectID'), node.attr('itemID'));
         	}
         },
+        importItem: {
+        	label: "Import file",
+        	action: function() {
+        		alert("Importing!");
+        	}
+        },
         deleteItem: {
         	label: "Delete",
         	action: function() {
@@ -33,6 +39,7 @@ function projectStructureMenu(node) {
     if (node.attr('itemType') == 'SOURCE_FILE') {
         delete items.newFileItem;
         delete items.newFolderItem;
+        delete items.importItem;
     }
     
 

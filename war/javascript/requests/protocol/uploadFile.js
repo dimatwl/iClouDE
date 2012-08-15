@@ -23,4 +23,4 @@ uploadRequest.request.send = function (projectID, content) {
 	info['content'] = content;
     
     uploadRequest.request.sendMap(info);    	
-}
+};

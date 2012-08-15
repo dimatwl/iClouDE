@@ -1,6 +1,4 @@
 var openProjectActivity = function(openingProjectID) {
-	alert('Opening activity' + openingProjectID);
-	
 	
 	Protocol.downloadProjectStructure.request.setResponseHandler(function(response) {
 	    if (response.result) {

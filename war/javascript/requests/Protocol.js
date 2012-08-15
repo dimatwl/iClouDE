@@ -22,11 +22,11 @@ Protocol.makeBasicRequestInfo = function (requestID, method, userID, projectID) 
     	projectID: projectID,    
     	protocolVersion : 4
     };	
-}
+};
 
 Protocol.getRequestID = function() {
 	return (new Date()).getTime();
-}
+};
 
 /**
  * Checks if all fields exists
@@ -51,7 +51,7 @@ Protocol.correctnessInfo = function (response, responseFields) {
 	
 	responseInfo.correct = true;
 	return responseInfo;
-}
+};
 
 
 Protocol.checkResponse = function (response) {
@@ -63,7 +63,7 @@ Protocol.checkResponse = function (response) {
     } 
     alert("error!" + "\n" + info.description);
     return info;
-}
+};
 
 
 

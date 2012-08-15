@@ -30,4 +30,4 @@ createNewProject.request.send = function (projectName, projectType) {
     info['projectType'] = projectType;
     
     createNewProject.request.sendMap(info);    	
-}
+};

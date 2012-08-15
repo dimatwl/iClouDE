@@ -40,4 +40,4 @@ createRequest.request.send = function (fileName, fileType, projectID, parentID) 
     info['fileType'] = fileType;
     
     createRequest.request.sendMap(info);    	
-}
+};

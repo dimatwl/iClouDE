@@ -22,4 +22,4 @@ downloadPS.request.send = function (wantedProjectID) {
 	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, wantedProjectID);
 	info['projectID'] = wantedProjectID;
 	downloadPS.request.sendMap(info);    	
-}
+};

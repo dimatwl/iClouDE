@@ -1,3 +1,3 @@
 var buildActivity = function() {
-	alert("Building activity launched!");
+	Protocol.buildAndRun.request.send(currentProjectID);
 };
