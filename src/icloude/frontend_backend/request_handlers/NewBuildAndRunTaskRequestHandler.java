@@ -105,7 +105,7 @@ public class NewBuildAndRunTaskRequestHandler extends BaseRequestHandler {
 		NewBuildAndRunTaskRequest castedRequest = (NewBuildAndRunTaskRequest) request;
 		return (null != castedRequest.getProjectID()) &&
 				(null != castedRequest.getCompileParameters()) &&
-				(null != castedRequest.getEntryPoindID()) &&
+				(null != castedRequest.getEntryPointID()) &&
 				(null != castedRequest.getInputData());
 	}
 

@@ -34,8 +34,8 @@ public class NewBuildAndRunTaskRequest extends BaseRequest {
 	/**
 	 * @return the entryPoindID
 	 */
-	public String getEntryPoindID() {
-		return entryPoindID;
+	public String getEntryPointID() {
+		return entryPointID;
 	}
 
 
@@ -63,7 +63,7 @@ public class NewBuildAndRunTaskRequest extends BaseRequest {
 		super(protocolVersion, requestID, requestType, userID);
 		this.projectID = projectID;
 		this.compileParameters = compileParameters;
-		this.entryPoindID = entryPoindID;
+		this.entryPointID = entryPoindID;
 		this.inputData = inputData;
 	}
 
