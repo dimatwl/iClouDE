@@ -13,6 +13,7 @@ loadJS(requestsPath + "uploadFile.js");
 loadJS(requestsPath + "downloadCode.js");
 loadJS(requestsPath + "downloadProjectsList.js");
 loadJS(requestsPath + "buildAndRun.js");
+loadJS(requestsPath + "getResults.js");
 
 
 alert('all loaded!');

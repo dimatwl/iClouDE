@@ -1,3 +1,8 @@
-var addToConsole = function(message) {
-    $('#messages').append(message + '</br>');
+var addToConsole = function(message, messageType) {
+    
+	$('#messages').append(message + '</br>');
+    
+    
+    
+    	
 };

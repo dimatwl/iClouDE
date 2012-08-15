@@ -7,7 +7,7 @@ package icloude.frontend_backend.requests;
 public class NewBuildAndRunTaskRequest extends BaseRequest {
 	private String projectID;
 	private String compileParameters;
-	private String entryPoindID;
+	private String entryPointID;
 	private String inputData;
 	
 

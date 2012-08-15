@@ -10,7 +10,8 @@ Protocol.response = {
     ID: ['requestID', 'result', 'description', 'entityID', 'projectID'],
     FILE: ['requestID', 'result', 'description', 'content'],
     PROJECT: ['requestID', 'result', 'description', 'content'],
-    PROJECT_LIST: ['requestID', 'result', 'description', 'content']
+    PROJECT_LIST: ['requestID', 'result', 'description', 'content'],
+    RESULTS: ['requestID', 'result', 'description', 'taskResults']
 };
 
 
