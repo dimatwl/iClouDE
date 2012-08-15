@@ -1,7 +1,6 @@
 package icloude.frontend_backend.request_handlers;
 
 import icloude.frontend_backend.requests.BaseRequest;
-import icloude.frontend_backend.requests.DownloadAvailableResultsRequest;
 import icloude.frontend_backend.requests.NewBuildAndRunTaskRequest;
 import icloude.frontend_backend.responses.BaseResponse;
 import icloude.frontend_backend.responses.IDResponse;
@@ -23,7 +22,7 @@ import com.google.gson.JsonSyntaxException;
 /**
  * @author DimaTWL 
  * Handling all requests on "rest/newbuildandruntask" 
- * URL: rest/runproject 
+ * URL: rest/newbuildandruntask 
  * Method: POST 
  * Required response: Standart
  */
@@ -51,7 +50,7 @@ public class NewBuildAndRunTaskRequestHandler extends BaseRequestHandler {
 	 */
 	@Override
 	protected BaseRequest jsonToRequest(String json) throws JsonSyntaxException {
-		return GSON.fromJson(json, DownloadAvailableResultsRequest.class);
+		return GSON.fromJson(json, NewBuildAndRunTaskRequest.class);
 	}
 
 	/**
