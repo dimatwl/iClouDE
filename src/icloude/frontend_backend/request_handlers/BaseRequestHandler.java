@@ -108,7 +108,7 @@ public abstract class BaseRequestHandler {
 						"Bad JSON syntax." + e.getMessage());
 			} catch (Exception e) {
 				response = new StandartResponse("error", false,
-						"Internal error." + e.getMessage());
+						"Internal error: " + e.getMessage());
 			}
 		Logger.toLog("To:" + GSON.toJson(response));
 		return GSON.toJson(response);
