@@ -3,10 +3,12 @@ Protocol.getResults.request.setResponseHandler(function(response) {
         
     	if (response.taskResults.length == 0) {
         	addToConsole("build not ready!!!");
-            
+        	setTimeout(function() {Protocol.getResults.request.send();}, 1000);
     	} else {
             addToConsole('build ready!');  
-            setTimeout(function() {Protocol.getResults.request.send();}, 100);
+            for (i in repsponse.taskResults) {
+            	addToConsole(response.taskResults[i]);
+            }
         }
         
     } else {
