@@ -3,8 +3,10 @@ Protocol.getResults.request.setResponseHandler(function(response) {
         
     	if (response.taskResults.length == 0) {
         	addToConsole("build not ready!!!");
-        } else {
-            addToConsole('build ready!');    	
+            
+    	} else {
+            addToConsole('build ready!');  
+            setTimeout(function() {Protocol.getResults.request.send();}, 100);
         }
         
     } else {
@@ -18,7 +20,7 @@ Protocol.getResults.request.setResponseHandler(function(response) {
 Protocol.buildAndRun.request.setResponseHandler(function(response) {
     if (response.result) {
         
-    	setTimeout('Protocol.getResults.request.send', 100);
+    	setTimeout(function() {Protocol.getResults.request.send();}, 100);
     	addToConsole('Trying to get results...');
     	
     } else {
