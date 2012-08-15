@@ -1,7 +1,6 @@
 package icloude.frontend_backend.request_handlers;
 
 import icloude.frontend_backend.requests.BaseRequest;
-import icloude.frontend_backend.requests.NewFileRequest;
 import icloude.frontend_backend.requests.NewFolderRequest;
 import icloude.frontend_backend.responses.BaseResponse;
 import icloude.frontend_backend.responses.IDResponse;

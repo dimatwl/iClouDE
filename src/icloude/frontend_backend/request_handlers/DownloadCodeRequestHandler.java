@@ -7,26 +7,18 @@ import icloude.frontend_backend.responses.StandartResponse;
 import icloude.helpers.ProjectZipper;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import storage.Child;
 import storage.Database;
 import storage.DatabaseException;
 import storage.StoringType;
-import storage.file.File;
-import storage.file.FileReader;
 import storage.project.Project;
-import storage.projectitem.CompositeProjectItem;
-import storage.projectitem.CompositeProjectItemType;
 
 import com.google.gson.JsonSyntaxException;
 

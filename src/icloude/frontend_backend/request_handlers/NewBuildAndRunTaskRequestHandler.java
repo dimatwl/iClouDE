@@ -3,7 +3,6 @@ package icloude.frontend_backend.request_handlers;
 import icloude.frontend_backend.requests.BaseRequest;
 import icloude.frontend_backend.requests.DownloadAvailableResultsRequest;
 import icloude.frontend_backend.requests.NewBuildAndRunTaskRequest;
-import icloude.frontend_backend.requests.NewFileRequest;
 import icloude.frontend_backend.responses.BaseResponse;
 import icloude.frontend_backend.responses.IDResponse;
 import icloude.frontend_backend.responses.StandartResponse;

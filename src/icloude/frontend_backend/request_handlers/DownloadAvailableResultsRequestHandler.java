@@ -1,16 +1,13 @@
 package icloude.frontend_backend.request_handlers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import icloude.frontend_backend.requests.BaseRequest;
 import icloude.frontend_backend.requests.DownloadAvailableResultsRequest;
 import icloude.frontend_backend.requests.DownloadProjectListRequest;
-import icloude.frontend_backend.requests.NewBuildAndRunTaskRequest;
 import icloude.frontend_backend.responses.BaseResponse;
-import icloude.frontend_backend.responses.IDResponse;
 import icloude.frontend_backend.responses.ResultsResponse;
 import icloude.frontend_backend.responses.StandartResponse;
+
+import java.util.ArrayList;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -23,7 +20,6 @@ import storage.DatabaseException;
 import storage.StoringType;
 import storage.taskqueue.BuildAndRunTask;
 import storage.taskqueue.TaskStatus;
-import storage.taskqueue.TaskType;
 
 import com.google.gson.JsonSyntaxException;
 
