@@ -24,4 +24,4 @@ downloadProjectsList.request.send = function (userID) {
 	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, projectID);
     info['userID'] = userID;
 	downloadProjectsList.request.sendMap(info);    	
-}
+};

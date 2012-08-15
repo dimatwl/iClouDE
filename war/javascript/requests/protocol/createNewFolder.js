@@ -40,4 +40,4 @@ createFolderRequest.request.send = function (folderName, projectID, parentID) {
     
     
     createFolderRequest.request.sendMap(info);    	
-}
+};

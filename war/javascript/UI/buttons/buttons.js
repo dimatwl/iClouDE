@@ -23,7 +23,11 @@ $(function() {
     		primary: "ui-icon-circle-arrow-n"
     	}
     }).click(function() {
-        importFileActivity();
+        
+        
+    	alert('Importing!!!');
+        	
+        	
     });
 
     
