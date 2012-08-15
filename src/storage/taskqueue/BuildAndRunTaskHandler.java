@@ -24,8 +24,20 @@ public class BuildAndRunTaskHandler extends TaskHandler {
 	 */
 	@Override
 	public String create(Object... params) throws DatabaseException {
-		checkBuildAndRunTaskCreateParams(params);
-		BuildAndRunTask task = createBuildAndRunTask(params);
+		if (params.length == 2 &&
+				params[0] instanceof String &&
+				params[1] instanceof TaskType) {
+			String projectKey = (String) params[0];
+			TaskType type = (TaskType) params[1];
+			return createBuildAndRunTask(projectKey, type);
+		} else {
+			throw new DatabaseException("Incorrect parameters for creating " +
+					"task");
+		}
+	}
+
+	private String createBuildAndRunTask(String projectKey, TaskType type) {
+		BuildAndRunTask task = new BuildAndRunTask(projectKey, type);
 		saveBuildAndRunTask(task);
 		return task.getKey();
 	}
@@ -34,31 +46,5 @@ public class BuildAndRunTaskHandler extends TaskHandler {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		pm.makePersistent(task);
 		pm.close();
-	}
-
-	private BuildAndRunTask createBuildAndRunTask(Object... params) {
-		String projectKey = (String) params[0];
-		TaskType type = (TaskType) params[1];
-		BuildAndRunTask task = new BuildAndRunTask(projectKey, type);
-		return task;
-	}
-
-	private void checkBuildAndRunTaskCreateParams(Object... params) throws DatabaseException {
-		System.err.println();
-		if (params.length != 2) {
-			throw new DatabaseException("Incorrect number of parameters for " +
-					"creating build&run task. There should be 2 parameters, " +
-					"but " + params.length + " parameters given");
-		}
-		
-		if (!(params[0] instanceof String)) {
-			throw new DatabaseException("Incorrect first parameter type for " +
-					"creating build&run task.");
-		}
-
-		if (!(params[1] instanceof TaskType)) {
-			throw new DatabaseException("Incorrect second parameter type for " +
-					"creating build&run task.");
-		}
 	}
 }

@@ -14,6 +14,11 @@ import storage.taskqueue.BuildAndRunTaskHandler;
  * Class for operating with database. Using this class it's possible
  * to create, read, update and delete objects from database.
  * <br/><br/>
+ * Each object type that will be stored in database should have its own handler
+ * which implements Handler interface or extends some existing handler.
+ * This handler will perform all database operations with object of given type.
+ * Also this type must be added to StroingType enum.
+ * <br/><br/>
  * For creating object you need to provide some parameters depending on
  * type of the object which should be created. For information about parameters
  * for object creating see the handler class of the type you are working with
