@@ -6,6 +6,7 @@ package icloude.frontend_backend.request_handlers;
 import icloude.frontend_backend.requests.BaseRequest;
 import icloude.frontend_backend.responses.BaseResponse;
 import icloude.frontend_backend.responses.StandartResponse;
+import icloude.helpers.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -83,7 +84,7 @@ public abstract class BaseRequestHandler {
 	 */
 	protected final String getResponce(String json) {
 		BaseResponse response;
-		System.err.println("From:" + json);
+		Logger.toLog("From:" + json);
 		if (null == json) {
 			response = new StandartResponse("Error", false,
 					"No 'json' parameter in http request.");
@@ -105,8 +106,11 @@ public abstract class BaseRequestHandler {
 			} catch (JsonSyntaxException e) {
 				response = new StandartResponse("error", false,
 						"Bad JSON syntax." + e.getMessage());
+			} catch (Exception e) {
+				response = new StandartResponse("error", false,
+						"Internal error." + e.getMessage());
 			}
-		System.err.println("To:" + GSON.toJson(response));
+		Logger.toLog("To:" + GSON.toJson(response));
 		return GSON.toJson(response);
 	}
 	
