@@ -17,19 +17,29 @@ $(function() {
     	saveFileActivity(currentProjectID, currentFileID);
     });
     
+    
+    
     $( "#import_file" ).button({
     	text: false,
     	icons: {
     		primary: "ui-icon-circle-arrow-n"
     	}
-    }).click(function() {
-        
-        
-    	alert('Importing!!!');
-        	
-        	
     });
 
+    var importer = document.getElementById('import_file');
+
+    upclick({
+        element: importer,
+        onstart: function(filename) {
+            alert('Start upload: '+ filename);
+        },
+        oncomplete: function(response_data) 
+        {
+            alert(response_data);
+        }
+    });
+    
+    
     
     $( "#run" ).button({
     	text: false,

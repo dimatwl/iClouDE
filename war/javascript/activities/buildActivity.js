@@ -1,21 +1,17 @@
 Protocol.getResults.request.setResponseHandler(function(response) {
     if (response.result) {
-        
     	if (response.taskResults.length == 0) {
         	addToConsole("build not ready!!!");
         	setTimeout(function() {Protocol.getResults.request.send();}, 1000);
     	} else {
             addToConsole('build ready!');  
-            for (i in repsponse.taskResults) {
+            for (i in response.taskResults) {
             	addToConsole(response.taskResults[i]);
             }
         }
-        
     } else {
     	addToConsole('Error while requesting server.');
     }    	
-    	
-    	
 });
 
 
