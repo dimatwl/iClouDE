@@ -141,7 +141,7 @@ public class TaskStartingService extends BaseService {
 				"application/JSON");
 
 		OutputStream outputStream = connection.getOutputStream();
-		outputStream.write(GSON.toJson(request).getBytes());
+		outputStream.write(("json=" + GSON.toJson(request)).getBytes());
 		outputStream.close();
 
 		if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
