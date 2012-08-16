@@ -2,7 +2,6 @@ package icloude.frontend_backend.request_handlers;
 
 import icloude.frontend_backend.requests.BaseRequest;
 import icloude.frontend_backend.requests.DownloadAvailableResultsRequest;
-import icloude.frontend_backend.requests.DownloadProjectListRequest;
 import icloude.frontend_backend.responses.BaseResponse;
 import icloude.frontend_backend.responses.ResultsResponse;
 import icloude.frontend_backend.responses.StandartResponse;

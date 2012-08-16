@@ -8,15 +8,6 @@ public class BaseResponse {
 	private Boolean result;
 	private String description;
 	
-	/**
-	 * @param result
-	 * @param description
-	 */
-	public BaseResponse(Boolean result, String description) {
-		super();
-		this.result = result;
-		this.description = description;
-	}
 
 	/**
 	 * 
