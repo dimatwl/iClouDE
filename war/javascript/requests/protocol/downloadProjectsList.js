@@ -1,5 +1,3 @@
-alert("loaded! dwn pr list");
-
 Protocol.downloadProjectsList = {
     URL: "rest/downloadprojectlist",
     method: GET,

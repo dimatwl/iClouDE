@@ -21,7 +21,7 @@ function projectStructureMenu(node) {
         openItem: {
         	label: "Open",
         	action: function() {
-        		downloadFileActivity(node.attr('projectID'), node.attr('itemID'));
+        		downloadFileActivity(node.attr('projectID'), node.attr('entityID'));
         	}
         },
         importItem: {

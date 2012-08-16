@@ -5,7 +5,7 @@
 
 $(function() {
    
-	
+	/*
 	$( "#new_file" ).button({
         text: false,
         icons: {
@@ -14,7 +14,7 @@ $(function() {
     }).click(function() {
     	createNewFileActivity();
     });
-
+    */
 	
 	
 	

@@ -11,7 +11,7 @@ projectItemTypes = {
 	        image : FILE_IMAGE_URL
 	    },
 	    select_node: function(node) {
-	        downloadFileActivity(node.attr('projectID'), node.attr('itemID'));	
+	        downloadFileActivity(node.attr('projectID'), node.attr('entityID'));	
 	    }
 	},
        

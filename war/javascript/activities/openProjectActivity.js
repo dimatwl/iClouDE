@@ -56,13 +56,17 @@ var openProjectActivity = function(openingProjectID) {
 			});
 	        
 	        currentProjectID = response.content.projectID;
-	    }
+	        
+	        //document.getElementByID('downloadCode').disabled = false;
+	        
+	        //$('#downloadCode').attr('disabled', false);
+	        
+	    };
+	    
 	    
 	});
 	
 	Protocol.downloadProjectStructure.request.send(openingProjectID);
-	
-	
 	
 	
 };

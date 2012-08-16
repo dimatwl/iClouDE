@@ -4,7 +4,7 @@
  */
 
 var saveFileActivity = function(projectID, fileID) {
-	alert("saveFileActivity");
+	alert("saveFileActivity " + projectID + " " + fileID);
 	
     var testFileContent = {
         type: 'file',

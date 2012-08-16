@@ -8,16 +8,20 @@ var createNewFileActivity = function(node) {
 	
 	Protocol.createNewFile.request.setResponseHandler(function(resp) {
 		if (resp.result) {
-		    addToConsole('File ' + fileName + 'created');
+		    addToConsole('File ' + fileName + ' created');
 			$("#tree").jstree("create", node, "inside",  { 
 				data: fileName,
 				attr: {
 				    projectID: resp.projectID,
-				    parentID: node.attr('itemID'),
+				    parentID: node.attr('entityID'),
 				    entityID: resp.entityID,			 
 				    itemType: 'SOURCE_FILE'
 				}			    
 			});
+			currentFileID = resp.entityID;
+			
+			alert(currentFileID);
+			
 		} else {
 		    addToConsole('File was not created. Description: ' + resp.description);
 		}		

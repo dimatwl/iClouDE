@@ -5,7 +5,7 @@
 
 
 var downloadFileActivity = function(projectID, fileID) {
-	//alert("Opening project: " + projectID + " file: " + fileID);
+	alert("Opening project: " + projectID + " file: " + fileID);
 	
 	Protocol.downloadFile.request.setResponseHandler(function(response) {
 	    if (response.result) {
@@ -15,7 +15,8 @@ var downloadFileActivity = function(projectID, fileID) {
 	        // save current file ID
 
 	        editor.setValue(fileText);
-            currentFileID = fileID;     
+            currentFileID = fileID;   
+            alert(currentFileID);
             addToConsole('File ' +  fileContent.fileName + ' downloaded!');
 	    } else {
 	    	addToConsole('File was not downloaded. Description: ' + response.description);

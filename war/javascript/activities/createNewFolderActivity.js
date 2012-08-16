@@ -13,7 +13,7 @@ var createNewFolderActivity = function(node) {
 				data: folderName,
 				attr: {
 				    projectID: resp.projectID,
-				    parentID: node.attr('itemID'),
+				    parentID: node.attr('entityID'),
 				    entityID: resp.entityID,				 
 				    itemType: 'FOLDER'
 				}			    
