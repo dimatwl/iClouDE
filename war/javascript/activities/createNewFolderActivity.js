@@ -1,3 +1,7 @@
+/**
+ * Creates new folder and places it in tree
+ */
+
 var createNewFolderActivity = function(node) {
 	var folderName = prompt('Enter name: ', '');
     
@@ -9,9 +13,9 @@ var createNewFolderActivity = function(node) {
 				data: folderName,
 				attr: {
 				    projectID: resp.projectID,
-				    parentID: node.attr('entityID'),
+				    parentID: node.attr('itemID'),
 				    entityID: resp.entityID,				 
-				    type: 'folder'
+				    itemType: 'FOLDER'
 				}			    
 			});
 		} else {

@@ -1,3 +1,8 @@
+/**
+ * Downloading project structure to client and 
+ * displaying it in tree viewer
+ */
+
 var openProjectActivity = function(openingProjectID) {
 	
 	Protocol.downloadProjectStructure.request.setResponseHandler(function(response) {
@@ -13,7 +18,7 @@ var openProjectActivity = function(openingProjectID) {
 	        	
 	            var node = {
 	                data: item.itemName,
-	                attr: {projectID: response.content.projectID, parentID: item.parentID, itemID: item.itemID, itemType: item.itemType},
+	                attr: {projectID: response.content.projectID, parentID: item.parentID, entityID: item.itemID, itemType: item.itemType},
 	                children: childrenNodes,
 	                //type: item.itemType
                 };   
@@ -21,8 +26,7 @@ var openProjectActivity = function(openingProjectID) {
 	            return node;
 	        };
 	    	
-	    	
-                    
+	    	        
 	        tree.jstree({
 			    plugins: ["themes", "json_data", "ui", "crrm", "hotkeys", "contextmenu", "types"],
 			    json_data: {data: makeTree(response.content.fileTree)},
@@ -36,38 +40,10 @@ var openProjectActivity = function(openingProjectID) {
                     icons : true 
                 },*/
                 types : {
-                	types: {
-                		'default' : {
-                		    icon : {
-                                image : "http://static.jstree.com/v.1.0pre/_demo/folder.png"
-                        	}
-                		},
-                		
-                		'SOURCE_FILE' : {
-                		    valid_children: "none",
-                		    icon: {
-                		        image : "http://static.jstree.com/v.1.0pre/_demo/file.png"
-                		    },
-                		    select_node: function(node) {
-                		        downloadFileActivity(node.attr('projectID'), node.attr('itemID'));	
-                		    }
-                		},
-                        
-                        'FOLDER' : {
-                        	valid_children: ["default", "folder"],
-                        	icon : {
-                                image : "http://static.jstree.com/v.1.0pre/_demo/folder.png"
-                        	}
-                        },
-                        
-                        'PACKAGE' : {
-                        	valid_children: ["default", "folder"],
-                        	icon : {
-                                image : "/static/v.1.0pre/_demo/folder.png"
-                        	}	
-                        }
-                	},
-                	type_attr: "itemType"
+                	
+                    types: projectItemTypes,               	
+                	
+                    type_attr: "itemType"
                 }
                 
                 

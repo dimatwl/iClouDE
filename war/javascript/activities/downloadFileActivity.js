@@ -1,5 +1,11 @@
+/**
+ * Downloading file to client
+ * Used to get file text and print it to the editor(textarea)
+ */
+
+
 var downloadFileActivity = function(projectID, fileID) {
-	alert("Opening project: " + projectID + " file: " + fileID);
+	//alert("Opening project: " + projectID + " file: " + fileID);
 	
 	Protocol.downloadFile.request.setResponseHandler(function(response) {
 	    if (response.result) {
@@ -7,13 +13,10 @@ var downloadFileActivity = function(projectID, fileID) {
 	        var fileText = fileContent.text;
 	        
 	        // save current file ID
-	        
-	        
+
 	        editor.setValue(fileText);
             currentFileID = fileID;     
             addToConsole('File ' +  fileContent.fileName + ' downloaded!');
-            //alert(currentFileID);
-                        
 	    } else {
 	    	addToConsole('File was not downloaded. Description: ' + response.description);
 	    }  
@@ -21,9 +24,7 @@ var downloadFileActivity = function(projectID, fileID) {
 	
 	Protocol.downloadFile.request.setErrorHandler(function() {
         addToConsole('Error while requesting server!');    		
-        		
 	});
 	
 	Protocol.downloadFile.request.send(projectID, fileID);
-    
 };

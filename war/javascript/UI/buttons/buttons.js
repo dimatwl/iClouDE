@@ -1,5 +1,12 @@
+/**
+ * Buttons on the top and functions binded to clicks on them
+ */
+
+
 $(function() {
-    $( "#new_file" ).button({
+   
+	
+	$( "#new_file" ).button({
         text: false,
         icons: {
             primary: "ui-icon-document"
@@ -7,7 +14,10 @@ $(function() {
     }).click(function() {
     	createNewFileActivity();
     });
-    
+
+	
+	
+	
     $( "#save_file" ).button({
         text: false,
         icons: {
@@ -19,6 +29,7 @@ $(function() {
     
     
     
+    
     $( "#import_file" ).button({
     	text: false,
     	icons: {
@@ -26,6 +37,12 @@ $(function() {
     	}
     });
 
+    
+    
+    /**
+     * open file dialog
+     */
+    /*
     var importer = document.getElementById('import_file');
 
     upclick({
@@ -38,7 +55,7 @@ $(function() {
             alert(response_data);
         }
     });
-    
+    */
     
     
     $( "#run" ).button({
@@ -50,6 +67,8 @@ $(function() {
         runActivity();
     });
 
+
+    
     
     $( "#build" ).button({
     	text: false,
@@ -59,6 +78,8 @@ $(function() {
     }).click(function() {
     	buildActivity();
     });
+    
+
     
     
     $( "#new_project" ).button({
@@ -70,6 +91,9 @@ $(function() {
     	createNewProjectActivity();
     });
     
+
+    
+    
     
     
     $( "#open_project" ).button({
@@ -78,8 +102,16 @@ $(function() {
     		primary: "ui-icon-folder-open"
     	}
     }).click(function() {
-    	openProjectActivity();
+    	//openProjectActivity();
+    	makeTreeBuilderResponse();		
+    	Protocol.downloadProjectsList.request.send(userID);    
+
+    	
     });
+    
+    
+    
+    
     
     $( "#downloadCode" ).button({
     	text: false,
@@ -89,6 +121,10 @@ $(function() {
     }).click(function() {
     	downloadCodeActivity();
     });
+    
+    
+    
+    
     
     $( "#logout" ).button({
     	text: false,

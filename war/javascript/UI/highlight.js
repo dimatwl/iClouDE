@@ -1,4 +1,12 @@
+/**
+ * Syntax highlight library usage
+ */
+
 $(document).ready(function() {
+	
+	/**
+	 * Variable corresponding to text area, and text within 
+	 */	
 	editor = CodeMirror.fromTextArea(document.getElementById("codeArea"), {
 		  mode: "text/x-java",
 		  lineNumbers: true,

@@ -1,3 +1,7 @@
+/**
+ * Not working importing file option
+ */
+
 var uploader = document.getElementById('import_file');
 
 upclick({

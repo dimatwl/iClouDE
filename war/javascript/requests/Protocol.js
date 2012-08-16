@@ -1,10 +1,14 @@
+/**
+ * All things related to connecting and messaging with server are
+ * presented in Protocol namespace
+ */
+
 var Protocol = {};
 
 
 /**
- * Responses
+ * Responses field for protocol checking
  */
-
 Protocol.response = {
     STANDART: ['requestID', 'result', 'description'],
     ID: ['requestID', 'result', 'description', 'entityID', 'projectID'],
@@ -15,6 +19,9 @@ Protocol.response = {
 };
 
 
+/**
+ * Function makes object with info used practically in every request
+ */
 Protocol.makeBasicRequestInfo = function (requestID, method, userID, projectID) {
     return {
     	requestID: requestID,
@@ -25,6 +32,9 @@ Protocol.makeBasicRequestInfo = function (requestID, method, userID, projectID) 
     };	
 };
 
+/**
+ * Function returning unique ID :)
+ */
 Protocol.getRequestID = function() {
 	return (new Date()).getTime();
 };
@@ -55,6 +65,9 @@ Protocol.correctnessInfo = function (response, responseFields) {
 };
 
 
+/**
+ * Verifying server response if all needed fields exist in response
+ */
 Protocol.checkResponse = function (response) {
     var info = Protocol.correctnessInfo(response, this.responseFields);
     

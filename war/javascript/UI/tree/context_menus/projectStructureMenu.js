@@ -1,3 +1,9 @@
+/**
+ * Function returning items to display, depending on what have we clicked - file or folder
+ * @param node - item on what we clicked on right mouse button
+ * @returns object with items to display on context menu.
+ */
+
 function projectStructureMenu(node) {
     var items = {
         newFileItem: {

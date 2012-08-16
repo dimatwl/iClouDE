@@ -1,3 +1,7 @@
+/**
+ * On rigth mouse button New File option invoke this method
+ * Creates new file on server and displays it on tree viewer
+ */
 var createNewFileActivity = function(node) {
 	var fileName = prompt('Enter name: ', '');
     
@@ -9,9 +13,9 @@ var createNewFileActivity = function(node) {
 				data: fileName,
 				attr: {
 				    projectID: resp.projectID,
-				    parentID: node.attr('entityID'),
+				    parentID: node.attr('itemID'),
 				    entityID: resp.entityID,			 
-				    type: 'file'
+				    itemType: 'SOURCE_FILE'
 				}			    
 			});
 		} else {

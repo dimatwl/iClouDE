@@ -1,3 +1,8 @@
+/**
+ * Resisable divs on the main page
+ * Upper part with buttons, left tree viewer div, text editing part and status part
+ */
+
 $(document).ready(sizeContent);
 $(window).resize(sizeContent);
 
