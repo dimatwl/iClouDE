@@ -35,13 +35,15 @@ import storage.taskqueue.TaskStatus;
  */
 @Path("/taskstartingservice")
 public class TaskStartingService extends BaseService {
-	
+
 	/**
 	 * This fields used to determine build server address
 	 */
-	public final static String UPLOAD_ZIP_ADDRESS = BUILD_SERVER_ADDRESS + "rest/uploadzipfile";
-	public final static String NEW_BUILD_AND_RUN_TASK_ADDRESS = BUILD_SERVER_ADDRESS + "rest/newbuildandruntask";
-	
+	public final static String UPLOAD_ZIP_ADDRESS = BUILD_SERVER_ADDRESS
+			+ "rest/uploadzipfile";
+	public final static String NEW_BUILD_AND_RUN_TASK_ADDRESS = BUILD_SERVER_ADDRESS
+			+ "rest/newbuildandruntask";
+
 	/**
 	 * This method used to handle all GET request on "rest/taskstartingservice"
 	 * 
@@ -55,45 +57,51 @@ public class TaskStartingService extends BaseService {
 			task = (BuildAndRunTask) Database.get(
 					StoringType.BUILD_AND_RUN_TASK, TaskStatus.NEW);
 			if (task != null) {
-				//0.Get project
+				// 0.Get project
 				Project project = (Project) Database.get(StoringType.PROJECT,
 						task.getProjectKey());
-				//1.Get zipped project
+				// 1.Get zipped project
 				byte[] zippedProject = ProjectZipper.zipProject(project);
-				//2.Send zipped project
-				
+				// 2.Send zipped project
+
 				IDResponse idResponse = SendZippedProject(zippedProject);
-				if (! IDResponseCheck(idResponse)) {
+				if (!IDResponseCheck(idResponse)) {
 					Logger.toLog("Some fields in ID response are not presented.");
-				} else if (! idResponse.getResult()) {
-					Logger.toLog("Got negative result in ID response with description: " + idResponse.getDescription());
+				} else if (!idResponse.getResult()) {
+					Logger.toLog("Got negative result in ID response with description: "
+							+ idResponse.getDescription());
 				} else {
-					//3.Send build&run info
-					NewBuildAndRunRequest buildAndRunRequest = new NewBuildAndRunRequest(PROTOCOL_VERSION, idResponse.getZipID(), "HARDCODED", "BUILD&RUN", "HARDCODED", "HARDCODED", "HARDCODED", "HARDCODED");
+					// 3.Send build&run info
+					NewBuildAndRunRequest buildAndRunRequest = new NewBuildAndRunRequest(
+							PROTOCOL_VERSION, idResponse.getZipID(),
+							"HARDCODED", "BUILD&RUN", "HARDCODED", "HARDCODED",
+							"HARDCODED", "HARDCODED");
 					AcceptResultResponse acceptResultResponse = newBuildAndRunTask(buildAndRunRequest);
-					if (! AcceptResultResponseCheck(acceptResultResponse)) {
+					if (!AcceptResultResponseCheck(acceptResultResponse)) {
 						Logger.toLog("Some fields in AcceptResult response are not presented.");
-					} else if (! acceptResultResponse.getResult()) {
-						Logger.toLog("Got negative result in AcceptResult response with description: " + acceptResultResponse.getDescription());
+					} else if (!acceptResultResponse.getResult()) {
+						Logger.toLog("Got negative result in AcceptResult response with description: "
+								+ acceptResultResponse.getDescription());
 					} else {
-						//4.Set TaskStatus.RUNNING
+						// 4.Set TaskStatus.RUNNING
 						task.setStatus(TaskStatus.RUNNING);
-						//5.Set new taskID
+						// 5.Set new taskID
 						task.setTaskID(idResponse.getZipID());
-						//6.Update task
+						// 6.Update task
 						Database.update(StoringType.BUILD_AND_RUN_TASK, task);
 					}
 				}
-			} 
+			}
 		} catch (DatabaseException e) {
-			Logger.toLog("Got DatabaseException with message: " + e.getMessage());
+			Logger.toLog("Got DatabaseException with message: "
+					+ e.getMessage());
 		} catch (IOException e) {
 			Logger.toLog("Got IOException with message: " + e.getMessage());
 		} catch (Exception e) {
 			Logger.toLog("Got Exception with message: " + e.getMessage());
 		}
 	}
-	
+
 	private IDResponse SendZippedProject(byte[] zippedProject)
 			throws IOException {
 		URL url = new URL(UPLOAD_ZIP_ADDRESS);
@@ -117,28 +125,29 @@ public class TaskStartingService extends BaseService {
 			}
 			return GSON.fromJson(jsonBuilder.toString(), IDResponse.class);
 		} else {
-			throw new ProtocolException("Got HTTP error with code: " + connection.getResponseCode());
+			throw new ProtocolException("Got HTTP error with code: "
+					+ connection.getResponseCode());
 		}
 	}
-	
-	private Boolean IDResponseCheck(IDResponse response){
-		return (null != response.getResult()) &&
-				(null != response.getDescription()) &&
-				(null != response.getZipID());
+
+	private Boolean IDResponseCheck(IDResponse response) {
+		return (null != response.getResult())
+				&& (null != response.getDescription())
+				&& (null != response.getZipID());
 	}
-	
-	private Boolean AcceptResultResponseCheck(AcceptResultResponse response){
-		return (null != response.getResult()) &&
-				(null != response.getDescription());
+
+	private Boolean AcceptResultResponseCheck(AcceptResultResponse response) {
+		return (null != response.getResult())
+				&& (null != response.getDescription());
 	}
-	
-	private AcceptResultResponse newBuildAndRunTask(NewBuildAndRunRequest request) throws IOException{
+
+	private AcceptResultResponse newBuildAndRunTask(
+			NewBuildAndRunRequest request) throws IOException {
 		URL url = new URL(NEW_BUILD_AND_RUN_TASK_ADDRESS);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setDoOutput(true);
 		connection.setRequestMethod("POST");
-		connection.setRequestProperty("content-type",
-				"application/JSON");
+		connection.setRequestProperty("content-type", "application/JSON");
 
 		OutputStream outputStream = connection.getOutputStream();
 		outputStream.write(("json=" + GSON.toJson(request)).getBytes());
@@ -152,9 +161,11 @@ public class TaskStartingService extends BaseService {
 			while ((input = in.readLine()) != null) {
 				jsonBuilder.append(input);
 			}
-			return GSON.fromJson(jsonBuilder.toString(), AcceptResultResponse.class);
+			return GSON.fromJson(jsonBuilder.toString(),
+					AcceptResultResponse.class);
 		} else {
-			throw new ProtocolException("Got HTTP error with code: " + connection.getResponseCode());
+			throw new ProtocolException("Got HTTP error with code: "
+					+ connection.getResponseCode());
 		}
 	}
 
