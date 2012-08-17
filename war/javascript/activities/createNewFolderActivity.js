@@ -4,7 +4,6 @@
 
 var createNewFolderActivity = function(node) {
 	var folderName = prompt('Enter name: ', '');
-    
 	
 	Protocol.createNewFolder.request.setResponseHandler(function(resp) {
 		if (resp.result) {
@@ -18,15 +17,22 @@ var createNewFolderActivity = function(node) {
 				    itemType: 'FOLDER'
 				}			    
 			});
+	
+	        //alert('new folder created!');
 		} else {
 		    addToConsole('New folder ' + folderName + ' was not created. Description: ' + resp.description);
 		}
 		
 	});
 
-	Protocol.createNewFolder.request.setErrorHandler(function() {
+
+	
+	
+    Protocol.createNewFolder.request.setErrorHandler(function() {
         addToConsole('Error while requesting server!');	    	
 	});
 	
 	Protocol.createNewFolder.request.send(folderName, node.attr('projectID'), node.attr('entityID'));	
+
+
 };

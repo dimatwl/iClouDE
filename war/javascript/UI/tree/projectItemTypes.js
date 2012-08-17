@@ -16,14 +16,14 @@ projectItemTypes = {
 	},
        
    'FOLDER' : {
-      	valid_children: ["default", "folder"],
+      	//valid_children: ["default", "folder"],
        	icon : {
             image : FOLDER_IMAGE_URL
        	}
     },
         
     'PACKAGE' : {
-       	valid_children: ["default", "folder"],
+       	//valid_children: ["default", "folder"],
        	icon : {
            image : FOLDER_IMAGE_URL
        	}	

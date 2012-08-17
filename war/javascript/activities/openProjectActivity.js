@@ -39,21 +39,14 @@ var openProjectActivity = function(openingProjectID) {
                     dots : true, 
                     icons : true 
                 },*/
-                types : {
-                	
+                
+			    
+			    types : {
                     types: projectItemTypes,               	
-                	
                     type_attr: "itemType"
                 }
-                
-                
-                /*
-                "start_drag" : false,
-                "move_node" : false,
-                "delete_node" : false,
-                "remove" : false
-                */
-			});
+
+	        });
 	        
 	        currentProjectID = response.content.projectID;
 	        

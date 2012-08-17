@@ -7,7 +7,7 @@ makeTreeBuilderResponse = function() {
 	   	        var tmp = data.content[i];
 		        obj = {
 	          	    data: tmp.projectName,
-		            attr: {type: 'file', projectID: tmp.projectID}	    	    		
+		            attr: {projectID: tmp.projectID}	    	    		
 		        } 	
 		        arr.push(obj);       
 		    }		
@@ -22,7 +22,7 @@ makeTreeBuilderResponse = function() {
 			     	types: {
 			            'default': {
 			        	     icon : {
-	                             image : "http://static.jstree.com/v.1.0pre/_demo/folder.png"
+	                             image : FOLDER_IMAGE_URL
 	                    	 },
 			                 select_node: function(node) {
 	     		               	 openProjectActivity(node.attr('projectID'));	
@@ -40,9 +40,6 @@ makeTreeBuilderResponse = function() {
 
 
 $(document).ready(function() {
-	
-	
     makeTreeBuilderResponse();		
 	Protocol.downloadProjectsList.request.send(userID);    
-
 });

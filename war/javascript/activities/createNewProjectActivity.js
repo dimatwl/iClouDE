@@ -2,7 +2,7 @@
  * Create new project option
  */
 var createNewProjectActivity = function() {
-	alert("createNewProjectActivity");
+	//alert("createNewProjectActivity");
 	projectName = prompt('Enter project name', '');
 	
 	Protocol.createNewProject.request.setResponseHandler(function(resp) {

@@ -9,7 +9,8 @@ var createNewFileActivity = function(node) {
 	Protocol.createNewFile.request.setResponseHandler(function(resp) {
 		if (resp.result) {
 		    addToConsole('File ' + fileName + ' created');
-			$("#tree").jstree("create", node, "inside",  { 
+			
+		    $("#tree").jstree("create", node, "inside",  { 
 				data: fileName,
 				attr: {
 				    projectID: resp.projectID,
@@ -18,9 +19,9 @@ var createNewFileActivity = function(node) {
 				    itemType: 'SOURCE_FILE'
 				}			    
 			});
-			currentFileID = resp.entityID;
-			
-			alert(currentFileID);
+		    
+		    currentFileID = resp.entityID;
+		    //alert('Create new file activity - file created! File ID: ' + currentFileID);
 			
 		} else {
 		    addToConsole('File was not created. Description: ' + resp.description);
@@ -32,4 +33,6 @@ var createNewFileActivity = function(node) {
 	});
 	
 	Protocol.createNewFile.request.send(fileName, "type", node.attr('projectID'), node.attr('entityID'));	
+
 };
+	
