@@ -1,12 +1,12 @@
 /**
  * Getting zip of current project 
  */
-var downloadCodeActivity = function() {
-	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), this.requestType, userID, projectID);
-    alert('projectID ' + projectID );
-	info['projectID'] = projectID;
+var downloadCodeActivity = function(projectToDownload) {
+	var info = Protocol.makeBasicRequestInfo(Protocol.getRequestID(), 'downloadcode', userID, projectToDownload);
     
-	info['requestType'] = "downloadcode"; 
+	//alert('projectID ' + projectToDownload );
+	
+	//info['requestType'] = "downloadcode"; 
     	
 	json = $.toJSON(info);
 	

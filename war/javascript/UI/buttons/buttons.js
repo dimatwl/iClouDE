@@ -119,7 +119,7 @@ $(function() {
     		primary: "ui-icon-arrowthick-1-s"
     	}
     }).click(function() {
-    	downloadCodeActivity();
+    	downloadCodeActivity(currentProjectID);
     });
     
     
