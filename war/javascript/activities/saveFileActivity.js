@@ -1,5 +1,10 @@
+/**
+ * Saving file to server.
+ * It saves text from textarea (editor - variable) 
+ */
+
 var saveFileActivity = function(projectID, fileID) {
-	alert("saveFileActivity");
+	alert("saveFileActivity " + projectID + " " + fileID);
 	
     var testFileContent = {
         type: 'file',

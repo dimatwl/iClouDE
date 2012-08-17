@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
+<!-- above set at the top of the file will set     -->
+<!-- the browser's rendering engine into           -->
+<!-- "Quirks Mode". Replacing this declaration     -->
+<!-- with a "Standards Mode" doctype is supported, -->
+<!-- but may lead to some differences in layout.   -->
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Hello App Engine</title>
+    
+    <script type="text/javascript" src="javascript/libs/jquery/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="javascript/libs/jquery/jquery.json-2.3.js"></script>
+    
+    <script type="text/javascript" src="javascript/requests/Request.js"></script>
+    <script type="text/javascript" src="javascript/requests/Protocol.js"></script>  
+        
+    <script type="text/javascript" src="javascript/requests/protocol/createNewFile.js"></script>
+    <script type="text/javascript" src="javascript/requests/protocol/createNewProject.js"></script>
+    <script type="text/javascript" src="javascript/requests/protocol/downloadFile.js"></script>
+    <script type="text/javascript" src="javascript/requests/protocol/downloadProjectStructure.js"></script>
+    <script type="text/javascript" src="javascript/requests/protocol/uploadFile.js"></script>
+    
+    <script type="text/javascript" src="javascript/libs/codemirror/codemirror.js"></script>
+    <link rel="stylesheet" href="javascript/libs/codemirror/codemirror.css">
+    <script type="text/javascript" src="javascript/libs/codemirror/clike.js"></script>
+        
+    <script type="text/javascript" src="javascript/onstart.js"></script>
+  </head>
+
+	
+
+  <body>
+    
+    
+    
+    <h1>Hello App Engine!</h1>
+	
+    <table>
+      <tr>
+        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
+      </tr>
+      <tr>
+        <td><a href="rest/api/info">JERSEY + JSON</a></td>
+      </tr>
+    </table>
+    
+    <input id="CreateNewProjectBtn" type="button" value="CreateNewProject">
+    <input id="CreateNewFileBtn" type="button" value="CreateNewFile">
+    <input id="SaveFileBtn" type="button" value="SaveFile">
+    
+    </br></br><input id="DownloadProjectStructureBtn" type="button" value="DownloadProjectStructure">
+    <input id="DownloadFileBtn" type="button" value="DownloadFile">
+    
+    <br/>
+    
+    <table>
+        <tr>
+            <td colspan="2" width="500"><textarea id="codeArea">
+public class AAA {
+    public static void main(String[] args) {
+        System.out.println("Hello world!");
+    } 
+}</textarea></td>
+            <td valign="top"><div id="status"></div></td>
+        </tr>
+    </table>
+    
+    
+    
+    
+    
+  </body>
+</html>

@@ -1,5 +1,8 @@
+/**
+ * Create new project option
+ */
 var createNewProjectActivity = function() {
-	alert("createNewProjectActivity");
+	//alert("createNewProjectActivity");
 	projectName = prompt('Enter project name', '');
 	
 	Protocol.createNewProject.request.setResponseHandler(function(resp) {
@@ -8,15 +11,17 @@ var createNewProjectActivity = function() {
 			projectID = resp.projectID;
 	        rootProjectDirectory = resp.entityID;	    
             $('#tree').jstree({
-            		plugins : ["themes", "json_data", "ui", "crrm", "hotkeys", "contextmenu"],
+            		plugins : ["themes", "json_data", "ui", "crrm", "hotkeys", "contextmenu", "types"],
                     json_data : {
                     	data : {
                 	        data: projectName,
-                	        attr: {entityID: rootProjectDirectory, projectID: projectID},            	    
-                            type: "folder"
+                	        attr: {entityID: rootProjectDirectory, projectID: projectID, itemType: 'FOLDER'},            	    
                         }
                     },                   
-                    
+                    types : {
+                        types: projectItemTypes,               	
+                        type_attr: "itemType"
+                    },               
                     contextmenu : {
                 	    items : projectStructureMenu    
                     }
@@ -32,5 +37,4 @@ var createNewProjectActivity = function() {
 	Protocol.createNewProject.request.send(projectName, "web-appl");    	
 
 
-};	
-    	
+};   	

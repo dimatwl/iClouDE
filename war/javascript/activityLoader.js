@@ -1,9 +1,6 @@
-var userID = "Yarik";
-var projectID;
-var currentFileID;
-var rootProjectDirectory;
-var projectName;
-var tree;
+/**
+ * Loading activities script
+ */
 
 var scriptsPath = "javascript/activities/";
 
@@ -18,8 +15,6 @@ loadJS(scriptsPath + "runActivity.js");
 loadJS(scriptsPath + "openProjectActivity.js");
 loadJS(scriptsPath + "importFileActivity.js");
 loadJS(scriptsPath + "downloadCodeActivity.js");
+loadJS(scriptsPath + "downloadProjectsListActivity.js");
 
 
-$(document).ready(function() {
-    tree = $('#tree');	
-});
