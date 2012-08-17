@@ -3,11 +3,11 @@
     <cron>
         <url>/rest/taskstartingservice</url>
         <description>Start new task every second if there new tasks</description>
-        <schedule>every 1 second synchronized</schedule>
+        <schedule> every 2 minutes </schedule>
     </cron>
     <cron>
         <url>/rest/taskcompletingservice</url>
         <description>Check one task for complettion every second</description>
-        <schedule>every 1 second synchronized</schedule>
+        <schedule> every 2 minutes </schedule>
     </cron>
 </cronentries>

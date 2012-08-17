@@ -91,6 +91,8 @@ public class TaskStartingService extends BaseService {
 						Database.update(StoringType.BUILD_AND_RUN_TASK, task);
 					}
 				}
+			} else {
+				Logger.toLog("No available tasks.");
 			}
 		} catch (DatabaseException e) {
 			Logger.toLog("Got DatabaseException with message: "
