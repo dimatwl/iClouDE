@@ -24,6 +24,6 @@ public abstract class BaseService {
 	/**
 	 * This field used to determine build server address
 	 */
-	public final static String BUILD_SERVER_ADDRESS = "194.85.238.22:5555";
+	public final static String BUILD_SERVER_ADDRESS = "194.85.238.22:5555"; //TODO: HARDCODED
 
 }
