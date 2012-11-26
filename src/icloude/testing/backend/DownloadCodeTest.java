@@ -31,6 +31,10 @@ import storage.file.File;
 import storage.project.Project;
 import storage.projectitem.ProjectItem;
 
+/**
+ * @author DimaTWL
+ *
+ */
 public class DownloadCodeTest extends Test {
 
 	public DownloadCodeTest() {
@@ -42,10 +46,15 @@ public class DownloadCodeTest extends Test {
 			String projectID = createProject();
 			List<TestResult> result = new ArrayList<TestResult>();
 			if (projectID != null) {
-				result.add(new TestResult(compareZIP(getZIP(projectID),
-						projectID), getName()));
+				Boolean comparationResult = compareZIP(getZIP(projectID),
+						projectID);
+				if (comparationResult) {
+					result.add(new TestResult(true, getName(), "No issues."));
+				} else {
+					result.add(new TestResult(false, getName(), "Projects are not same."));
+				}
 			} else {
-				result.add(new TestResult(false, getName()));
+				result.add(new TestResult(false, getName(), "Project isn't created."));
 			}
 			return result;
 		}
@@ -190,33 +199,7 @@ public class DownloadCodeTest extends Test {
 	private class OneFileTest extends BaseZippingTest {
 
 		protected String createProject() {
-			String json;
-
-			NewProjectRequestHandler nprh = new NewProjectRequestHandler();
-			NewFileRequestHandler nfrh = new NewFileRequestHandler();
-			UploadFileRequestHandler ufrh = new UploadFileRequestHandler();
-
-			NewProjectRequest npr = new NewProjectRequest(PROTOCOL_VERSION,
-					"NewProjectRequest", "newproject", "userIDZIP",
-					"projectZIP", "typeZIP");
-			json = nprh.post(GSON.toJson(npr));
-			IDResponse idrProj = GSON.fromJson(json, IDResponse.class);
-			NewFileRequest nfr = new NewFileRequest(PROTOCOL_VERSION,
-					"NewFileRequest", "newfile", "userIDZIP",
-					idrProj.getProjectID(), idrProj.getEntityID(), "fileZIP",
-					"typeZIP");
-			json = nfrh.post(GSON.toJson(nfr));
-			IDResponse idrFile = GSON.fromJson(json, IDResponse.class);
-			FileContent content = new FileContent("file", "New name",
-					idrFile.getEntityID(), "Hello, I am text of this file!!!",
-					"textFile", "userIDZIP", "ZIPRevision",
-					(new Date()).getTime(), (new Date()).getTime());
-			UploadFileRequest ufr = new UploadFileRequest(PROTOCOL_VERSION,
-					"UploadFileRequest", "uploadfile", "userIDZIP",
-					idrProj.getProjectID(), content);
-			json = ufrh.post(GSON.toJson(ufr));
-
-			return idrProj.getProjectID();
+			return createOneFileProject("OneFileTestProject");
 		}
 	}
 

@@ -31,10 +31,13 @@ public class TestingBackend {
 			for (TestResult result : test.launch()) {
 				outputMessageBuilder.append("<br/>" + result.getName());
 				if (result.getResult()) {
-					outputMessageBuilder.append(": <font color=\"green\">:  passed</font><br/>");
+					outputMessageBuilder.append(": <font color=\"green\">  passed");
 				} else {
-					outputMessageBuilder.append(": <font color=\"red\">  failed</font><br/>");
+					outputMessageBuilder.append(": <font color=\"red\">  failed");
 				}
+				outputMessageBuilder.append(" ( ");
+				outputMessageBuilder.append(result.getDescription());
+				outputMessageBuilder.append(" ) </font><br/>");
 			}
 		}
 		return outputMessageBuilder.toString();
