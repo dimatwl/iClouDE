@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import icloude.testing.backend.BuildServerInteractionTest;
 import icloude.testing.backend.DownloadCodeTest;
 import icloude.testing.backend.Test;
 import icloude.testing.backend.Test.TestResult;
@@ -19,6 +20,7 @@ public class TestingBackend {
 	
 	public TestingBackend() {
 		tests.add(new DownloadCodeTest());  // All tests added here!!!
+		tests.add(new BuildServerInteractionTest());
 	}
 
 	@GET

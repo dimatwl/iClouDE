@@ -64,8 +64,8 @@ public class TaskStartingService extends BaseService {
 				byte[] zippedProject = ProjectZipper.zipProject(project);
 				// 2.Send zipped project
 
-				IDResponse idResponse = SendZippedProject(zippedProject);
-				if (!IDResponseCheck(idResponse)) {
+				IDResponse idResponse = sendZippedProject(zippedProject);
+				if (!iDResponseCheck(idResponse)) {
 					Logger.toLog("Some fields in ID response are not presented.");
 				} else if (!idResponse.getResult()) {
 					Logger.toLog("Got negative result in ID response with description: "
@@ -77,7 +77,7 @@ public class TaskStartingService extends BaseService {
 							"HARDCODED", "BUILD&RUN", "HARDCODED", "HARDCODED",
 							"HARDCODED", "HARDCODED");
 					AcceptResultResponse acceptResultResponse = newBuildAndRunTask(buildAndRunRequest);
-					if (!AcceptResultResponseCheck(acceptResultResponse)) {
+					if (!acceptResultResponseCheck(acceptResultResponse)) {
 						Logger.toLog("Some fields in AcceptResult response are not presented.");
 					} else if (!acceptResultResponse.getResult()) {
 						Logger.toLog("Got negative result in AcceptResult response with description: "
@@ -104,7 +104,8 @@ public class TaskStartingService extends BaseService {
 		}
 	}
 
-	private IDResponse SendZippedProject(byte[] zippedProject)
+	
+	private IDResponse sendZippedProject(byte[] zippedProject)
 			throws IOException {
 		URL url = new URL(UPLOAD_ZIP_ADDRESS);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -132,13 +133,13 @@ public class TaskStartingService extends BaseService {
 		}
 	}
 
-	private Boolean IDResponseCheck(IDResponse response) {
+	private Boolean iDResponseCheck(IDResponse response) {
 		return (null != response.getResult())
 				&& (null != response.getDescription())
 				&& (null != response.getZipID());
 	}
 
-	private Boolean AcceptResultResponseCheck(AcceptResultResponse response) {
+	private Boolean acceptResultResponseCheck(AcceptResultResponse response) {
 		return (null != response.getResult())
 				&& (null != response.getDescription());
 	}
@@ -168,6 +169,41 @@ public class TaskStartingService extends BaseService {
 		} else {
 			throw new ProtocolException("Got HTTP error with code: "
 					+ connection.getResponseCode());
+		}
+	}
+	
+	/**
+	 * This class is for testing purposes ONLY.
+	 * Please do not use it for evil =)))
+	 * 
+	 * So, I know that it is bad practice 
+	 * but testing code should be in separated package.
+	 * 
+	 * @author DimaTWL
+	 */
+	public class Tester {
+		
+		/**
+		 * This method allow to call private method sendZippedProject
+		 * from outside. For testing purposes ONLY.
+		 * 
+		 * @param zippedProject
+		 * @return result of sendZippedProject
+		 * @throws IOException
+		 */
+		public IDResponse publicSendZippedProject(byte[] zippedProject) throws IOException {
+			return sendZippedProject(zippedProject);
+		}
+		
+		/**
+		 * This method allow to call private method iDResponseCheck
+		 * from outside. For testing purposes ONLY.
+		 * 
+		 * @param response
+		 * @return result of iDResponseCheck
+		 */
+		public Boolean publicIDResponseCheck(IDResponse response) {
+			return iDResponseCheck(response);
 		}
 	}
 

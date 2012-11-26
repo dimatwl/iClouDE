@@ -1,6 +1,3 @@
-/**
- * 
- */
 package icloude.frontend_backend.responses;
 
 /**
