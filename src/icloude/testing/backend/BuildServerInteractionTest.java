@@ -80,8 +80,8 @@ public class BuildServerInteractionTest extends Test {
 			} else if (!sr.getResult()) {
 				failDescription = "Can't put task to queue. 'False' in result field of response.";
 				return false;
-			} else if (sr.getRequestID() != "TestRequestID") {
-				failDescription = "Wrong requestID in response.";
+			} else if (!"TestRequestID".equals(sr.getRequestID())) {
+				failDescription = "Wrong requestID in response. Got: " + sr.getRequestID();
 				return false;
 			} else if (null == sr.getDescription()) {
 				failDescription = "Description field is empty.";
