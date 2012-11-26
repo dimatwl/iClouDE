@@ -1,4 +1,4 @@
-package icloude.backend_amazon.responses;
+package icloude.backend_buildserver.responses;
 
 public class StatusResponse extends BaseResponse {
 	public StatusResponse() {

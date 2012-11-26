@@ -1,4 +1,4 @@
-package test.backend;
+package icloude.testing.backend;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public abstract class Test {
 	/**
 	 * This field used to determine current protocol version.
 	 */
-	protected final static Integer PROTOCOL_VERSION = 2;
+	protected final static Integer PROTOCOL_VERSION = 4;
 
 	/**
 	 * This field used to determine size for all buffers.

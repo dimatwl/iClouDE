@@ -1,8 +1,8 @@
 package icloude.cron_services;
 
-import icloude.backend_amazon.requests.NewBuildAndRunRequest;
-import icloude.backend_amazon.responses.AcceptResultResponse;
-import icloude.backend_amazon.responses.IDResponse;
+import icloude.backend_buildserver.requests.NewBuildAndRunRequest;
+import icloude.backend_buildserver.responses.AcceptResultResponse;
+import icloude.backend_buildserver.responses.IDResponse;
 import icloude.helpers.Logger;
 import icloude.helpers.ProjectZipper;
 

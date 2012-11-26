@@ -8,9 +8,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import test.backend.DownloadCodeTest;
-import test.backend.Test;
-import test.backend.Test.TestResult;
+import icloude.testing.backend.DownloadCodeTest;
+import icloude.testing.backend.Test;
+import icloude.testing.backend.Test.TestResult;
 
 @Path("/testing/backend")
 public class TestingBackend {
@@ -18,7 +18,7 @@ public class TestingBackend {
 	private List<Test> tests = new ArrayList<Test>();
 	
 	public TestingBackend() {
-		tests.add(new DownloadCodeTest());
+		tests.add(new DownloadCodeTest());  // All tests added here!!!
 	}
 
 	@GET

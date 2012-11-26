@@ -1,4 +1,4 @@
-package icloude.backend_amazon.requests;
+package icloude.backend_buildserver.requests;
 
 public class NewBuildAndRunRequest extends BaseRequest {
 	private String languageType;

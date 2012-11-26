@@ -1,4 +1,4 @@
-package icloude.backend_amazon.responses;
+package icloude.backend_buildserver.responses;
 
 /**
  * @author DimaTWL This class describes 'RunResult' response from protocol.

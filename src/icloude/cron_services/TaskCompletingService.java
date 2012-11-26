@@ -1,11 +1,11 @@
 package icloude.cron_services;
 
-import icloude.backend_amazon.requests.CheckTaskStatusRequest;
-import icloude.backend_amazon.requests.DownloadBuildLogsRequest;
-import icloude.backend_amazon.requests.DownloadRunResultRequest;
-import icloude.backend_amazon.responses.BuildLogsResponse;
-import icloude.backend_amazon.responses.RunResultResponse;
-import icloude.backend_amazon.responses.StatusResponse;
+import icloude.backend_buildserver.requests.CheckTaskStatusRequest;
+import icloude.backend_buildserver.requests.DownloadBuildLogsRequest;
+import icloude.backend_buildserver.requests.DownloadRunResultRequest;
+import icloude.backend_buildserver.responses.BuildLogsResponse;
+import icloude.backend_buildserver.responses.RunResultResponse;
+import icloude.backend_buildserver.responses.StatusResponse;
 import icloude.helpers.Logger;
 
 import java.io.BufferedReader;

@@ -1,4 +1,4 @@
-package test.backend;
+package icloude.testing.backend;
 
 import icloude.frontend_backend.contents.FileContent;
 import icloude.frontend_backend.request_handlers.DownloadCodeRequestHandler;
@@ -37,7 +37,7 @@ public class DownloadCodeTest extends Test {
 		tests.add(new OneFileTest()); // All tests added here!!!
 	}
 
-	private abstract class InnerTest extends Test {
+	private abstract class BaseZippingTest extends Test {
 		public List<TestResult> launch() {
 			String projectID = createProject();
 			List<TestResult> result = new ArrayList<TestResult>();
@@ -52,7 +52,7 @@ public class DownloadCodeTest extends Test {
 
 		protected InputStream getZIP(String projectID) {
 			DownloadCodeRequestHandler dcrh = new DownloadCodeRequestHandler();
-			DownloadCodeRequest dcr = new DownloadCodeRequest(1,
+			DownloadCodeRequest dcr = new DownloadCodeRequest(PROTOCOL_VERSION,
 					"DownloadCodeRequest", "downloadcode", "UserIDZIP",
 					projectID);
 			return dcrh.get(GSON.toJson(dcr));
@@ -187,7 +187,7 @@ public class DownloadCodeTest extends Test {
 		protected abstract String createProject();
 	}
 
-	private class OneFileTest extends InnerTest {
+	private class OneFileTest extends BaseZippingTest {
 
 		protected String createProject() {
 			String json;
