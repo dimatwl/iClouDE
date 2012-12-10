@@ -1,6 +1,7 @@
 package icloude.testing.backend;
 
 import icloude.backend_buildserver.requests.NewBuildAndRunRequest;
+import icloude.backend_buildserver.responses.AcceptResultResponse;
 import icloude.backend_buildserver.responses.IDResponse;
 import icloude.cron_services.TaskStartingService;
 import icloude.frontend_backend.request_handlers.NewBuildAndRunTaskRequestHandler;
@@ -36,12 +37,15 @@ import storage.taskqueue.TaskStatus;
 public class BuildServerInteractionTest extends Test {
 
 	public BuildServerInteractionTest() {
-		tests.add(new SendProjectToBuildAndGetResponse()); // All tests added here!!!
+		tests.add(new SendZippedProjectAndGetResponse()); // All tests added here!!!
+		tests.add(new StartNewTask());
 	}
 	
-	private class SendProjectToBuildAndGetResponse extends Test {
+	private class SendZippedProjectAndGetResponse extends Test {
 		
 		private String failDescription = null;
+		public String zipID = null;
+		public BuildAndRunTask taskID = null;
 		
 		public List<TestResult> launch() {
 			//1. Create project
@@ -54,7 +58,7 @@ public class BuildServerInteractionTest extends Test {
 					//3. Send task to build-server
 					//4. Get response from build-server
 					//5. Check response
-					boolean taskSent = sendTaskToBuildServer();
+					boolean taskSent = sendZippedProjectBuildServer();
 					if (taskSent) {
 						result.add(new TestResult(true, getName(), "No issues."));
 					} else {
@@ -78,7 +82,7 @@ public class BuildServerInteractionTest extends Test {
 				failDescription = "Can't put task to queue. Response is null.";
 				return false;
 			} else if (!sr.getResult()) {
-				failDescription = "Can't put task to queue. 'False' in result field of response.";
+				failDescription = "Can't put task to queue. 'False' in result field of response. Description: " + sr.getDescription();
 				return false;
 			} else if (!"TestRequestID".equals(sr.getRequestID())) {
 				failDescription = "Wrong requestID in response. Got: " + sr.getRequestID();
@@ -95,7 +99,7 @@ public class BuildServerInteractionTest extends Test {
 		 * Overlap with the following code in the class TaskStartingService!
 		 * It's not very good, but otherwise you'll have to rewrite the entire TaskStartingService.
 		 */
-		private boolean sendTaskToBuildServer() {
+		public boolean sendZippedProjectBuildServer() {
 			TaskStartingService tss = new TaskStartingService();
 			TaskStartingService.Tester tester = tss.new Tester();
 			BuildAndRunTask task = null;
@@ -104,12 +108,13 @@ public class BuildServerInteractionTest extends Test {
 						StoringType.BUILD_AND_RUN_TASK, TaskStatus.NEW);
 				if (task != null) {
 					// 0.Get project
+					taskID = task;
 					Project project = (Project) Database.get(StoringType.PROJECT,
 							task.getProjectKey());
 					// 1.Get zipped project
 					byte[] zippedProject = ProjectZipper.zipProject(project);
 					// 2.Send zipped project
-					IDResponse idResponse = tester.publicSendZippedProject(zippedProject);
+					IDResponse idResponse = tester.publicUploadZippedProject(TaskStartingService.UPLOAD_ZIP_ADDRESS, zippedProject);
 					if (!tester.publicIDResponseCheck(idResponse)) {
 						failDescription = "Some fields in ID response are not presented.";
 						return false;
@@ -118,6 +123,7 @@ public class BuildServerInteractionTest extends Test {
 								+ idResponse.getDescription();
 						return false;
 					}
+					zipID = idResponse.getZipID();
 				} else {
 					failDescription = "No available tasks.";
 					return false;
@@ -136,6 +142,67 @@ public class BuildServerInteractionTest extends Test {
 			return true;
 		}
 		
+	}
+	
+	private class StartNewTask extends Test {
+		private String failDescription = null;
+		
+		public List<TestResult> launch() {
+			SendZippedProjectAndGetResponse prevTest = new SendZippedProjectAndGetResponse();
+			List<TestResult> localResult = prevTest.launch();
+			List<TestResult> result = new ArrayList<TestResult>();
+			if (localResult.get(0).getResult()) {
+				boolean infoSent = sendBuildAndRunInfo(prevTest.zipID, prevTest.taskID);
+				if (infoSent) {
+					result.add(new TestResult(true, getName(), "No issues."));
+				} else {
+					result.add(new TestResult(false, getName(), failDescription));
+				}
+			} else {
+				result.add( new TestResult(false, getName(), "Project not sent: " + localResult.get(0).getDescription()) );
+			}
+			return result;
+		}
+		
+		/**
+		 * Overlap with the following code in the class TaskStartingService!
+		 * It's not very good, but otherwise you'll have to rewrite the entire TaskStartingService.
+		 */
+		public boolean sendBuildAndRunInfo(String zipID, BuildAndRunTask taskID) {
+			try {
+				TaskStartingService tss = new TaskStartingService();
+				TaskStartingService.Tester tester = tss.new Tester();
+				// 3.Send build&run info
+				NewBuildAndRunRequest buildAndRunRequest = new NewBuildAndRunRequest(
+						PROTOCOL_VERSION, zipID,
+						"HARDCODED", "BUILD&RUN", "HARDCODED", "HARDCODED",
+						"HARDCODED", "HARDCODED");
+				AcceptResultResponse acceptResultResponse = tester.publicNewBuildAndRunTask(buildAndRunRequest);
+				if (!tester.publicAcceptResultResponseCheck(acceptResultResponse)) {
+					failDescription = "Some fields in AcceptResult response are not presented.";
+					return false;
+				} else if (!acceptResultResponse.getResult()) {
+					failDescription = "Got negative result in AcceptResult response with description: "
+							+ acceptResultResponse.getDescription();
+					return false;
+				} else {
+					// 4.Set TaskStatus.RUNNING
+					taskID.setStatus(TaskStatus.RUNNING);
+					// 5.Set new taskID
+					taskID.setTaskID(zipID);
+					// 6.Update task
+					Database.update(StoringType.BUILD_AND_RUN_TASK, taskID);
+					return true;
+				}
+			} catch (DatabaseException e) {
+				failDescription = "Got DatabaseException with message: "
+						+ e.getMessage();
+				return false;
+			} catch (IOException e) {
+				failDescription = "Got IOException with message: " + e.getMessage();
+				return false;
+			}
+		}
 	}
 
 }

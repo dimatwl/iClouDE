@@ -7,7 +7,9 @@ import icloude.helpers.Logger;
 import icloude.helpers.ProjectZipper;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -26,6 +28,13 @@ import storage.project.Project;
 import storage.taskqueue.BuildAndRunTask;
 import storage.taskqueue.TaskStatus;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.impl.MultiPartWriter;
+
 
 /**
  * @author DimaTWL 
@@ -40,9 +49,9 @@ public class TaskStartingService extends BaseService {
 	 * This fields used to determine build server address
 	 */
 	public final static String UPLOAD_ZIP_ADDRESS = BUILD_SERVER_ADDRESS
-			+ "rest/uploadzipfile";
+			+ "build_service/rest/uploadzipfile";  //TODO: Hardcoded
 	public final static String NEW_BUILD_AND_RUN_TASK_ADDRESS = BUILD_SERVER_ADDRESS
-			+ "rest/newbuildandruntask";
+			+ "build_service/rest/newbuildandruntask"; //TODO: Hardcoded
 
 	/**
 	 * This method used to handle all GET request on "rest/taskstartingservice"
@@ -64,7 +73,7 @@ public class TaskStartingService extends BaseService {
 				byte[] zippedProject = ProjectZipper.zipProject(project);
 				// 2.Send zipped project
 
-				IDResponse idResponse = sendZippedProject(zippedProject);
+				IDResponse idResponse = uploadZippedProject(UPLOAD_ZIP_ADDRESS, zippedProject);
 				if (!iDResponseCheck(idResponse)) {
 					Logger.toLog("Some fields in ID response are not presented.");
 				} else if (!idResponse.getResult()) {
@@ -104,7 +113,7 @@ public class TaskStartingService extends BaseService {
 		}
 	}
 
-	
+	/*
 	private IDResponse sendZippedProject(byte[] zippedProject)
 			throws IOException {
 		URL url = new URL(UPLOAD_ZIP_ADDRESS);
@@ -128,9 +137,25 @@ public class TaskStartingService extends BaseService {
 			}
 			return GSON.fromJson(jsonBuilder.toString(), IDResponse.class);
 		} else {
-			throw new ProtocolException("Got HTTP error with code: "
+			throw new ProtocolException("Got HTTP error on " + UPLOAD_ZIP_ADDRESS + " with code: "
 					+ connection.getResponseCode());
 		}
+	}
+	*/
+	
+	public IDResponse uploadZippedProject(String url, byte[] zippedProject) throws IOException {
+		ClientConfig cc = new DefaultClientConfig();
+		cc.getClasses().add(MultiPartWriter.class);
+		Client client = Client.create(cc);
+		
+	    InputStream stream = new ByteArrayInputStream(zippedProject);
+	    FormDataMultiPart part = new FormDataMultiPart();
+	    part.field("file", stream, MediaType.TEXT_PLAIN_TYPE);
+	    WebResource resource = client.resource(url);
+	    String response = resource.type(MediaType.MULTIPART_FORM_DATA_TYPE).post(String.class, part);
+	    stream.close();
+	    part.close();
+	    return GSON.fromJson(response, IDResponse.class);
 	}
 
 	private Boolean iDResponseCheck(IDResponse response) {
@@ -153,7 +178,7 @@ public class TaskStartingService extends BaseService {
 		connection.setRequestProperty("content-type", "application/JSON");
 
 		OutputStream outputStream = connection.getOutputStream();
-		outputStream.write(("json=" + GSON.toJson(request)).getBytes());
+		outputStream.write((GSON.toJson(request)).getBytes());
 		outputStream.close();
 
 		if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -167,7 +192,7 @@ public class TaskStartingService extends BaseService {
 			return GSON.fromJson(jsonBuilder.toString(),
 					AcceptResultResponse.class);
 		} else {
-			throw new ProtocolException("Got HTTP error with code: "
+			throw new ProtocolException("Got HTTP error on " + NEW_BUILD_AND_RUN_TASK_ADDRESS + " with code: "
 					+ connection.getResponseCode());
 		}
 	}
@@ -191,19 +216,41 @@ public class TaskStartingService extends BaseService {
 		 * @return result of sendZippedProject
 		 * @throws IOException
 		 */
-		public IDResponse publicSendZippedProject(byte[] zippedProject) throws IOException {
-			return sendZippedProject(zippedProject);
+		public IDResponse publicUploadZippedProject(String url, byte[] zippedProject) throws IOException {
+			return uploadZippedProject(url, zippedProject);
 		}
 		
 		/**
 		 * This method allow to call private method iDResponseCheck
 		 * from outside. For testing purposes ONLY.
 		 * 
-		 * @param response
+		 * @param IDResponse
 		 * @return result of iDResponseCheck
 		 */
 		public Boolean publicIDResponseCheck(IDResponse response) {
 			return iDResponseCheck(response);
+		}
+		
+		/**
+		 * This method allow to call private method newBuildAndRunTask
+		 * from outside. For testing purposes ONLY.
+		 * 
+		 * @param NewBuildAndRunRequest
+		 * @return result of newBuildAndRunTask
+		 */
+		public AcceptResultResponse publicNewBuildAndRunTask(NewBuildAndRunRequest request) throws IOException {
+			return newBuildAndRunTask(request);
+		}
+		
+		/**
+		 * This method allow to call private method acceptResultResponseCheck
+		 * from outside. For testing purposes ONLY.
+		 * 
+		 * @param AcceptResultResponse
+		 * @return result of acceptResultResponseCheck
+		 */
+		public Boolean publicAcceptResultResponseCheck(AcceptResultResponse response) { 
+			return acceptResultResponseCheck(response);
 		}
 	}
 
